@@ -1,0 +1,14 @@
+CASFONT
+{
+   0 CASF0
+   1 CASF1
+   2 CASF2
+   3 CASF3
+   4 CASF4
+   5 CASF5
+   6 CASF6
+   7 CASF7
+   8 CASF8
+   9 CASF9
+}
+

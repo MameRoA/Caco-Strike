@@ -1,0 +1,493 @@
+ACTOR CSGrenade : CaSWeapon
+{
+  Weapon.SelectionOrder 4
+  Weapon.Kickback 0
+  Tag "Frag Grenade"
+  Weapon.SlotNumber 4
+ +INVENTORY.UNDROPPABLE
+   +WEAPON.NOLMS
+  States
+  {
+  Ready:
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    CGND A 1 A_WeaponReady
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	CGND A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+	TNT1 AA 0 A_Lower
+    CGND A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+	TNT1 AA 0 A_Raise
+	CGND A 1 A_Raise
+    Loop
+  Fire:
+    HAND AB 3
+	HAND A 0 A_Refire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSGrenadeItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSGrenade",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+	Hold:
+    TNT1 A 1
+    TNT1 A 1 A_ReFire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSGrenadeItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSGrenade",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+  }
+}
+
+ACTOR CSFlashbang : CaSWeapon
+{
+  Weapon.SelectionOrder 4
+  Weapon.Kickback 0
+  Tag "Flashbang"
+  +WEAPON.WIMPY_WEAPON
+ +INVENTORY.UNDROPPABLE
+    +WEAPON.NOLMS
+  Weapon.SlotNumber 4
+  States
+  {
+  Ready:
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    FLSH A 1 A_WeaponReady
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	FLSH A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+	TNT1 AA 0 A_Lower
+    FLSH A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+	TNT1 AA 0 A_Raise
+    FLSH A 1 A_Raise
+    Loop
+  Fire:
+    TNT1 A 1
+	HAND A 0 A_Refire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSFlashbangItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSFlashbang",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+	Hold:
+    TNT1 A 1
+    TNT1 A 1 A_ReFire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSFlashbangItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSFlashbang",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+  }
+}
+ACTOR CSSmokeGrenade : CaSWeapon
+{
+  Weapon.SelectionOrder 4
+  Weapon.Kickback 0
+  Tag "Smoke Grenade"
+  +WEAPON.WIMPY_WEAPON
+ +INVENTORY.UNDROPPABLE
+   +WEAPON.NOLMS
+  Weapon.SlotNumber 4
+  States
+  {
+  Ready:
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    CSMK A 1 A_WeaponReady
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	CSMK A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+	TNT1 AA 0 A_Lower
+    CSMK A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+	TNT1 AA 0 A_Raise
+    CSMK A 1 A_Raise
+    Loop
+  Fire:
+    HAND AB 3
+	HAND A 0 A_Refire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSSmokeGItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSSmokeGrenade",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+	Hold:
+    TNT1 A 1
+    TNT1 A 1 A_ReFire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSSmokeGItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSSmokeGrenade",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+  }
+}
+ACTOR CSGasGrenade : CaSWeapon
+{
+  Weapon.SelectionOrder 4
+  Weapon.Kickback 0
+  Tag "Gas Grenade"
+  +WEAPON.WIMPY_WEAPON
+ +INVENTORY.UNDROPPABLE
+   +WEAPON.NOLMS
+  Weapon.SlotNumber 4
+  States
+  {
+  Ready:
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    CGAS A 1 A_WeaponReady
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	CGAS A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+	TNT1 AA 0 A_Lower
+    CGAS A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+	TNT1 AA 0 A_Raise
+    CGAS A 1 A_Raise
+    Loop
+  Fire:
+    HAND AB 3
+	HAND A 0 A_Refire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSGasGItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSGasGrenade",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+	Hold:
+    TNT1 A 1
+    TNT1 A 1 A_ReFire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSGasGItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSGasGrenade",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+  }
+}
+ACTOR CSMolotov : CaSWeapon
+{
+  Weapon.SelectionOrder 4
+  Weapon.Kickback 0
+  Tag "Molotov"
+  +WEAPON.WIMPY_WEAPON
+ +INVENTORY.UNDROPPABLE
+   +WEAPON.NOLMS
+  Weapon.SlotNumber 4
+  States
+  {
+  Ready:
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    CMOL A 1 A_WeaponReady
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	CMOL A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+	TNT1 AA 0 A_Lower
+    CMOL A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+	TNT1 AA 0 A_Raise
+    CMOL A 1 A_Raise
+    Loop
+  Fire:
+    HAND AB 3
+	HAND A 0 A_Refire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSMolotovItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSMolotov",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+	Hold:
+    TNT1 A 1
+    TNT1 A 1 A_ReFire
+	HAND A 0 A_PlayWeaponSound("weapons/grenades")
+    HAND C 3 A_FireCustomMissile("CSMolotovItem")
+	HAND DEFGHI 3
+	TNT1 A 0 A_TakeInventory("CSMolotov",1,TIF_NOTAKEINFINITE)
+    Goto Ready
+  }
+}
+ACTOR CSGrenadeItem
+{
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		Decal "Scorch"
+		Radius 2
+		Height 2
+		Speed 35
+		Damage (0)
+		Projectile
+		+BOUNCEONACTORS
+		+DEHEXPLOSION
+		-NOGRAVITY
+		Gravity 0.25
+		DamageType Frag
+		BounceType "Hexen"
+		BounceFactor 0.3
+		WallBounceFactor 0.67
+		WallBounceSound "weapons/bounce"
+		Obituary "%k >[Frag Grenade]> %o"
+States
+	{
+	Spawn:
+		WGRD A 81 Bright
+	Death:
+	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+		MISL B 0 Bright A_Explode(1,700,0,0,700)
+		MISL B 5 Bright A_Explode(76,378)
+		MISL C 6 Bright 
+		MISL D 4 Bright
+		Stop
+	}
+}
+ACTOR CSFlashbangItem
+{
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		Radius 2
+		Height 2
+		Speed 35
+		Damage (0)
+		Projectile
+		+DEHEXPLOSION
+		+BOUNCEONACTORS
+		-NOGRAVITY
+		Gravity 0.25
+		BounceType "Hexen"
+		BounceFactor 0.3
+		WallBounceFactor 0.67
+		WallBounceSound "weapons/bounce"
+		Obituary "%k >[Frag Grenade]> %o"
+	States
+	{
+	Spawn:
+		WFLA A 81 Bright
+	Death:
+	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+		MISL B 5 Bright A_RadiusGive("FlashbangFlash",1024,RGF_PLAYERS,1)
+		MISL C 6 Bright 
+		MISL D 4 Bright
+		Stop
+	}
+}
+ACTOR FlashbangFlash : CustomInventory
+{
+Inventory.MaxAmount 1
+States
+{
+Pickup:
+TNT1 A 0 A_PlaySound("weapons/flashbangring",CHAN_ITEM,2,0,9)
+TNT1 A 0 A_SetBlend("FF FF FF",1,35*8,"FF FF FF")
+Stop
+}
+}
+ACTOR CSSmokeGItem
+{
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		-BOUNCEAUTOOFF
+		+BOUNCEAUTOOFFFLOORONLY
+		Radius 2
+		Height 2
+		Speed 35
+		Damage (0)
+		Projectile
+		-NOGRAVITY
+		+BOUNCEONACTORS
+		Gravity 0.25
+		BounceType "Doom"
+		BounceFactor 0.01
+		WallBounceFactor 0.67
+		WallBounceSound "weapons/bounce"
+	States
+	{
+	Spawn:
+		WSMK A 1 Bright
+		Loop
+	Death:
+	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+		TNT1 AAAAAAAAA 0 A_SpawnItemEX("CSSmoke",frandom(-100,100),frandom(-50,50),0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEX("CSSmoke",frandom(-100,100),frandom(-50,50),frandom(0,50))
+		Stop
+	}
+}
+ACTOR CSGasGItem
+{
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		-BOUNCEAUTOOFF
+		+BOUNCEAUTOOFFFLOORONLY
+		Radius 2
+		Height 2
+		Speed 35
+		Damage (0)
+		Projectile
+		-NOGRAVITY
+		+BOUNCEONACTORS		
+		Gravity 0.25
+		BounceType "Doom"
+		BounceFactor 0.01
+		WallBounceFactor 0.67
+		WallBounceSound "weapons/bounce"
+	States
+	{
+	Spawn:
+		WGAS A 1 Bright
+		Loop
+	Death:
+	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+		TNT1 AAAAAAAAA 0 A_SpawnItemEX("CSGas",frandom(-100,100),frandom(-50,50),0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEX("CSGas",frandom(-100,100),frandom(-50,50),frandom(0,50),0,0,0,0,SXF_TRANSFERPOINTERS)
+		Stop
+	}
+}
+ACTOR CSMolotovItem
+{
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		-BOUNCEAUTOOFF
+		+BOUNCEAUTOOFFFLOORONLY
+		Radius 2
+		Height 2
+		Speed 35
+		Damage (0)
+		Scale 0.2
+		Projectile
+		-NOGRAVITY	
+		Gravity 0.25
+		BounceType "Doom"
+		BounceFactor 0.01
+		WallBounceFactor 0.67
+		WallBounceSound "weapons/bounce"
+	States
+	{
+	Spawn:
+		WMOL A 1 Bright
+		Loop
+	Death:
+	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+		TNT1 AAAAAAAAAAAAAA 0 A_SpawnItemEX("CSFire",frandom(-130,130),frandom(-130,130),0,0,0,0,0,SXF_TRANSFERPOINTERS)
+		Stop
+	}
+}
+ACTOR CSSmoke
+{
+Scale 1.5
+Health 9999
++NODAMAGE
++VULNERABLE
++NOBLOOD
++NOGRAVITY
++THRUACTORS
++NODAMAGETHRUST
+Mass 9999
+PainChance 100
+Alpha 0.55
+Renderstyle Translucent
+DamageType SmokeG
+DamageFactor Frag, 15
+DamageFactor Normal, 0
+ReactionTime 500
+States
+{
+Spawn:
+TNT1 A 0 A_Explode(1,256,XF_NOTMISSILE,0,512)
+SMOK AAAAAAAAAAAAAAA 35 A_Explode(1,256,XF_NOTMISSILE,0,128)
+Goto Death
+Pain.Frag:
+TNT1 A 1
+Goto Death
+Death:
+SMOK AAAAA 4 A_FadeOut(0.1) 
+Stop
+}
+}
+ACTOR CSGas
+{
+Scale 2
+Alpha 0.15
+Mass 9999
+Renderstyle Translucent
++VULNERABLE
++NOBLOOD
++THRUACTORS
++NODAMAGETHRUST
+ReactionTime 30
+Health 8
+PoisonDamage 6
+DamageType MGas
+DamageFactor Molotov, 15
+DamageFactor Normal, 0
+PoisonDamageType MGas
+States
+{
+Spawn:
+TNT1 A 0 A_Countdown
+TNT1 A 0 A_Explode(1,48,XF_NOTMISSILE)
+MGAS A 8
+Loop
+Death:
+MGAS AA 4 A_FadeOut(0.1)
+Stop
+}
+}
+ACTOR CSFire
+{
++VULNERABLE
++NOBLOOD
++NODAMAGETHRUST
+Scale 0.5
+Alpha 0.5
+Renderstyle Add
+Health 10
+Radius 16
+ReactionTime 25
+Damage 4
+PoisonDamage 2
+DamageType Molotov
+DamageFactor SmokeG, 15
+DamageFactor Normal, 0
+States
+{
+Spawn:
+TNT1 A 0 A_Countdown
+TNT1 A 0 A_Explode(6,48,XF_NOTMISSILE,0,48)
+MFIR ABCDEFGH 2
+Loop
+
+Death:
+MFIR AA 4 A_FadeOut(0.1)
+Stop
+}
+}

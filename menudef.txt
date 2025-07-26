@@ -1,0 +1,102 @@
+ListMenu "CSBuyTeams"
+{
+    CenterMenu
+	TextItem "Terrorists",  "1"    ,"CSTBuyMenu"
+	TextItem "Counter-Terrorists" , "2" ,"CSCTBuyMenu"
+}
+
+ListMenu "CSTBuyMenu"
+{
+    CenterMenu
+	TextItem "Pistols",  "1"    ,"CSTPistols"
+    TextItem "SMGs",  "2"    ,"CSTSMGs"
+	TextItem "Heavy" , "3" ,"HeavyWeapons"
+	TextItem "Rifles" , "4" ,"CSTRifles"
+	TextItem "Equipment" , "5"     ,"CSTUtil"
+}
+OptionMenu "CSTPistols"
+{
+Title "Terrorist Pistols"
+	Command "Glock-18: $200"      ,"pukename BuyGlock"
+	Command "Dual Berretas: $300"      ,"pukename BuyDualies"
+	Command "Tec-9: $600"	,"pukename BuyT9"
+	Command "Desert Eagle: $750"      ,"pukename BuyDeagle"
+}
+OptionMenu "CSTSMGs"
+{
+Title "Terrorist SMGs"
+	Command "Uzi: $1050"      ,"pukename BuyUzi"
+	Command "MP5k-SD: $1500"      ,"pukename BuyMP5"
+	Command "P90: $2350"      ,"pukename BuyP90"
+}
+OptionMenu "HeavyWeapons"
+{
+Title "Heavy Weapons"
+	Command "Shotgun: $1200"      ,"pukename BuySG"
+	Command "Super Shotgun: $1900"      ,"pukename BuySSG"
+	Command "Chaingun: $1900"      ,"pukename BuyCG"
+	Command "MG40: $5200"      ,"pukename BuyMG40"
+}
+OptionMenu "CSTRifles"
+{
+Title "Terrorist Rifles"
+	Command "AN-94: $2550"      ,"pukename BuyAN94"
+	Command "AK-47: $2700"      ,"pukename BuyAK"
+	Command "Scout: $2750"      ,"pukename BuyScout"
+	Command "AWP: $4750"      ,"pukename BuyAWP"
+}
+OptionMenu "CSTUtil"
+{
+Title "Equipment"
+	    Command "Kevlar Vest + Helmet: $800"      ,"pukename BuyArmor"
+		Command "Frag Grenade: $300"      ,"pukename BuyGrenade"
+		Command "Flashbang: $200"      ,"pukename BuyFlashbang"
+		Command "Smoke Grenade: $200"      ,"pukename BuySmokeGrenade"
+		Command "Molotov: $300"      ,"pukename BuyMolotov"
+		//Command "Gas Grenade: $500"      ,"pukename BuyGasGrenade"
+	    Command "Rocket Launcher: $2000"      ,"pukename BuyRL"
+}
+ListMenu "CSCTBuyMenu"
+{
+    CenterMenu
+	TextItem "Pistols",  "1" ,"CSCTPistols"
+	TextItem "SMGs" , "2" ,"CSCTSMGs"
+	TextItem "Heavy" , "3" ,"HeavyWeapons"
+	TextItem "Rifles" , "4" ,"CSCTRifles"
+	TextItem "Equipment" , "5"     ,"CSCTUtil"
+}
+OptionMenu "CSCTPistols"
+{
+Title "Counter-Terrorist Pistols"
+	Command "USP-S: $200"      ,"pukename BuyUSP"
+	Command "Dual Berretas: $300"      ,"pukename BuyDualies"
+	Command "Auto Mag Pistol: $650"	,"pukename BuyAMP"
+	Command "Desert Eagle: $750"      ,"pukename BuyDeagle"
+}
+OptionMenu "CSCTRifles"
+{
+Title "Counter-Terrorist Rifles"
+	Command "AN-94: $2550"      ,"pukename BuyAN94"
+	Command "M4A1: $3100"      ,"pukename BuyM4"
+	Command "Scout: $2750"      ,"pukename BuyScout"
+	Command "AWP: $4750"      ,"pukename BuyAWP"
+}
+OptionMenu "CSCTSMGs"
+{
+Title "Counter-Terrorist SMGs"
+	Command "MP40: $1150"      ,"pukename BuyMP9"
+	Command "MP5k-SD: $1500"      ,"pukename BuyMP5"
+	Command "P90: $2350"      ,"pukename BuyP90"
+}
+OptionMenu "CSCTUtil"
+{
+Title "Equipment"
+	    Command "Kevlar Vest + Helmet: $800"      ,"pukename BuyArmor"
+		Command "Super Defuse Kit: $200"      ,"pukename BuyDefuse"
+		Command "Frag Grenade: $300"      ,"pukename BuyGrenade"
+		Command "Flashbang: $200"      ,"pukename BuyFlashbang"
+		Command "Smoke Grenade: $200"      ,"pukename BuySmokeGrenade"
+		Command "Molotov: $300"      ,"pukename BuyMolotov"
+		//Command "Gas Grenade: $500"      ,"pukename BuyGasGrenade"
+	    Command "Rocket Launcher: $2000"      ,"pukename BuyRL"
+}

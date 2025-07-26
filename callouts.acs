@@ -1,0 +1,34 @@
+#library "callouts"
+#import "zcommon.bcs"
+//All code here is made by MameXLIII, or a contributor for the project. All code here is under license
+function int cmp(raw a, raw b)
+{
+	if (a > b)
+		return 1;
+	if (a < b)
+		return -1;
+	return 0;
+}
+/*
+Script "CS_CalloutsDust2" ENTER CLIENTSIDE
+{
+int levelName = StrParam(n:PRINTNAME_LEVEL);
+int tSpawnMinX = -320.0;
+int tSpawnMaxX = 384.0;
+	while(striCMP(levelName,"de_dust2") == 0 )
+	{
+	//print(n:PRINTNAME_LEVEL);
+	int x = GetActorX(0);
+	int y = GetActorY(0);
+		if ( (x >= tSpawnMinX && x <= tSpawnMaxX) && (y >= 1664.0 && y <= 2208.0)  ) 
+		{
+		SetHudSize(640, 400, 0);
+		SetFont("SMALLFONT");
+		HudMessage(s:"T-Spawn";
+		HUDMSG_ALPHA, 1, CR_ORANGE, 80.0, 130.0, 1.0, 1.0);
+		//print(s:"T Spawn");
+		}
+	Delay(1);
+	}
+}
+*/

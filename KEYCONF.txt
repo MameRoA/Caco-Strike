@@ -1,0 +1,13 @@
+clearplayerclasses
+addplayerclass "CST"
+addplayerclass "CSCT"
+
+addkeysection "Caco Strike Binds" cs_keysection
+addmenukey "Buy Menu" cs_buymenu
+addmenukey "CaS Drop Weapon" cs_drop
+
+alias cs_buymenu "pukename OpenBuyMenu"
+alias cs_drop "pukename CS_DropWeapon"
+
+defaultbind b cs_buymenu
+defaultbind g cs_drop

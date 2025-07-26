@@ -1,0 +1,18 @@
+ClearTeams
+Team "Counter-Terrorists"
+{
+	PlayerColor "00 00 00"
+	TextColor "LightBlue"
+	PlayerStartThingNumber 5080
+	SkullItem "Documents"
+	AllowCustomPlayerColor 
+}
+
+Team "Terrorists"
+{
+   PlayerColor "00 00 00"
+   TextColor "Orange"
+   PlayerStartThingNumber 5081
+   SkullItem "Hostage"
+   AllowCustomPlayerColor 
+}

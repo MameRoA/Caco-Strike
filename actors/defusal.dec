@@ -1,0 +1,411 @@
+ACTOR TerroristBomb : CaSWeapon
+{
+  Weapon.SelectionOrder 5
+  Weapon.Kickback 0
+  Tag "C4"
+  Weapon.SlotNumber 5
+  +WEAPON.NOLMS
+  +INVENTORY.UNDROPPABLE
+  +WEAPON.NOAUTOFIRE
+  States
+  {
+  Ready:
+	TNT1 A 0 A_TakeInventory("PowerBombPlant",1)
+    TBOM A 1 A_WeaponReady
+    Loop
+  Deselect:
+      TBOM AA 0 A_Lower
+    TBOM A 1 A_Lower
+    Loop
+  Select:
+    TBOM AA 0 A_Raise
+	TBOM A 1 A_Raise
+    Loop
+  Fire:
+    TBOM A 1 ACS_NamedExecuteWithResult("DefusalBombPlantTimer")
+    Goto Ready
+  }
+}
+ACTOR FreePlantBomb : CaSWeapon
+{
+  Weapon.SelectionOrder 6
+  Weapon.Kickback 0
+  Tag "C4 (but anywhere)"
+  Weapon.SlotNumber 6
+  +WEAPON.NOLMS
+  +INVENTORY.UNDROPPABLE
+  +WEAPON.NOAUTOFIRE
+  States
+  {
+  Ready:
+	TNT1 A 0 A_TakeInventory("PowerBombPlant",1)
+    TBOM A 1 A_WeaponReady
+    Loop
+  Deselect:
+      TBOM AA 0 A_Lower
+    TBOM A 1 A_Lower
+    Loop
+  Select:
+    TBOM AA 0 A_Raise
+	TBOM A 1 A_Raise
+    Loop
+  Fire:
+    TBOM A 1 ACS_NamedExecuteWithResult("DefusalFreeBombPlantTimer")
+    Goto Ready
+  }
+}
+ACTOR DefuseKit : CaSWeapon
+{
+  Weapon.SelectionOrder 5
+  Weapon.Kickback 0
+  Tag "Defusal Kit"
+  Weapon.SlotNumber 5
+  +WEAPON.NOLMS
+  +INVENTORY.UNDROPPABLE
+  +WEAPON.NOAUTOFIRE
+  States
+  {
+  Ready:
+  	TNT1 A 0 A_TakeInventory("PowerBombPlant",1)
+    PUNG A 1 A_WeaponReady
+    Loop
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+    PUNG AA 0 A_Lower
+    PUNG A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+    PUNG AA 0 A_Raise
+	PUNG A 1 A_Raise
+    Loop
+  Fire:
+    PUNG A 1 ACS_NamedExecuteWithResult("DefusalBombDefuseTimer")
+    Goto Ready
+  }
+}
+ACTOR FullDefuseKit : CaSWeapon
+{
+  Weapon.SelectionOrder 5
+  Weapon.Kickback 0
+  Tag "Defusal Kit"
+  Weapon.SlotNumber 5
+  +WEAPON.NOLMS
+  +INVENTORY.UNDROPPABLE
+  +WEAPON.NOAUTOFIRE
+  States
+  {
+  Ready:
+  	TNT1 A 0 A_TakeInventory("PowerBombPlant",1)
+    DKIT A 1 A_WeaponReady
+    Loop
+  Deselect:
+    TNT1 A 0 A_TakeInventory("NoDrop",1)
+    PUNG AA 0 A_Lower
+    DKIT A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("NoDrop",1)
+    PUNG AA 0 A_Raise
+	DKIT A 1 A_Raise
+    Loop
+  Fire:
+    DKIT A 1 ACS_NamedExecuteWithResult("DefusalKitBombDefuseTimer")
+    Goto Ready
+  }
+}
+Actor Hostage : Skull 10430
+{
+Inventory.PickupSound " "
+Inventory.ForbiddenTo "CST"
+Radius 16
+Height 32
++FIXMAPTHINGPOS
++NEVERRESPAWN
+States
+{
+Spawn:
+HOSG ABC 8 BRIGHT
+Loop
+Carry:
+TNT1 A 0 ACS_NamedExecuteWithResult("HostageTaken")
+HOSP A -1
+Loop
+}
+}
+
+/*
+ACTOR FreeHostage2 
+{
++ISMONSTER
++NOTARGETSWITCH
++LOOKALLAROUND
+states
+{
+Spawn:
+HOSF A 0 A_Look
+Loop
+See:
+TNT1 A 0 A_JumpIfInventory("HostageDown",1,"DOWN",AAPTR_TARGET)
+HOSF A 1 A_Warp(AAPTR_TARGET,0,0,0,0,WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE)
+Loop
+Down:
+TNT1 A 1 A_SpawnItemEX("Hostage")
+Stop
+}
+}
+*/
+/*
+Actor HostageCarry
+{
++FRIENDLY
++NOBLOCKMAP
++ISMONSTER
++FORCEYBILLBOARD
+States
+{
+Spawn:
+//HOSK A 0 A_JumpIf(CallACS("HostageCarry") == false,"Down")
+HOSK A 1 //A_Warp(AAPTR_TARGET,-16,0,4,0,WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE) 
+Stop
+//Down:
+//TNT1 A 0 A_Stop
+//HOSK A 0 ACS_NamedExecuteWithResult("HostageDown")
+//TNT1 A 0 A_SpawnItemEX("Hostage")
+//Stop
+}
+}
+*/
+Actor BombPlanted
+{
+States
+{
+Spawn:
+TNT1 A 0 NoDelay ACS_NamedExecuteWithResult("DefusalBombPlanted")
+TNT1 A 0 A_SpawnItemEX("BombSpot")
+Spawn2:
+WBOM A 34
+TNT1 A 0 A_PlaySound("weapons/c4beep")
+WBOM B 1 Bright
+Loop
+}
+}
+ACTOR BombSpot
+{
+States
+{
+Spawn:
+TNT1 A 0 A_RadiusGive("CanDefuseMSG",72,RGF_PLAYERS | RGF_CUBE,1)
+TNT1 A 1 A_RadiusGive("CanDefuse",72,RGF_PLAYERS | RGF_CUBE,1)
+Loop
+}
+}
+ACTOR BombExplode
+{
+States
+{
+Spawn:
+TNT1 A 0 A_SetScale(4,4)
+TNT1 A 0 A_PlaySound("weapons/rocklx",CHAN_AUTO,2,0,0.1)
+TNT1 A 0 //A_Explode(250,1024,XF_NOTMISSILE,0,256)
+TNT1 A 0 A_RadiusGive("BombKiller",2000,RGF_PLAYERS|RGF_NOSIGHT,1)
+MISL BCD 10 
+TNT1 A 1
+Stop
+}
+}
+actor testdummy
+{
+  states
+  {
+  Spawn:
+    TNT1 A 0 NODELAY acs_NamedExecuteWithResult("BombSiteRadar")
+    PLAY A 10 A_Look
+    Goto Spawn+1
+  }
+}
+actor BombSite 10555
+{
++NOBLOCKMAP
+Radius 256
+States
+{
+Spawn:
+TNT1 A 0 NODELAY ACS_NamedExecuteWithResult("BombSiteRadar")
+TNT1 A 1 A_RadiusGive("CanPlant",256,RGF_PLAYERS | RGF_CUBE,1)
+Goto Spawn+1
+}
+}
+actor BombSiteMedium 10556
+{
++NOBLOCKMAP
+Radius 128
+States
+{
+Spawn:
+TNT1 A 0 NODELAY ACS_NamedExecuteWithResult("BombSiteRadar")
+TNT1 A 1 A_RadiusGive("CanPlant",128,RGF_PLAYERS | RGF_CUBE,1)
+Goto Spawn+1
+}
+}
+actor BombSiteSmall 10557
+{
++NOBLOCKMAP
+Radius 64
+States
+{
+Spawn:
+TNT1 A 0 NODELAY ACS_NamedExecuteWithResult("BombSiteRadar")
+TNT1 A 1 A_RadiusGive("CanPlant",64,RGF_PLAYERS | RGF_CUBE,1)
+Goto Spawn+1
+}
+}
+actor BuyZone 10558
+{
++NOBLOCKMAP
+Radius 256
+States
+{
+Spawn:
+TNT1 A 1 A_RadiusGive("InBuyZone",256,RGF_PLAYERS | RGF_CUBE,1)
+Loop
+}
+}
+actor BuyZoneMed 10559
+{
++NOBLOCKMAP
+Radius 128
+States
+{
+Spawn:
+TNT1 A 1 A_RadiusGive("InBuyZone",128,RGF_PLAYERS | RGF_CUBE,1)
+Loop
+}
+}
+actor BuyZoneSmall 10560
+{
++NOBLOCKMAP
+Radius 64
+States
+{
+Spawn:
+TNT1 A 1 A_RadiusGive("InBuyZone",64,RGF_PLAYERS | RGF_CUBE,1)
+Loop
+}
+}
+actor Rescue 10562
+{
++NOBLOCKMAP
+Radius 256
+States
+{
+Spawn:
+TNT1 A 1 A_RadiusGive("HostageR",256,RGF_CUBE | RGF_PLAYERS,1)
+TNT1 A 6 
+Loop
+Stopp:
+TNT1 A 0
+Stop
+}
+}
+actor RescueMed 10563
+{
++NOBLOCKMAP
+Radius 128
+States
+{
+Spawn:
+TNT1 A 1 A_RadiusGive("HostageR",128, RGF_CUBE | RGF_PLAYERS,1)
+TNT1 A 6 
+Loop
+Stopp:
+TNT1 A 0
+Stop
+}
+}
+actor RescueSmall 10564
+{
++NOBLOCKMAP
+Radius 64
+States
+{
+Spawn:
+TNT1 A 1 A_RadiusGive("HostageR",64,RGF_CUBE | RGF_MONSTERS,1)
+PLAY A 6 
+Loop
+Stopp:
+TNT1 A 0
+Stop
+}
+}
+actor CanPlant : CustomInventory
+{
+Inventory.RestrictedTo CST
+	states
+	{
+	pickup:
+		TNT1 A 0 A_GiveInventory("BombAttempt",1)
+		fail
+	}
+}
+actor InBuyZone : CustomInventory
+{
+	states
+	{
+	pickup:
+		TNT1 A 0 A_GiveInventory("Buy",1)
+		fail
+	}
+}
+actor HostageR : CustomInventory
+{
+	states
+	{
+	pickup:
+	TNT1 A 0 A_JumpIfInventory("Hostage",1,"Pickup2")
+	Fail
+	Pickup2:
+	TNT1 A 0 ACS_NamedExecute("HostageWin")
+	Stop
+	}
+}
+ACTOR PowerBombPlant : PowerSpeed
+{
++POWERSPEED.NOTRAIL
+Speed 0
+}
+ACTOR CantFire : Inventory { Inventory.MaxAmount 1 }
+ACTOR HostageTaken : CustomInventory { Inventory.MaxAmount 1
+States
+{
+Pickup:
+TNT1 A 0 A_Print("YES",5)
+Stop
+ } 
+}
+ACTOR HostageR2 : Inventory { Inventory.MaxAmount 1 }
+ACTOR NoCheck : Inventory { Inventory.MaxAmount 1 }
+ACTOR BombAttempt : Inventory { Inventory.MaxAmount 1 }
+ACTOR CanDefuse : Inventory { Inventory.RestrictedTo CSCT Inventory.MaxAmount 1 }
+ACTOR CanDefuseMSG : CustomInventory 
+{ 
+Inventory.RestrictedTo CSCT 
+Inventory.MaxAmount 1
+States
+{
+Pickup:
+TNT1 A 0 A_Print("Switch to Your Defuse kit (Default:5) and hold fire to defuse",1)
+Fail
+ }
+}
+ACTOR BombKiller : CustomInventory 
+{ 
+Inventory.MaxAmount 1
+States
+{
+Pickup:
+TNT1 A 0 Thing_Damage(0,200,0)
+Fail
+ }
+}
+ACTOR Buy : Inventory { Inventory.MaxAmount 1 }

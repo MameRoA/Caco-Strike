@@ -1,0 +1,114 @@
+ACTOR Dualies : CaSWeapon
+{
+ Tag "Dual Berretas"
+ Weapon.SlotNumber 2
+ Weapon.SelectionOrder 2
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "DualAmmo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "DualReserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[Dual Berretas]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOAUTOFIRE
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+    TNT1 A 0 A_GiveInventory("PowerPistol",1)
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    DPIS A 6 A_WeaponReady(WRF_ALLOWRELOAD)
+    TNT1 A 0 A_TakeInventory("DualRecoil",2)
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	DPIS A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect: 
+    TNT1 A 0 A_TakeInventory("PowerPistol",1)
+    TNT1 A 0 A_TakeInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Lower
+    DPIS A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("PowerPistol",1)
+    TNT1 A 0 A_GiveInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Raise
+    DPIS A 1 A_Raise
+    Loop
+  Fire:
+  GL18 A 0 A_JumpIfInventory("DualAmmo",1,1)
+  Goto Reload
+  GL18 A 0 A_PlayWeaponSound("weapons/dualfire")
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  DPIS B 2 bright ACS_NamedExecuteWithResult("DualFire")
+  GL18 A 0 A_TakeInventory("DualAmmo",1)
+  GL18 A 0 Radius_Quake(1,1,0,1,0)
+  DPIS C 2
+  DPIS D 2
+  GL18 A 0 A_PlayWeaponSound("weapons/dualfire")
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",-40+random(-5,5),0,-3,10)
+  DPIS E 2 bright ACS_NamedExecuteWithResult("GlockFire")
+  GL18 A 0 A_TakeInventory("DualAmmo",1)
+  DPIS F 2
+  DPIS G 2 A_WeaponReady(WRF_ALLOWRELOAD)
+  Goto Ready
+  NoAmmo:
+  DPIS A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("DualReserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_JumpIfInventory("DualAmmo", 0, "Ready")
+  G18R A 0 A_PlayWeaponSound("weapons/dualr1") 
+  DPIS R 3
+  DPIR AB 7
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("DualReserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("DualAmmo", 30, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("DualReserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("DualAmmo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  GL1R A 0 A_PlayWeaponSound("weapons/dualr2")
+  DPIR B 6
+  DPIR C 11
+  DPIR D 5
+  DPIR CBA 6
+  GL1R A 0 A_PlayWeaponSound("weapons/dualr3")
+  DPI2 AB 7
+  DPI2 C 11
+  DPI2 D 5
+  DPI2 CBA 4
+  DPIS A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor DualReserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 120
+	Inventory.MaxAmount 120
+	Ammo.BackpackAmount 120
+	Ammo.BackpackMaxAmount 120
+	+IGNORESKILL
+}
+Actor DualAmmo : Ammo
+{
+	Game Doom
+	Inventory.Amount 30
+	Inventory.MaxAmount 30
+	Ammo.BackpackAmount 30
+	Ammo.BackpackMaxAmount 30
+	+IGNORESKILL
+}
+Actor DualRecoil : Inventory { Inventory.MaxAmount 2 }

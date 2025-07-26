@@ -1,0 +1,142 @@
+Actor PistolCasing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  +MISSILE
+  Speed 5
+  BounceType Doom
+  BounceFactor 0.35
+  WallBounceFactor 0.35
+    BounceSound "weapons/bcase"
+  Height 1
+  Radius 1
+  Scale 0.12
+  Mass 1
+  States
+  {
+	Spawn:
+	PCAS ABCD 3
+	Loop
+	Death:
+	TNT1 A 0 A_SpawnItemEX("StaticPistolCasing")
+	Stop
+  }
+}
+Actor StaticPistolCasing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  Height 1
+  Radius 1
+  Scale 0.15
+  Mass 1
+  States
+  {
+	Spawn:
+	PCAS B 175
+	Stop
+  }
+}
+Actor ShellCasing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  +MISSILE
+  Speed 5
+  BounceType Doom
+  BounceFactor 0.35
+  WallBounceFactor 0.35
+  BounceSound "weapons/shells"
+  Height 1
+  Radius 1
+  Scale 0.25
+  Mass 1
+  States
+  {
+	Spawn:
+	SCAS ABCDEFGH 3
+	Loop
+	Death:
+	TNT1 A 0 A_SpawnItemEX("StaticShellCasing")
+	Stop
+  }
+}
+Actor StaticShellCasing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  Height 1
+  Radius 1
+  Scale 0.25
+  Mass 1
+  States
+  {
+	Spawn:
+	SCAS B 175
+	Stop
+  }
+}
+
+Actor RifleCasing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  +MISSILE
+  Speed 5
+  BounceType Doom
+  BounceFactor 0.35
+  WallBounceFactor 0.35
+  BounceSound "weapons/bcase"
+  Height 1
+  Radius 1
+  Scale 0.12
+  Mass 1
+  States
+  {
+	Spawn:
+	RCAS ABCDEF 3
+	Loop
+	Death:
+	TNT1 A 0 A_SpawnItemEX("StaticRifleCasing")
+	Stop
+  }
+}
+Actor StaticRifleCasing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  Height 1
+  Radius 1
+  Scale 0.15
+  Mass 1
+  States
+  {
+	Spawn:
+	RCAS B 175
+	Stop
+  }
+}
+Actor R8Casing
+{
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  +MISSILE
+  Speed 2
+  BounceType Doom
+  BounceFactor 0.35
+  WallBounceFactor 0.35
+  BounceSound "weapons/bcase"
+  Height 1
+  Radius 1
+  Scale 0.12
+  Mass 1
+  States
+  {
+	Spawn:
+	PCAS ABCD 3
+	Loop
+	Death:
+	TNT1 A 0 A_SpawnItemEX("StaticPistolCasing")
+	Stop
+  }
+}

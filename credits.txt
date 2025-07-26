@@ -1,0 +1,13 @@
+Realm667, Pisstepank, DeeDeeOZ, Tabijaky, cybermonday: almost all weapons. many of them slightly edited by me.
+DaZombieKiller: Footsteps.
+Minh Le, Jesse Cliffe, Valve: Counter Strike as we know it, Announcer/misc sounds. 
+Sound Ideas' Dynamic Range Sound Effects Library - CDs 1 & 2: Sounds also used in Counter Strike 1.6/Source, 
+	Source being the main where I grabbed them from (The reason I'm being so specific is because it's a neat dev fact about the sounds). 
+IDMSkins compiled by Kaapeli47, 150Skins compiled by Doomkid and others: Player skins.
+TDRR: most of the weapon drop and all of the headshot code.
+Noiseman: MIDI rendition of CS2 Main theme.
+
+I most likely made everything else not listed here, although some weapon sprite sources have been lost, use below contacts 
+	if you know the source or are the artist.
+
+If I didn't credit you for something, contact me: mamexliiidoom@gmail.com or Discord:mamexliii, I will either credit you or find suitable replacements.

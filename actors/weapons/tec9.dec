@@ -1,0 +1,102 @@
+ACTOR Tec9: CaSWeapon
+{
+ Tag "Tec-9"
+ Weapon.SlotNumber 2
+ Weapon.SelectionOrder 2
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "T9Ammo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "T9Reserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[Tec-9]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOAUTOFIRE
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+    TNT1 A 0 A_GiveInventory("PowerPistol",1)
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    TEC9 A 3 A_WeaponReady(WRF_ALLOWRELOAD)
+    TNT1 A 0 A_TakeInventory("T9Recoil",2)
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	TEC9 A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect: 
+    TNT1 A 0 A_TakeInventory("PowerPistol",1)
+    TNT1 A 0 A_TakeInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Lower
+    TEC9 A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("PowerPistol",1)
+    TNT1 A 0 A_GiveInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Raise
+    TEC9 A 1 A_Raise
+    Loop
+  Fire:
+  USP4 A 0 A_JumpIfInventory("T9Ammo",1,1)
+  Goto Reload
+  TEC9 A 0 A_PlayWeaponSound("weapons/tec9f")
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TEC9 B 2 bright ACS_NamedExecuteWithResult("Tec9Fire")
+  TNT1 A 0 A_TakeInventory("T9Ammo",1)
+  TEC9 C 2
+  TEC9 AA 5 A_WeaponReady(WRF_ALLOWRELOAD)
+  Goto Ready
+  NoAmmo:
+  TEC9 A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("T9Reserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_JumpIfInventory("T9Ammo", 0, "Ready")
+  CUSR A 0 A_PlayWeaponSound("weapons/t9r1") 
+  TECR A 5
+  TECR BCC 5
+  TECR C 5
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("T9Reserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("T9Ammo", 18, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("T9Reserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("T9Ammo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  USPR A 0 A_PlayWeaponSound("weapons/t9r2") 
+  TECR D 6
+  TECR E 6
+  TEC9 A 6
+  TEC9 A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor T9Reserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 30
+	Inventory.MaxAmount 30
+	Ammo.BackpackAmount 30
+	Ammo.BackpackMaxAmount 30
+	+IGNORESKILL
+}
+Actor T9Ammo : Ammo
+{
+	Game Doom
+	Inventory.Amount 18
+	Inventory.MaxAmount 18
+	Ammo.BackpackAmount 18
+	Ammo.BackpackMaxAmount 18
+	+IGNORESKILL
+}
+Actor T9Recoil : Inventory { Inventory.MaxAmount 2 }

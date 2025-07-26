@@ -1,0 +1,119 @@
+ACTOR Scout : CaSWeapon
+{
+ Tag "Scout"
+ Weapon.SlotNumber 1
+ Weapon.SelectionOrder 1
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "ScoutAmmo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "ScoutReserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[Scout]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+	TNT1 A 0 
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    TNT1 A 0 A_JumpIfInventory("Scoped",1,"ReadyScoped")
+    SCTG A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+    Loop
+	NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	SCTG A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  ReadyScoped:
+    TNT1 A 0 A_ZoomFactor(3,ZOOM_INSTANT)
+    SNPS A 1 A_WeaponReady(WRF_NOBOB)
+    Loop
+  Deselect:
+	TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+    TNT1 A 0 A_TakeInventory("Scoped",1)
+    TNT1 A 0 A_TakeInventory("PowerScope",1)
+    TNT1 A 0 A_TakeInventory("HoldingPrimary",1)
+	TNT1 A 0 
+    TNT1 AA 0 A_Lower
+    SCTG A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("HoldingPrimary",1)
+	TNT1 A 0 
+    TNT1 AA 0 A_Raise
+    SCTG A 1 A_Raise
+    Loop
+  Fire:
+  SCTG A 0 A_JumpIfInventory("ScoutAmmo",1,1)
+  Goto Reload
+  SCTG A 0 A_PlayWeaponSound("weapons/scoutfire")
+  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,9)
+  SCTG B 1 bright ACS_NamedExecuteWithResult("ScoutFire")
+  TNT1 A 0 A_TakeInventory("ScoutAmmo",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  SCTG C 3
+  SCTG A 35
+  Goto Ready
+  AltFire:
+  TNT1 A 0 A_JumpIfInventory("Scoped",1,"Alt2")
+  TNT1 A 0 A_GiveInventory("Scoped",1)
+  TNT1 A 0 A_ZoomFactor(3,ZOOM_INSTANT)
+  SNPS A 5
+  Goto Ready
+  Alt2:
+  TNT1 A 0 A_TakeInventory("Scoped",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  SCTG A 5
+  Goto Ready
+  NoAmmo:
+  TNT1 A 0 A_TakeInventory("Scoped",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  SCTG A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("ScoutReserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_TakeInventory("Scoped",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  TNT1 A 0 A_JumpIfInventory("ScoutAmmo", 0, "Ready")
+  SCTR A 0 A_PlayWeaponSound("weapons/scoutre1") 
+  SCTR ABCD 4
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("ScoutReserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("ScoutAmmo", 10, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("ScoutReserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("ScoutAmmo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  SCTR A 0 A_PlayWeaponSound("weapons/scoutre2")
+  SCTR EFGHIJKLMN 4
+  SCTG A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor ScoutReserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 90
+	Inventory.MaxAmount 90
+	Ammo.BackpackAmount 90
+	Ammo.BackpackMaxAmount 90
+	+IGNORESKILL
+}
+Actor ScoutAmmo : Ammo
+{
+	Game Doom
+	Inventory.Amount 10
+	Inventory.MaxAmount 10
+	Ammo.BackpackAmount 10
+	Ammo.BackpackMaxAmount 10
+	+IGNORESKILL
+}

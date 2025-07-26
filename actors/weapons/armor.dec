@@ -1,0 +1,1243 @@
+ACTOR CSArmor : BasicArmorPickup
+{
+  Inventory.Icon "ARM1A0"
+  Armor.SavePercent 35
+  Armor.SaveAmount 100
+}
+ACTOR CSArmorBonus : BasicArmorBonus
+{
+  Inventory.Icon "ARM1A0"
+  Armor.SavePercent 35
+  Armor.SaveAmount 1
+  Armor.MaxSaveAmount 100
+  Armor.MaxBonus 1
+  Armor.MaxBonusMax 0 
+}
+Actor PowerBullet : PowerSpeed
+{
+Powerup.Duration 10
+Speed 0.28
++POWERSPEED.NOTRAIL
+}
+Actor PowerScope : PowerSpeed
+{
+Powerup.Duration -2147483647
+Speed 0.4
++POWERSPEED.NOTRAIL
+}
+Actor PowerRifle : PowerSpeed
+{
+Powerup.Duration -2147483647
+Speed 0.85
++POWERSPEED.NOTRAIL
+}
+Actor PowerPistol : PowerSpeed
+{
+Powerup.Duration -2147483647
+Speed 0.9
++POWERSPEED.NOTRAIL
+}
+Actor PowerSMG : PowerSpeed
+{
+Powerup.Duration -2147483647
+Speed 0.88
++POWERSPEED.NOTRAIL
+}
+Actor PowerLMG : PowerSpeed
+{
+Powerup.Duration -2147483647
+Speed 0.82
++POWERSPEED.NOTRAIL
+}
+//Pickups
+Actor NoDrop : Inventory { Inventory.MaxAmount 1 }
+Actor HasSecondary : Inventory { Inventory.MaxAmount 1 }
+Actor HoldingSecondary : Inventory { Inventory.MaxAmount 1 }
+Actor HasPrimary: Inventory { Inventory.MaxAmount 1 }
+Actor HoldingPrimary : Inventory { Inventory.MaxAmount 1 }
+
+
+Actor NightHawk50cDrop : CustomInventory
+{
++THRUACTORS
+Scale 0.8
+States
+{
+Spawn:
+DEAW A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+DEAW A 1575
+Stop
+  
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("NightHawk50c",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+
+Actor SidearmDrop : CustomInventory
+{
+Inventory.RestrictedTo "CST"
++THRUACTORS
+States
+{
+Spawn:
+SA1W A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+SA1W A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("Sidearm",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor Tec9Drop : CustomInventory
+{
++THRUACTORS
+Scale 0.5
+States
+{
+Spawn:
+WTEC A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WTEC A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("Tec9",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor AMPDrop : CustomInventory
+{
++THRUACTORS
+Scale 0.5
+States
+{
+Spawn:
+WAMP A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WAMP A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("AMP",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor KM45Drop : CustomInventory
+{
+Inventory.RestrictedTo "CSCT"
++THRUACTORS
+States
+{
+Spawn:
+USPW A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+USPW A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("KM45",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor CV47Drop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.8
+States
+{
+Spawn:
+AK4W A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+AK4W A 1575
+Stop
+
+
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah")
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("CV47",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor M4A1Drop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 1
+States
+{
+Spawn:
+M4AW A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+M4AW A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("M4A1",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor C90Drop : CustomInventory
+{
+Scale 0.45
++THRUACTORS
++NOBLOCKMAP
+States
+{
+Spawn:
+WP90 A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WP90 A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("C90",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor SMGDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.5
+States
+{
+Spawn:
+WSMG A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WSMG A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("SMG",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor MG40Drop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 1
+States
+{
+Spawn:
+WM60 A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WM60 A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("MG40",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor MP9Drop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.5
+States
+{
+Spawn:
+WMP4 A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WMP4 A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("MP9",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor UziDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.7
+States
+{
+Spawn:
+WUZI A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WUZI A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("Uzi",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor DualiesDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.9
+States
+{
+Spawn:
+WDUO A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WDUO A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)//Prevents 2 Pistols from being picked up
+TNT1 A 0 A_GiveInventory("Dualies",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor MagnumSniperDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.7
+States
+{
+Spawn:
+WAWP A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WAWP A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("MagnumSniper",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor AN94Drop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.24
+States
+{
+Spawn:
+WAN9 A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WAN9 A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("AN94",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor CSChaingunDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+States
+{
+Spawn:
+MGUN A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+MGUN A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("CSChaingun",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor R8RevolverDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 1
+States
+{
+Spawn:
+WR8R A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WR8R A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("R8Revolver",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor SIGDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 1
+States
+{
+Spawn:
+PIST A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+PIST A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("SIG",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor CSShotgunDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 1
+States
+{
+Spawn:
+SHOT A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+SHOT A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("CSShotgun",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor SSGDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 1
+States
+{
+Spawn:
+SGN2 A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+SGN2 A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("SSG",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor ScoutDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.64
+States
+{
+Spawn:
+WSCT A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WSCT A 1575
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("Scout",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor NightHawk50cPickup : CustomInventory 7355
+{
+Scale 0.8
+States
+{
+Spawn:
+DEAW A -1
+Loop
+  
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("NightHawk50c",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+
+Actor SidearmPickup : CustomInventory 7356
+{
+Inventory.RestrictedTo "CST"
+States
+{
+Spawn:
+SA1W A -1
+Loop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("Sidearm",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor Tec9Pickup : CustomInventory 7357
+{
+Scale 0.5
+States
+{
+Spawn:
+WTEC A -1
+Loop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("Tec9",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor AMPPickup : CustomInventory 7358
+{
+Scale 0.5
+States
+{
+Spawn:
+WAMP A -1
+Loop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("AMP",1)
+Stop
+
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor KM45Pickup : CustomInventory 7359
+{
+Inventory.RestrictedTo "CSCT"
+States
+{
+Spawn:
+USPW A -1
+Loop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") //Prevents 2 Pistols from being picked up 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)
+TNT1 A 0 A_GiveInventory("KM45",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor CV47Pickup : CustomInventory 7360
+{
+Scale 0.8
+States
+{
+Spawn:
+AK4W A -1
+Stop
+
+
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah")
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("CV47",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor M4A1Pickup : CustomInventory 7361
+{
+Scale 1
+States
+{
+Spawn:
+M4AW A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("M4A1",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor C90Pickup : CustomInventory 7362
+{
+Scale 0.45
+States
+{
+Spawn:
+WP90 A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("C90",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor SMGPickup : CustomInventory 7363
+{
+Scale 0.5
+States
+{
+Spawn:
+WSMG A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("SMG",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor MG40Pickup : CustomInventory 7364
+{
+Scale 1
+States
+{
+Spawn:
+WM60 A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("MG40",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor MP9Pickup : CustomInventory 7365
+{
+Scale 0.5
+States
+{
+Spawn:
+WMP4 A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("MP9",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor UziPickup : CustomInventory 7366
+{
+Scale 0.7
+States
+{
+Spawn:
+WUZI A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("Uzi",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor DualiesPickup : CustomInventory 7367
+{
+Scale 0.9
+States
+{
+Spawn:
+WDUO A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)//Prevents 2 Pistols from being picked up
+TNT1 A 0 A_GiveInventory("Dualies",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor MagnumSniperPickup : CustomInventory 7368
+{
+Scale 0.7
+States
+{
+Spawn:
+WAWP A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("MagnumSniper",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor AN94Pickup : CustomInventory 7369
+{
+Scale 0.24
+States
+{
+Spawn:
+WAN9 A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("AN94",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor CSChaingunPickup : CustomInventory 7370
+{
+States
+{
+Spawn:
+MGUN A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("CSChaingun",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor R8RevolverPickup : CustomInventory 7371
+{
+Scale 1
+States
+{
+Spawn:
+WR8R A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("R8Revolver",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor SIGPickup : CustomInventory 7372
+{
+Scale 1
+States
+{
+Spawn:
+PIST A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasSecondary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasSecondary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("SIG",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor CSShotgunPickup : CustomInventory 7373
+{
+Scale 1
+States
+{
+Spawn:
+SHOT A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("CSShotgun",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor SSGPickup : CustomInventory 7374
+{
+Scale 1
+States
+{
+Spawn:
+SGN2 A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("SSG",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor ScoutPickup : CustomInventory 7375
+{
+Scale 0.64
+States
+{
+Spawn:
+WSCT A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("HasPrimary",1,"Blah") 
+TNT1 A 0 A_GiveInventory("HasPrimary",1)//Prevents 2 Primaries from being picked up
+TNT1 A 0 A_GiveInventory("Scout",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor TerroristBombDrop : CustomInventory
+{
++THRUACTORS
++NOBLOCKMAP
+Scale 0.7
+States
+{
+Spawn:
+WBOM A 35
+PIST A 0 A_ChangeFlag("THRUACTORS", False)
+PIST A 0 A_ChangeFlag("NOBLOCKMAP", False)
+WBOM A -1
+Stop
+
+Pickup:
+TNT1 A 0 A_JumpIfInventory("IsCT",1,"Blah") //Prevents CTs from picking up
+TNT1 A 0 A_GiveInventory("TerroristBomb",1)
+Stop
+Blah:
+TNT1 A 1
+Fail
+}
+}
+Actor Money : Inventory { Inventory.MaxAmount 16000 }
+
+//remove items
+Actor NoMedikit : CustomInventory replaces Medikit 
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoFist : CustomInventory replaces Fist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoGreenArmor : CustomInventory replaces GreenArmor 
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoBlueArmor : CustomInventory replaces BlueArmor 
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoHealthBonus : CustomInventory replaces HealthBonus 
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoArmorBonus : CustomInventory replaces ArmorBonus //This ArmorBonus doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoBerserk: CustomInventory replaces Berserk //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoPistol: CustomInventory replaces Pistol //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoShotgun: CustomInventory replaces Shotgun //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoCS: CustomInventory replaces Chainsaw //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoCG: CustomInventory replaces Chaingun //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoRL: CustomInventory replaces RocketLauncher //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoPG: CustomInventory replaces PlasmaRifle //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoBFG: CustomInventory replaces BFG9000 //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoSSG: CustomInventory replaces SuperShotgun //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoShells: CustomInventory replaces Shell //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoShellBox: CustomInventory replaces ShellBox //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoClips: CustomInventory replaces Clip //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoAmmobox: CustomInventory replaces ClipBox //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoBlur: CustomInventory replaces BlurSphere //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoSoulSphere: CustomInventory replaces Soulsphere //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoMegaSphere: CustomInventory replaces MegaSphere //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoInvuln: CustomInventory replaces InvulnerabilitySphere //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoCell: CustomInventory replaces Cell //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoCellBox: CustomInventory replaces CellPack //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoRocketAmmo: CustomInventory replaces RocketAmmo //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoRB: CustomInventory replaces RocketBox //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoIR: CustomInventory replaces Infrared //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoRadSuit: CustomInventory replaces RadSuit //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoStim: CustomInventory replaces Stimpack //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}
+Actor NoBack: CustomInventory replaces Backpack //This Berserk doesn't exist
+{
+States
+{
+Spawn:
+TNT1 A -1
+}
+}

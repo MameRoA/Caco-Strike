@@ -1,0 +1,100 @@
+ACTOR SIG : CaSWeapon
+{
+ Tag "P228"
+ Weapon.SlotNumber 2
+ Weapon.SelectionOrder 2
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "SIGAmmo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "SIGReserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[P228]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOAUTOFIRE
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+  TNT1 A 0 A_GiveInventory("PowerPistol",1)
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    PSIG A 6 A_WeaponReady(WRF_ALLOWRELOAD)
+    TNT1 A 0 A_TakeInventory("SIGRecoil",2)
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	PSIG A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect: 
+  TNT1 A 0 A_TakeInventory("PowerPistol",1)
+    TNT1 A 0 A_TakeInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Lower
+    PSIG A 1 A_Lower
+    Loop
+  Select:
+  TNT1 A 0 A_GiveInventory("PowerPistol",1)
+    TNT1 A 0 A_GiveInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Raise
+    PSIG A 1 A_Raise
+    Loop
+  Fire:
+  PSIG A 0 A_JumpIfInventory("SIGAmmo",1,1)
+  Goto Reload
+  PSIG A 0 A_PlayWeaponSound("weapons/sigfire")
+  PSIG B 2 bright ACS_NamedExecuteWithResult("SIGFire")
+  PSIG A 0 A_TakeInventory("SIGAmmo",1)
+  PSIG C 2
+  PSIG D 2 A_WeaponReady(WRF_ALLOWRELOAD)
+  PSIG E 2 A_WeaponReady(WRF_ALLOWRELOAD)
+  Goto Ready
+  NoAmmo:
+  PSIG A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("SIGReserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_JumpIfInventory("SIGAmmo", 0, "Ready")
+  G18R A 0 A_PlayWeaponSound("weapons/g18re1") 
+  PSIR ABCDEFGHI 3
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("SIGReserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("SIGAmmo", 13, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("SIGReserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("SIGAmmo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  PSIR A 0 A_PlayWeaponSound("weapons/g18re2") 
+  PSIR JKLM 3
+  PSIR A 0 A_PlayWeaponSound("weapons/sigr3") 
+  PSIR NOPQRS 3
+  PSIG A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor SIGReserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 52
+	Inventory.MaxAmount 52
+	Ammo.BackpackAmount 52
+	Ammo.BackpackMaxAmount 52
+	+IGNORESKILL
+}
+Actor SIGAmmo : Ammo
+{
+	Game Doom
+	Inventory.Amount 13
+	Inventory.MaxAmount 13
+	Ammo.BackpackAmount 13
+	Ammo.BackpackMaxAmount 13
+	+IGNORESKILL
+}
+Actor SIGRecoil : Inventory { Inventory.MaxAmount 2 }

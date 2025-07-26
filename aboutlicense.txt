@@ -1,0 +1,2 @@
+All ACS, DECORATE, and ____INFO/DEF(S) code in this document marked written by MameXLIII is licensed under GPL v2 only. Assets and other works not made by
+the author should not be included in this license. A list of credits can be found in credits.txt

@@ -1,0 +1,8 @@
+server int cs_timer = 2;
+server int cs_buytime = 10;
+server int cs_buytotal = 30;
+server int cs_money = 800;
+server int cs_bombtimer = 40;
+server bool cs_half = false;
+server bool cs_defusal = false;
+server bool cs_hostage = false;

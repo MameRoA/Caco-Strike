@@ -1,0 +1,184 @@
+//This HUD Simulates the Counter-Strike 1.6 HUD Positions...
+
+Mugshot "Normal", Health2
+{
+	ST00 1;
+}
+
+Mugshot "Pain",  Health2, directional  
+{
+	{PN01, PN11, PN21} 1;
+	{PN02, PN12, PN22} 1;
+	{PN03, PN13, PN23} 1;
+	{PN04, PN14, PN24} 1;
+	{PN05, PN15, PN25} 1;
+	{PN06, PN16, PN26} 1;
+	{PN07, PN17, PN27} 1;
+	{PN08, PN18, PN28} 1;
+	{PN09, PN19, PN29} 1;
+	{PN00, PN10, PN20} 1;
+}
+
+height 0;
+
+//This Is The Fullscreen HUD
+statusbar fullscreen, forcescaled
+{
+
+InInventory IsCT, 1
+	{
+//CT Health
+Alpha 0.5
+DrawMugshot 1, disablegrin, disableouch, disablerampage, 0, 0;
+Alpha 0.5
+drawimage "C2SHLT", 0, 166;
+Alpha 0.5
+drawnumber 3, casfont, lightblue, health, alignment(center), 31, 166;
+
+//CT Armor
+InInventory BasicArmor, 1
+{
+Alpha 0.5
+drawimage "C2SARM", 66, 166;
+Alpha 0.5
+drawnumber 3, casfont, lightblue, armor, alignment(center), 97, 166;
+}
+
+//CT Money
+Alpha 0.5
+drawimage "C2SMON", 240, 133;
+Alpha 0.5
+drawnumber 5, casfont, lightblue, Money, 316, 136;
+
+//CT Ammo
+IsSelected Not "CSKnife"
+{	
+Alpha 0.5
+drawnumber 3, casfont, lightblue, ammo1, 268, 166;
+Alpha 0.5
+drawnumber 3, casfont, lightblue, ammo2, 316, 166;
+}
+	}
+Else
+	{
+//T Health
+Alpha 0.5
+DrawMugshot 1, disablegrin, disableouch, disablerampage, 0, 0;
+Alpha 0.5
+drawimage "CASHLT", 0, 166;
+Alpha 0.5
+drawnumber 3, casfont, orange, health, alignment(center), 31, 166;
+
+//T Armor
+InInventory BasicArmor, 1
+{
+Alpha 0.5
+drawimage "CASARM", 66, 166;
+Alpha 0.5
+drawnumber 3, casfont, orange, armor, alignment(center), 97, 166;
+}
+
+//T Money
+Alpha 0.5
+drawimage "CASMON", 240, 133;
+Alpha 0.5
+drawnumber 5, casfont, orange, Money, 316, 136;
+
+//T Ammo
+IsSelected Not "CSKnife"
+{	
+Alpha 0.5
+drawnumber 3, casfont, orange, ammo1, 268, 166;
+Alpha 0.5
+drawnumber 3, casfont, orange, ammo2, 316, 166;
+}
+
+	}
+
+}
+
+//This Is The Normal HUD (note that it is the same as fullscreen)	
+statusbar normal, forcescaled
+{
+
+InInventory IsCT, 1
+	{
+//CT Health
+Alpha 0.5
+DrawMugshot 1, disablegrin, disableouch, disablerampage, 0, 0;
+Alpha 0.5
+drawimage "C2SHLT", 0, 166;
+Alpha 0.5
+drawnumber 3, casfont, lightblue, health, alignment(center), 31, 166;
+
+//CT Armor
+InInventory BasicArmor, 1
+{
+Alpha 0.5
+drawimage "C2SARM", 66, 166;
+Alpha 0.5
+drawnumber 3, casfont, lightblue, armor, alignment(center), 97, 166;
+}
+
+//CT Money
+Alpha 0.5
+drawimage "C2SMON", 200, 136;
+Alpha 0.5
+drawnumber 5, casfont, lightblue, Money, 316, 136;
+
+//CT Ammo
+IsSelected Not "CSKnife"
+{	
+Alpha 0.5
+drawnumber 3, casfont, lightblue, ammo1, 268, 166;
+Alpha 0.5
+drawnumber 3, casfont, lightblue, ammo2, 316, 166;
+}
+}
+
+	}
+Else	
+	{
+//T Health
+Alpha 0.5
+DrawMugshot 1, disablegrin, disableouch, disablerampage, 0, 0;
+Alpha 0.5
+drawimage "CASHLT", 0, 166;
+Alpha 0.5
+drawnumber 3, casfont, orange, health, alignment(center), 31, 166;
+
+//T Armor
+InInventory BasicArmor, 1
+{
+Alpha 0.5
+drawimage "CASARM", 66, 166;
+Alpha 0.5
+drawnumber 3, casfont, orange, armor, alignment(center), 97, 166;
+}
+
+//T Money
+Alpha 0.5
+drawimage "CASMON", 200, 136;
+Alpha 0.5
+drawnumber 5, casfont, orange, Money, 316, 136;
+
+//T Ammo
+IsSelected Not "CSKnife"
+{	
+Alpha 0.5
+drawnumber 3, casfont, orange, ammo1, 268, 166;
+Alpha 0.5
+drawnumber 3, casfont, orange, ammo2, 316, 166;
+}
+}
+
+	}	
+	
+}
+
+//Statusbar FullScreen, FullScreenOffsets, Forcescaled
+//{
+
+//DrawMugshot 1,  disablegrin, disableouch, disablerampage, 60, 30;
+
+//}

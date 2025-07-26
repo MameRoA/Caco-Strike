@@ -1,0 +1,11 @@
+pointlight BombLight
+{
+    color 1.0 0.0 0.0
+    size 8
+    offset 0 0 0
+}
+object BombPlanted
+{
+    frame WBOMB0 
+	{ light BombLight }
+}

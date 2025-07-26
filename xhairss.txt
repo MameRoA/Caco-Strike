@@ -1,0 +1,8 @@
+1 "Caco Strike Xhair 1"
+2 "Caco Strike Xhair 2"
+3 "Caco Strike Xhair 3"
+4 "Caco Strike Xhair 4"
+5 "Caco Strike Xhair 5"
+6 "Caco Strike Xhair 7"
+7 "Caco Strike Xhair 8"
+//unused

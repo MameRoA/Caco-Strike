@@ -1,0 +1,13 @@
+{
+name = "Default"
+
+ctwin = announcer/ctwin
+twin = announcer/twin
+draw = announcer/draw
+bombplanted = announcer/bomplant
+bombdefused = announcer/bomdef
+go = announcer/go
+hostagecomp = announcer/hostagec
+hostagerescued = announcer/hostagerescued
+hostagedown = announcer/hostagedown
+}

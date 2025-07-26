@@ -1,0 +1,533 @@
+#library "hostage"
+#import "zcommon.bcs"
+//Almost all code here is made by MameXLIII, or a contributor for the project. All code here is under license
+#define MAXPLAYERS 64
+#define TID_PLAYER 4300
+#define INV_WEAPONS	30
+int tidHostage = 4365;
+int bombTid;
+int roundTimer; 
+int buyTime; 
+int hostageRescue;
+global int 7:csPlayers[MAXPLAYERS];
+int gameStart;
+int roundOver;
+global int 3:hasDied[]; 
+global int 5:players[];
+global int 4:deadMoney[];
+str weapons[INV_WEAPONS] = {"NightHawk50c","CV47","M4A1","SMG","C90","Armor","CSSmokeGrenade","CSFlashbang","CSGrenade","CSMoltov","CSGasGrenade",
+"KM45","Sidearm","MagnumSniper","HasPrimary","HasSecondary","Dualies","Uzi","MP9","AN94","MG40","CSShotgun","SSG","Scout","R8Revolver","CSChaingun",
+"CSRocketLauncher","Tec9","AMP","FullDefuseKit"};
+global str 1:weaponsGive[MAXPLAYERS][INV_WEAPONS];
+global str 6:armorC[MAXPLAYERS];
+global int 2:moneyD[];
+
+
+script "HostageDisconnect" (int pnum) DISCONNECT
+{	
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+    Thing_ChangeTID(TID_PLAYER+pnum, 0);
+    csPlayers[pnum] = 0;
+	players[pnum] = 0;
+	deadMoney[pnum] = 0;
+	hasDied[pnum] = 0;
+if (PlayerCount() < 2 )
+{
+ACS_NamedExecute("HosRoundDraw",0);
+}
+}
+script "HostageConnect" ENTER
+{
+if ( GetCvar("cs_hostage") == 0 ) { terminate; }
+if (csPlayers[PlayerNumber()] == 0)
+{
+//GiveInventory("Money",GetCVAR("cs_money"));
+}
+delay(3);
+csPlayers[PlayerNumber()] = 1;
+}
+Script "HostageInit" OPEN
+{
+if ( GetCvar("cs_hostage") == 0 )
+{
+terminate;
+}
+	roundTimer = GetCVAR("cs_timer");
+	buyTime = GetCVar("cs_buytime");
+	ACS_NamedExecute("HostageLoop",0);
+	ACS_NamedExecute("Hostage_CheckDeath",0);
+  for (int d = 0; d < MAXPLAYERS; d++)
+  {
+	if (PlayerInGame(d) == 1 && PlayerIsSpectator(d) == 0 )
+	{
+	csPlayers[d] == 1;
+	}
+	SetDeadSpectator(d,false);  
+  }
+}
+Script "HostageENTERDuringGame" ENTER
+{
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+if (PlayerCount() > 2)
+{	
+	SetDeadSpectator(PlayerNumber(),true);
+}
+if (buyTime > 0)
+{
+	SetDeadSpectator(PlayerNumber(),false);
+	delay(1);
+	Thing_Stop(0);
+	GiveInventory("CantFire",1);
+	}
+if (PlayerCount() < 3 && csPlayers[PlayerNumber()] == 0 )
+{
+ACS_NamedExecute("HosRoundDraw",0);
+}
+}
+Script "HostageStart" (VOID)
+{
+  	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+  for (int s = 0; s < MAXPLAYERS; s++)
+  {
+	Thing_Stop(TID_PLAYER + s);
+	GiveActorInventory(TID_PLAYER + s,"CantFire",1);
+  }
+	while(buyTime > 0)
+   {
+	SetPlayerProperty(1,1,PROP_FROZEN);
+		buytime--;
+		Delay(35);
+	}
+AnnouncerSound("go",0);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+    deadMoney[t] = 0;
+	hasDied[t] = 0;
+	TakeActorInventory(TID_PLAYER + t,"CantFire",1);
+  }
+	SetPlayerProperty(1,0,PROP_FROZEN);
+	ACS_NamedExecute("HostageRoundTimer",0);
+	gameStart = 1;
+}
+script "HostageGiveWeaponsBackAfterRestart" ENTER
+{
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+Delay(3);
+//if ( players[PlayerNumber()] == 1)
+//{
+//TakeInventory("Money",GetCVAR("cs_money"));
+//}
+  if ( armorC[PlayerNumber()] > 0 )
+  {
+  GiveInventory( "CSArmorBonus",armorC[PlayerNumber()] );
+  }
+   Delay(1);
+  for (int item = 0; item < INV_WEAPONS; item++)
+  {
+  GiveInventory(weaponsGive[PlayerNumber()][item],1);
+  }
+  if ( (CheckInventory("NightHawk50c") == 1 ) ||  (CheckInventory("Dualies") == 1 ) || CheckInventory("R8Revolver") == 1 || CheckInventory("AMP") == 1 || CheckInventory("Tec9") == 1 || CheckInventory("P228") == 1)
+  {
+  if (PlayerTeam() == 0 )
+  {
+	TakeInventory("KM45",1);
+  }
+  else if (PlayerTeam() == 1 )
+  {
+	TakeInventory("Sidearm",1); 
+	}
+  }
+  GiveInventory("Money", moneyD[playernumber()]);
+  Delay(66);
+  for (int i = 0; i < INV_WEAPONS; i++)
+  {
+   weaponsGive[PlayerNumber()][i] = "";
+  }
+
+}
+int hostageFollow[64];
+
+script "HostageTaken" (VOID)
+{
+hostageFollow[PlayerNumber()] = TID_PLAYER + PlayerNumber();
+AnnouncerSound("hostagecomp",false);
+}
+script "Hostage_SetGoal" (VOID)
+{
+int teeid = tidHostage++;
+Thing_ChangeTID(0,teeid);
+delay(1);
+SetActivator(0,AAPTR_TARGET);
+delay(1);
+SetActivator(teeid);
+Thing_SetGoal(teeid,ActivatorTID(),1,1);
+}
+script "HostageDown" DEATH
+{
+if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+	if ( CheckInventory("HostageTaken") == 1 )
+	{
+		AnnouncerSound("hostagedown",false);
+	}
+}
+/*
+script "DefusalGiveBomb" (void) {
+  int bombValidPlayers = random(1, GetTeamProperty(1, TPROP_NumLivePlayers));
+  for(int i = 0; i < 64; i++) {
+    if(!PlayerInGame(i))
+      continue;
+
+    if(GetPlayerInfo(i, PLAYERINFO_TEAM) == 1) {
+      bombValidPlayers--;
+      if(bombValidPlayers <= 0) {
+        GiveActorInventory(TID_PLAYER+bombValidPlayers,"TerroristBomb",1);
+        break;
+      }
+    }
+  }
+}
+function int distance(int tid1, int tid2)
+{
+    int len;
+    int y = getactory(tid1) - getactory(tid2);
+    int x = getactorx(tid1) - getactorx(tid2);
+    int z = getactorz(tid1) - getactorz(tid2);
+
+    int ang = vectorangle(x,y);
+    if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(y, sin(ang));
+    else len = fixeddiv(x, cos(ang));
+
+    ang = vectorangle(len, z);
+    if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(z, sin(ang));
+    else len = fixeddiv(len, cos(ang));
+
+    return len>>16;
+}
+*/
+/*
+Script "DefusalGive" (VOID)
+{
+while(bombPlanted == 1);
+	for (int i=0; i<MAXPLAYERS; i++)
+	{
+		int ply = -4300 + i;
+			if ( distance(ply,bombTid) < 64 )
+			{
+			GiveActorInventory(i,"CanDefuse",1);
+			}
+	}
+}
+*/
+/*
+Script "DefusalAttempt" (VOID)
+int defAtt = 5;
+	while (1)
+	{
+	int pressedBtns = GetPlayerInput(-1, INPUT_BUTTONS) & ~GetPlayerInput(-1, INPUT_OLDBUTTONS);
+	int releasedBtns = GetPlayerInput(-1, INPUT_OLDBUTTONS) & ~GetPlayerInput(-1, INPUT_BUTTONS);
+	while ( bombPlanted == 1 )
+	{
+			if ( distance(TID_PLAYER+PlayerNumber(),bombTid) < 64 && PlayerTeam() == 0 ) //&& CheckActorInventory(ply,"CanDefuseB") ) 
+			{
+				GiveInventory("CantFire",1);
+				HudMessage(i:defAtt;HUDMSG_PLAIN, 4, CR_ORANGE, 0.5, 0.5, 0.88);
+				Delay(35);
+				defAtt--;
+				if (defAtt < 1)
+				{
+			    ACS_NamedExecute("DefusalBombDefused",0);
+				break;
+				}
+				}
+	TakeInventory("CantFire",1);
+	defAtt = 5;
+			}
+	}
+	delay(1);
+	}
+*/
+int time;
+script "HostageRoundTimer" (VOID)
+{
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+	int t = GetCVAR("cs_timer")*60;
+
+	while(t > 0)//roundTimer*60)
+	{
+        int minutes = t / 60;
+        int seconds = t % 60;
+        int leading_zero = seconds < 10 ? "0" : "";
+		SetHudSize(320, 200, 0);
+		SetFont("CASFONT");
+		HudMessageBold(i:minutes, s:":", s:leading_zero, i:seconds;
+		HUDMSG_ALPHA, 1, CR_ORANGE, 160.0, 177.0, 2.0, 0.5);
+		t--;
+		Delay(35);
+	}
+	ACS_NamedExecute("CounterTerroristsWin",0);
+	Delay(1);
+	terminate;
+}
+script "HostageBuyTimer" OPEN
+{
+if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+int t = GetCVAR("cs_buytotal");
+
+	while (1)
+	{
+	//printbold(d:t);
+	Delay(35);
+	t--;
+		if (t <= 0 )
+		{
+			for (int b = 0; b < MAXPLAYERS; b++)
+			{
+			GiveActorInventory(TID_PLAYER + b,"NoBuy",1);
+			}
+		break;
+		}
+		
+	}
+	
+}
+//#DEFINE BOMBTIME 40
+
+Script "HostageLoop" (VOID)
+{
+if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+ACS_NamedExecute("HostageStart",0);
+}
+Script "HostageRespawn" RESPAWN
+{
+if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+Delay(2);
+//if(PlayerTeam() == 0) 
+//{
+//GiveInventory("KM45",1);
+//}
+//else if ( PlayerTeam() == 1 )
+//{
+//GiveInventory("Sidearm",1);
+//}
+GiveInventory("Money",deadMoney[PlayerNumber()]);
+}
+Script "Hostage_Death" DEATH
+{
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+deadMoney[PlayerNumber()] = CheckInventory("Money");
+delay(1);
+hasDied[PlayerNumber()] = 1;
+delay(1);
+SetDeadSpectator(PlayerNumber(),true);
+}
+
+#libdefine TEAM_CT    TEAM_BLUE
+#libdefine TEAM_TR    TEAM_RED
+
+int winSeq;
+ 
+Script "Hostage_CheckDeath" (VOID)
+{
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+    while(1)//PlayerCount() > 1) 
+    {
+     if ( (GetTeamProperty(TEAM_TR, TPROP_NumLivePlayers) < 1) ) { delay(10); ACS_NamedExecuteAlways("HosCounterTerroristsWin",0); }
+     else if ( (GetTeamProperty(TEAM_CT, TPROP_NumLivePlayers) < 1) ) { delay(10); ACS_NamedExecuteAlways("HosTerroristsWin",0); }
+     //else if ( (GetTeamProperty(TEAM_CT, TPROP_NumLivePlayers) < 1) && (GetTeamProperty(TEAM_TR, TPROP_NumLivePlayers) < 1)) { delay(10); ACS_NamedExecuteAlways("HosRoundDraw",0); }
+        delay(1);
+    }
+}
+Script "HosRoundDraw" (VOID)
+{
+	if ( GetCVAR("cs_hostage") == 0  || roundOver != 0 ) { terminate; }
+AnnouncerSound("draw",false);
+//winSeq = 1;
+HudMessageBold(s:"Round Draw!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+roundOver = 1;
+Delay(105);
+ResetMap();
+}
+Script "HosTerroristsWin" (VOID)
+{
+if ( GetCVAR("cs_hostage") == 0 || roundOver != 0  ) { terminate; }
+AnnouncerSound("twin",false);
+HudMessageBold(s:"Terrorists Win!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+Team_GivePoints(1,1,0);
+winSeq = 1;
+Delay(10);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",3250);
+	deadMoney[t] = deadMoney[t] + 3250;
+	}
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",1900);
+	deadMoney[t] = deadMoney[t] + 1900;
+	}
+}
+Delay(70);
+roundOver = 1;
+Delay(35);
+ResetMap();
+}
+Script "HosCounterTerroristsWin" (VOID)
+{
+if ( GetCVAR("cs_hostage") == 0 || roundOver != 0  ) { terminate; }
+AnnouncerSound("ctwin",false);
+HudMessageBold(s:"Counter-Terrorists Win!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+Team_GivePoints(0,1,0);
+winSeq = 1;
+Delay(10);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",3250);
+	}
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",1900);
+	}
+}
+Delay(70);
+roundOver = 1;
+Delay(35);
+ResetMap();
+}
+Script "HostageWin" (VOID)
+{
+if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+SetResultValue(1);
+AnnouncerSound("hostagerescued",false);
+Delay(35);
+AnnouncerSound("ctwin",false);
+HudMessageBold(s:"Counter-Terrorists Win!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+Team_GivePoints(0,1,0);
+Delay(10);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",3250);
+	}
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",1900);
+	}
+}
+Delay(70);
+roundOver = 1;
+Delay(35);
+ResetMap();
+}
+script "HosCheckWeapons" ENTER
+{
+	if ( GetCVAR("cs_hostage") == 0  ) { terminate; }
+while(1)
+{
+Delay(1);
+if (roundOver == 1)
+{
+players[PlayerNumber()] = 1;
+moneyD[playerNumber()] = CheckInventory("Money");
+armorC[playernumber()] = CheckInventory("Armor");
+  for (int a = 0; a< INV_WEAPONS; a++)
+  {
+  if (CheckInventory(weapons[a]) == 1)
+  {
+  weaponsGive[playernumber()][a] = weapons[a];
+  }
+ }
+ break;
+}
+}
+}
+/*
+script "HostageFree2" (VOID)
+{
+//SetResultValue(true);
+int playerTID;
+int hostageTID;
+int countPlayers = 64;
+  for (int a = 0; a< countPlayers; a++)
+  {
+  if ( CheckActorInventory(-4300+a,"HostageTaken") == 1 && CheckActorInventory(-4300+a,"NoCheck") != 1 )
+		{
+		playerTID = -4300+a;
+		hostageTID = 43+a;
+		GiveActorInventory(playerTID,"NoCheck",1);
+		SpawnForced("FreeHostage",GetActorX(playerTID+32),GetActorY(playerTID),GetActorZ(playerTID),hostageTID);
+		break;
+		}	
+	}
+	While(1)
+	{
+	if(GetActorProperty(playerTID,APROP_HEALTH <1) )
+	{
+	SpawnForced("Hostage",GetActorX(hostageTID),GetActorY(hostageTID),GetActorZ(hostageTID));
+	Thing_Remove(hostageTID);
+	terminate;
+	}
+	delay(1);
+	}
+}
+*/
+script "HostageFree"
+{
+int hostageTID = 43+random(1,10);
+SpawnForced("FreeHostage",GetActorX(0),GetActorY(0),GetActorZ(0),hostageTID);
+}
+//script "HostageCarryDeath" DEATH
+//{
+ // if ( CheckInventory("HostageTaken") == 1 )
+  //{
+//	TakeInventory("HostageTaken",1);
+//	SpawnForced("Hostage",GetActorX(0),GetActorY(0),GetActorZ(0));
+ // }
+//}
+
+script "CheckWeaponsRS" RESPAWN
+{
+ACS_NamedExecuteAlways("CheckWeapons",0);
+}
+/*
+script "PrintWeapons" ENTER
+{
+printbold(s:weaponsGive1[PlayerNumber()][1]);
+}
+  script "DefusalAtt" ENTER
+  {
+  int defAtt = 8;
+   if ( CheckInventory("CanDefuseB") == 1 &&  PlayerTeam() == 0 )//&& GetPlayerInput(-1 INPUT_BUTTONS) & BT_USE ) )
+   {
+   while ( CheckInventory("CanDefuseB") == 1 )
+   {
+   GiveInventory("CantFire",1);
+   HudMessage(i:defAtt;HUDMSG_PLAIN, 4, CR_ORANGE, 0.5, 0.5, 0.88);
+   Delay(35);
+   defAtt--;
+   if (defAtt < 1)
+   {
+   ACS_NamedExecute("DefusalBombDefused",0);
+   terminate;
+	}
+  }
+}
+   else
+   {
+   TakeInventory("CanDefuseB",1);
+   TakeInventory("CantFire",1);
+   defAtt = 8;
+   }
+   delay(2);
+   restart;
+  }
+    script "DefusalAttRS" RESPAWN
+  {
+  
+  ACS_NamedExecuteAlways("DefusalAtt",0);
+  }
+ */

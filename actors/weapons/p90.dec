@@ -1,0 +1,103 @@
+ACTOR C90 : CaSWeapon
+{
+ Tag "P90"
+ Weapon.SlotNumber 1
+ Weapon.SelectionOrder 1
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "P90Ammo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "P90Reserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[P90]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+    TNT1 A 0 A_GiveInventory("PowerSMG",1)
+    TNT1 A 0 A_TakeInventory("P90Recoil",30)
+    P90G A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	P90G A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+    TNT1 A 0 A_TakeInventory("PowerSMG",1)
+    TNT1 A 0 A_TakeInventory("HoldingPrimary",1)
+    TNT1 AA 0 A_Lower
+    P90G A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("PowerSMG",1)
+    TNT1 A 0 A_GiveInventory("HoldingPrimary",1)
+    TNT1 AA 0 A_Raise
+    P90G A 1 A_Raise
+    Loop
+  Fire:
+  P90G A 0 A_JumpIfInventory("P90Ammo",1,1)
+  Goto Reload
+  P90G A 0 A_PlayWeaponSound("weapons/p90fire")
+ //   TNT1 A 0 A_SetPitch(pitch+frandom(-0.43,-0.66))
+ // TNT1 A 0 A_SetAngle(angle+frandom(-0.55,0.55))
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  P90G B 1 bright ACS_NamedExecuteWithResult("P90Fire")
+  TNT1 A 0 ACS_NamedExecuteWithResult("P90Recoil")
+    TNT1 A 0 A_TakeInventory("P90Ammo",1)
+  //TNT1 A 0 A_GiveInventory("P90Recoil",1)
+  P90G C 2
+  P90G A 1 A_Refire
+  P90G AAAA 1 A_WeaponReady(WRF_ALLOWRELOAD)
+  Goto Ready
+  NoAmmo:
+  P90G A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("P90Reserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_JumpIfInventory("P90Ammo", 0, "Ready")
+  P90R A 0 A_PlaySound("weapons/p90re1") 
+  P90R AB 6
+  P90R CDE 6
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("P90Reserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("P90Ammo", 50, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("P90Reserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("P90Ammo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  P90R A 0 A_PlayWeaponSound("weapons/p90re2") 
+  P90R EDCBG 6
+  TNT1 A 0 A_TakeInventory("P90Recoil",50)
+  P90G A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor P90Reserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 120
+	Inventory.MaxAmount 120
+	Ammo.BackpackAmount 120
+	Ammo.BackpackMaxAmount 120
+	+IGNORESKILL
+}
+Actor P90Ammo : Ammo
+{
+	Game Doom
+	Inventory.Amount 50
+	Inventory.MaxAmount 50
+	Ammo.BackpackAmount 50
+	Ammo.BackpackMaxAmount 50
+	+IGNORESKILL
+}
+Actor P90Recoil : Inventory { Inventory.MaxAmount 50 }

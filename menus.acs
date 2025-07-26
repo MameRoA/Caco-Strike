@@ -1,0 +1,392 @@
+#library "menus"
+#import "zcommon.bcs"
+//Almost all code here is made by MameXLIII, or a contributor for the project. All code here is under license
+#DEFINE DROP_SPEED 16
+function void BuyDropPrimary (str weaponTo)
+{
+    int TID = UniqueTID();
+    int angle = GetActorAngle(0);
+    int pitch = GetActorPitch(0);
+    
+    str droppedName = StrParam(s:weaponTo, s:"Drop");
+	
+	TakeInventory("HasPrimary",1);
+	TakeInventory("PowerRifle",1);
+	TakeInventory("PowerLMG",1);
+	TakeInventory("PowerSMG",1);
+	TakeInventory(weaponTo, 0x7FFFFFFF);  
+    SpawnForced(droppedName, GetActorX(0), GetActorY(0), GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT) / 2), TID);
+    SetActorVelocity(TID, cos(angle) * DROP_SPEED, sin(angle) * DROP_SPEED, -sin(pitch) * DROP_SPEED, FALSE, FALSE);
+}
+function void DropAllSecondaries (void)
+{
+str secs[6] = {"NightHawk50c","KM45","Sidearm","Dualies","Tec9","AMP"};
+ for (int w = 0; w < 6; w++)
+  {
+	if (CheckInventory(secs[w]) == 1)
+	{
+	BuyDropSecondary(secs[w]);
+	}
+  }
+}
+
+function void DropAllPrimaries (void)
+{
+str prims[13] = {"CV47","M4A1","SMG","C90","MagnumSniper","Uzi","MP9","AN94","MG40","CSShotgun","SSG",
+"Scout","CSChaingun",};
+ for (int w = 0; w < 13; w++)
+  {
+	if (CheckInventory(prims[w]) == 1)
+	{
+	BuyDropPrimary(prims[w]);
+	}
+  }
+}
+function void BuyDropSecondary (str weaponTo)
+{
+    int TID = UniqueTID();
+    int angle = GetActorAngle(0);
+    int pitch = GetActorPitch(0);
+    
+    str droppedName = StrParam(s:weaponTo, s:"Drop");
+	
+	TakeInventory("HasSecondary",1);
+	TakeInventory("PowerPistol",1);
+	TakeInventory("PowerSMG",1);
+	TakeInventory(weaponTo, 0x7FFFFFFF);  
+    SpawnForced(droppedName, GetActorX(0), GetActorY(0), GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT) / 2), TID);
+    SetActorVelocity(TID, cos(angle) * DROP_SPEED, sin(angle) * DROP_SPEED, -sin(pitch) * DROP_SPEED, FALSE, FALSE);
+}
+
+Script "OpenBuyMenu" (VOID) NET CLIENTSIDE
+{
+if ( PlayerTeam() == 0 )
+{
+//ConsoleCommand("openmenu CSCTBuyMenu");
+OpenMenu("CSCTBuyMenu");
+}
+else if (PlayerTeam() == 1)
+{
+//ConsoleCommand("openmenu CSTBuyMenu");
+OpenMenu("CSTBuyMenu");
+}
+else
+{
+//ConsoleCommand("openmenu CSBuyTeams");
+OpenMenu("CSBuyTeams");
+}
+}
+Script "BuyUSP" (void) NET
+{
+   if ( CheckInventory("Money") >= 200 && PlayerTeam() == 0 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+  if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",200);
+  GiveInventory("KM45",1);
+  GiveInventory("USPAmmo",12); 
+  GiveInventory("USPReserve",100);
+  }
+}
+Script "BuyDefuse" (void) NET
+{
+   if ( CheckInventory("Money") >= 200 && PlayerTeam() == 0 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1 && CheckInventory("FullDefuse") != 1)
+  {
+  TakeInventory("Money",200);
+  TakeInventory("DefuseKit",200);
+  GiveInventory("FullDefuseKit",1);
+  }
+}
+  Script "BuyGlock" (void) NET
+{
+   if ( CheckInventory("Money") >= 200 && PlayerTeam() == 1 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+  if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",200);
+  GiveInventory("Sidearm",1);
+  GiveInventory("GlockAmmo",20); 
+  GiveInventory("GlockReserve",120);
+  }
+}
+  Script "BuySIG" (void) NET
+{
+   if ( CheckInventory("Money") >= 300 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+  if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",300);
+  GiveInventory("SIG",1);
+  GiveInventory("SIGAmmo",20); 
+  GiveInventory("SIGReserve",120);
+  }
+}
+    Script "BuyDeagle" (void) NET
+{
+   if ( CheckInventory("Money") >= 750 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1 )
+  {
+  if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",750);
+  GiveInventory("NightHawk50c",1);
+  GiveInventory("NightHawkAmmo",7); 
+  GiveInventory("NightHawkReserve",35);
+  }
+}
+    Script "BuyR8" (void) NET
+{
+   if ( CheckInventory("Money") >= 750 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+  if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",750);
+  GiveInventory("R8Revolver",1);
+  }
+}
+      Script "BuyAK" (void) NET
+{
+   if ( CheckInventory("Money") >= 2700 && PlayerTeam() == 1  && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1 )
+  {
+  if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",2700);
+  GiveInventory("CV47",1);
+  GiveInventory("CVAmmo",30); 
+  GiveInventory("CVReserve",90);
+  }
+}
+      Script "BuyAWP" (void) NET
+{
+   if ( CheckInventory("Money") >= 4750  && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1 )
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",4750);
+  GiveInventory("MagnumSniper",1);
+  GiveInventory("AWPAmmo",5); 
+  GiveInventory("AWPReserve",20);
+  }
+}
+     Script "BuyM4" (void) NET
+{
+   if ( CheckInventory("Money") >= 3100 && PlayerTeam() == 0 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",3100);
+  GiveInventory("M4A1",1);
+  GiveInventory("M4Ammo",30); 
+  GiveInventory("M4Reserve",90);
+  }
+}
+     Script "BuyMP5" (void) NET
+{
+   if ( CheckInventory("Money") >= 1500 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",1500);
+  GiveInventory("SMG",1);
+  GiveInventory("MP5Ammo",30); 
+  GiveInventory("MP5Reserve",90);
+  }
+}
+     Script "BuyP90" (void) NET
+{
+   if ( CheckInventory("Money") >= 2350 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",2350);
+  GiveInventory("C90",1);
+  GiveInventory("P90Ammo",30); 
+  GiveInventory("P90Reserve",90);
+  }
+}
+     Script "BuySG" (void) NET
+{
+   if ( CheckInventory("Money") >= 1100 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",1100);
+  GiveInventory("CSShotgun",1);
+  }
+}
+     Script "BuySSG" (void) NET
+{
+   if ( CheckInventory("Money") >= 1900 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",1900);
+  GiveInventory("SSG",1);
+  }
+}
+     Script "BuyMG40" (void) NET
+{
+   if ( CheckInventory("Money") >= 5200 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",5200);
+  GiveInventory("MG40",1);
+  }
+}
+     Script "BuyCG" (void) NET
+{
+   if ( CheckInventory("Money") >= 1900 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",1900);
+  GiveInventory("CSChaingun",1);
+  }
+}
+     Script "BuyAN94" (void) NET
+{
+   if ( CheckInventory("Money") >= 2550 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",2550);
+  GiveInventory("AN94",1);
+  }
+}
+     Script "BuyUzi" (void) NET
+{
+   if ( CheckInventory("Money") >= 1050 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",1050);
+  GiveInventory("Uzi",1);
+  }
+}
+     Script "BuyMP9" (void) NET
+{
+   if ( CheckInventory("Money") >= 1150 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",1150);
+  GiveInventory("MP9",1);
+  }
+}
+     Script "BuyScout" (void) NET
+{
+   if ( CheckInventory("Money") >= 2750 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+    if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
+  Delay(1);
+  GiveInventory("HasPrimary",1);
+  TakeInventory("Money",2750);
+  GiveInventory("Scout",1);
+  }
+}
+     Script "BuyDualies" (void) NET
+{
+   if ( CheckInventory("Money") >= 300 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+  {
+  if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",300);
+  GiveInventory("Dualies",1);
+  }
+}
+       Script "BuyArmor" (void) NET
+{
+   if ( CheckInventory("Money") >= 700 && CheckInventory("Buy") == 1 && CheckInventory("CSArmor") != 1 && CheckInventory("NoBuy") != 1)
+  {
+  TakeInventory("Money",700);
+  GiveInventory("CSArmor",1);
+  }
+}
+       Script "BuyGrenade" (void) NET
+{
+   if ( CheckInventory("Money") >= 300 && CheckInventory("Buy") == 1 && CheckInventory("CSGrenade") != 1 && CheckInventory("NoBuy") != 1)
+  {
+  TakeInventory("Money",300);
+  GiveInventory("CSGrenade",1);
+  }
+}
+  Script "BuySmokeGrenade" (void) NET
+{
+   if ( CheckInventory("Money") >= 400 && CheckInventory("Buy") == 1 && CheckInventory("CSSmokeGrenade") != 1 && CheckInventory("NoBuy") != 1 )
+  {
+  TakeInventory("Money",400);
+  GiveInventory("CSSmokeGrenade",1);
+  }
+}
+  Script "BuyFlashbang" (void) NET
+{
+   if ( CheckInventory("Money") >= 200 && CheckInventory("Buy") == 1 && CheckInventory("CSFlashbang") != 1 && CheckInventory("NoBuy") != 1)
+  {
+  TakeInventory("Money",200);
+  GiveInventory("CSFlashbang",1);
+  }
+}
+  Script "BuyGasGrenade" (void) NET
+{
+   if ( CheckInventory("Money") >= 350 && CheckInventory("Buy") == 1 && CheckInventory("CSGasGrenade") != 1 && CheckInventory("NoBuy") != 1)
+  {
+  TakeInventory("Money",500);
+  GiveInventory("CSGasGrenade",1);
+  }
+}
+  Script "BuyMolotov" (void) NET
+{
+   if ( CheckInventory("Money") >= 300 && CheckInventory("Buy") == 1 && CheckInventory("CSMolotov") != 1 && CheckInventory("NoBuy") != 1 )
+  {
+  TakeInventory("Money",300);
+  GiveInventory("CSMolotov",1);
+  }
+}
+  Script "BuyRL" (void) NET
+{
+   if ( CheckInventory("Money") >= 2000 && CheckInventory("Buy") == 1 && CheckInventory("CSRocketLauncher") != 1 && CheckInventory("NoBuy") != 1 )
+  {
+  TakeInventory("Money",2000);
+  GiveInventory("CSRocketLauncher",1);
+  }
+}
+     Script "BuyT9" (void) NET
+{
+   if ( CheckInventory("Money") >= 600 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1 )
+  {
+    if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",600);
+  GiveInventory("Tec9",1);
+  }
+}
+     Script "BuyAMP" (void) NET
+{
+   if ( CheckInventory("Money") >= 650 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1 )
+  {
+    if ( CheckInventory("HasSecondary") == 1 ) { DropAllSecondaries(); }
+  Delay(1);
+  GiveInventory("HasSecondary",1);
+  TakeInventory("Money",650);
+  GiveInventory("AMP",1);
+  }
+}

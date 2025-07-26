@@ -1,0 +1,319 @@
+actor IsCT : Inventory { Inventory.MaxAmount 1 }
+actor IsDead : Inventory { Inventory.MaxAmount 1 }
+actor Crouch : Inventory { Inventory.MaxAmount 1 }
+actor CST : DoomPlayer 
+{
+	Player.ViewHeight 43
+	MaxStepHeight 22
+    LimitedToTeam 1
+	//-NOSKIN
+	+NOTELESTOMP
+	+USEDAMAGEEVENTSCRIPT
+	var int user_headRadius;
+	var int user_headMaxHeight;
+	var int user_headMinHeight;
+	var int user_legRadius;
+	var int user_legMaxHeight;
+	var int user_legMinHeight;
+	Player.DisplayName "Terrorist"
+	GibHealth -2147483647
+	DamageFactor SmokeG, 0
+	DamageFactor Wallbang, 1
+	Speed 0.5
+	Health 100
+	Player.StartItem "Sidearm"
+	Player.StartItem "HasSecondary"
+	Player.StartItem "GlockAmmo" 20
+	Player.StartItem "GlockReserve" 120
+	Player.StartItem "CSKnife"
+	Player.StartItem "Backpack"
+	Player.StartItem "MoneyGive"
+	Player.MaxHealth 100
+	Player.SoundClass "cas"
+  States
+  {
+  Spawn:
+	PXCN A 0 NoDelay A_SetUserVar("user_headRadius", 10.0)
+	PXCN A 0 A_SetUserVar("user_headMinHeight", 45.0)
+	PXCN A 0 A_SetUserVar("user_headMaxHeight", height)
+	PXCN A 0 A_SetUserVar("user_legRadius", radius)
+	PXCN A 0 A_SetUserVar("user_legMinHeight", 0)
+	PXCN A 0 A_SetUserVar("user_legMaxHeight", 22.0)
+	PXCN A 0 A_TakeInventory("BombAttempt",1)
+	PXCN A 0 A_TakeInventory("Buy",1)
+	PXCN A 1
+    Goto Spawn+1
+	See:
+	PXCN ABCD 4
+    Loop
+	Missile:
+    PXCN F 0 A_GiveInventory("IsFiring",1)
+  	PXCN E 12
+	PXCN F 0 A_TakeInventory("IsFiring",1)
+    Goto Spawn
+	Melee:
+	PXCN F 6
+    Goto Missile
+  Pain:
+    PXCN G 4 //A_JumpIfInventory("HeadHit",1,"HeadPain")
+    PXCN G 4 A_Pain
+    Goto Spawn
+	Pain.Falling:
+	PXCN G 4 A_PlaySound("misc/grunt",CHAN_VOICE)
+	Goto Spawn
+	Death:
+	PXCN H 0 A_GiveInventory("IsDead",1)
+    PXCN H 0 A_PlayerSkinCheck("AltSkinDeath")
+	Death1:
+    PXCN H 10
+    PXCN I 10 A_PlayerScream
+    PXCN J 10 A_NoBlocking
+    PXCN KLM 10
+    PXCN N -1
+    Stop
+	XDeath:
+	PXCN H 0 A_GiveInventory("IsDead",1)
+    PXCN O 0 A_PlayerSkinCheck("AltSkinXDeath")
+	XDeath1:
+    PXCN O 5
+    PXCN P 5 A_XScream
+    PXCN Q 5 A_NoBlocking
+    PXCN RSTUV 5
+    PXCN W -1
+    Stop
+	AltSkinDeath:
+    PXCN H 6 
+    PXCN I 6 A_PlayerScream
+    PXCN JK 6
+    PXCN L 6 A_NoBlocking
+    PXCN MNO 6
+    PXCN P -1
+    Stop
+	AltSkinXDeath:
+    PXCN Q 5 A_PlayerScream
+    PXCN R 0 A_NoBlocking
+    PXCN R 5 A_SkullPop
+    PXCN STUVWX 5
+    PXCN Y -1
+    Stop
+  }
+}
+actor CSCT : DoomPlayer 
+{
+	Player.ViewHeight 43
+	MaxStepHeight 22
+    LimitedToTeam 0
+	//-NOSKIN
+	+NOTELESTOMP
+	+USEDAMAGEEVENTSCRIPT
+	var int user_headRadius;
+	var int user_headMaxHeight;
+	var int user_headMinHeight;
+	var int user_legRadius;
+	var int user_legMaxHeight;
+	var int user_legMinHeight;
+	Player.DisplayName "Counter-Terrorist"
+	Speed 0.5
+	Health 100
+	DamageFactor SmokeG, 0
+	GibHealth -2147483647
+	Player.StartItem "KM45"
+	Player.StartItem "HasSecondary"
+	Player.StartItem "USPAmmo" 12
+	Player.StartItem "USPReserve" 100
+	Player.StartItem "CSKnife" 1
+	Player.StartItem "MoneyGive" 
+	Player.StartItem "DefuseKit"
+	Player.StartItem "Backpack"
+	Player.StartItem "IsCT"
+	Player.MaxHealth 100
+	Player.SoundClass "cas"
+  States
+  {
+  Spawn:
+  	SEAL A 0 NoDelay A_SetUserVar("user_headRadius", 10)
+	SEAL A 0 A_SetUserVar("user_headMinHeight", 45)
+	SEAL A 0 A_SetUserVar("user_headMaxHeight", height)
+	SEAL A 0 A_SetUserVar("user_legRadius", radius)
+	SEAL A 0 A_SetUserVar("user_legMinHeight", 0)
+	SEAL A 0 A_SetUserVar("user_legMaxHeight", 22)
+	SEAL A 0 A_TakeInventory("CanDefuse",1)
+	SEAL A 0 A_TakeInventory("Buy",1)
+    SEAL A 1
+    Loop
+  See:
+    SEAL ABCD 4 
+    Loop
+  Missile:
+    SEAL F 0 A_GiveInventory("IsFiring",1)
+  	SEAL E 12
+	SEAL F 0 A_TakeInventory("IsFiring",1)
+    Goto Spawn
+  Melee:
+    SEAL F 6 BRIGHT
+    Goto Missile
+  Pain:
+    SEAL G 4 //A_JumpIfInventory("HeadHit",1,"HeadPain")
+    SEAL G 4 A_Pain
+    Goto Spawn
+	Pain.Falling:
+	SEAL G 4 A_PlaySound("misc/grunt",CHAN_VOICE) 
+	Goto Spawn
+  Death:
+	SEAL H 0 A_GiveInventory("IsDead",1)
+    SEAL H 0 A_PlayerSkinCheck("AltSkinDeath")
+  Death1:
+    SEAL H 10
+    SEAL I 10 A_PlayerScream
+    SEAL J 10 A_NoBlocking
+    SEAL KLM 10
+    SEAL N -1
+    Stop
+  XDeath:
+	SEAL H 0 A_GiveInventory("IsDead",1)
+    SEAL O 0 A_PlayerSkinCheck("AltSkinXDeath")
+  XDeath1:
+    SEAL O 5
+    SEAL P 5 A_PlayerScream
+    SEAL Q 5 A_NoBlocking
+    SEAL RSTUV 5
+    SEAL W -1
+    Stop
+  AltSkinDeath:
+    SEAL H 6
+    SEAL I 6 A_PlayerScream
+    SEAL JK 6
+    SEAL L 6 A_NoBlocking
+    SEAL MNO 6
+    SEAL P -1
+    Stop
+  AltSkinXDeath:
+    SEAL Q 5 A_PlaySound("misc/cdeath")
+    SEAL R 0 A_NoBlocking
+    SEAL R 5 A_SkullPop
+    SEAL STUVWX 5
+    SEAL Y -1
+    Stop
+  }
+}
+actor EC
+{
++USEDAMAGEEVENTSCRIPT
++NEVERRESPAWN
+Monster
+Health 150
+Height 56
+Radius 16
+	var int user_headRadius;
+	var int user_headMaxHeight;
+	var int user_headMinHeight;
+	var int user_legRadius;
+	var int user_legMaxHeight;
+	var int user_legMinHeight;
+States
+{
+  Spawn:
+	PXCN A 0 NoDelay A_SetUserVar("user_headRadius", 10.0)
+	PXCN A 0 A_SetUserVar("user_headMinHeight", 45.0)
+	PXCN A 0 A_SetUserVar("user_headMaxHeight", height)
+	PXCN A 0 A_SetUserVar("user_legRadius", radius)
+	PXCN A 0 A_SetUserVar("user_legMinHeight", 0)
+	PXCN A 0 A_SetUserVar("user_legMaxHeight", 22.0)
+	GSG9 A 1
+	Loop
+	Pain:
+	GSG9 G 4
+	GSG9 G 4 A_Pain
+	Goto Spawn
+  Death:
+    GSG9 H 10
+    GSG9 I 10 A_PlayerScream
+    GSG9 J 10 A_NoBlocking
+    GSG9 KLM 10
+    GSG9 N -1
+	Loop
+}
+}
+/*
+ACTOR PlayerHead
+{
+  RenderStyle None
+  Height 8
+  Health 100
+  Radius 10
+  speed 0
+  +NOGRAVITY
+  //+NORADIUSDMG
+  //+SERVERSIDEONLY
+  +NOCLIP
+  -SOLID
+  +NOBLOOD
+  +SHOOTABLE
+  +GHOST
+  damageFactor "none", 5
+  Painchance 256
+  obituary "%k >> headshot >> %o"
+  states
+  {
+  Spawn:
+    CLIP A 3
+    stop
+  Nothing:
+    TNT1 A 0
+    stop
+  Death:
+    //TNT1 A 0 A_JumpIfCloser(16,"Nothing")
+    PLAY A 1 A_Explode(200,32)
+    Stop
+}
+}
+*/
+// checks for collision against ground and other solid actors
+// From an old version of nashmove.pk3
+Actor Nash_FloorCheck
+{
+	Radius 16
+	Height 4
+	+SOLID
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			Stop
+	}
+}
+Actor HeadHit : CustomInventory
+{
+Inventory.PickupSound "Headshot"
+States
+{
+Pickup:
+TNT1 A 0 A_JumpIfInventory("BasicArmor",1,"Helmet")
+TNT1 A 0 A_PlaySound("headshot",CHAN_VOICE)
+Stop
+Helmet:
+TNT1 A 0 A_PlaySound("helmet",CHAN_VOICE)
+Stop
+}
+}
+Actor IsCrouching : Inventory
+{
+Inventory.MaxAmount 1
+}
+Actor IsFiring : Inventory
+{
+Inventory.MaxAmount 1
+}
+Actor NoBuy : Inventory
+{
+Inventory.MaxAmount 1
+}
+Actor MoneyGive : CustomInventory
+{
+States
+{
+Pickup:
+TNT1 A 0 ACS_NamedExecuteWithResult("CS_PlayerGiveMoney")
+Stop
+}
+}

@@ -1,0 +1,854 @@
+#library "def"
+#import "zcommon.bcs"
+//All code here is made by MameXLIII, or a contributor for the project. All code here is under license
+
+#define MAXPLAYERS 64
+#define TID_PLAYER 4300
+#define INV_WEAPONS	30 //increase this for every weapon added
+
+int bombTid;
+int roundTimer; 
+int buyTime; 
+int bombPlanted;
+global int 7:csPlayers[MAXPLAYERS];
+int gameStart;
+int roundOver;
+global int 3:hasDied[]; 
+global int 5:players;
+global int 4:deadMoney[];
+str weapons[INV_WEAPONS] = {"NightHawk50c","CV47","M4A1","SMG","C90","Armor","CSSmokeGrenade","CSFlashbang","CSGrenade","CSMoltov","CSGasGrenade",
+"KM45","Sidearm","MagnumSniper","HasPrimary","HasSecondary","Dualies","Uzi","MP9","AN94","MG40","CSShotgun","SSG","Scout","R8Revolver","CSChaingun",
+"CSRocketLauncher","Tec9","AMP","FullDefuseKit"};
+global str 1:weaponsGive[MAXPLAYERS][INV_WEAPONS];
+global str 6:armorC[MAXPLAYERS];
+global int 2:moneyD[];
+
+script "DefusalVarReset" UNLOADING
+{
+ for (int w = 0; w < MAXPLAYERS; w++)
+  {
+  moneyD[w] = 0;
+  armorC[w] = 0;
+  deadMoney[w] = 0;
+  csPlayers[w] = 0;
+  teamSwap = 0;
+	for (int i = 0; i < INV_WEAPONS; i++)
+	{
+	weaponsGive[w][i] = " ";
+	}
+  }
+}
+script "DefusalConnect" ENTER
+{
+//Delay(1);
+//GiveInventory("Money",GetCVAR("cs_money"));
+Delay(1);
+if ( GetCvar("cs_defusal") == 0 || csPlayers[PlayerNumber()] == 1 ) { terminate; }
+delay(3);
+csPlayers[PlayerNumber()] = 1;
+players++;
+}
+script "DefusalConnectRS" RESPAWN
+{
+ACS_NamedExecuteAlways("DefusalConnect",0);
+}
+script "DefusalDisconnect" (int pnum) DISCONNECT
+{	
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+    Thing_ChangeTID(TID_PLAYER+pnum, 0);
+    csPlayers[pnum] = 0;
+	players--;
+	deadMoney[pnum] = 0;
+	hasDied[pnum] = 0;
+if (PlayerCount() < 2 )
+{
+ACS_NamedExecute("RoundDraw",0);
+}
+}
+Script "DefusalInit" OPEN
+{
+if ( GetCvar("cs_defusal") == 0 )
+{
+terminate;
+}
+	roundTimer = GetCVAR("cs_timer");
+	buyTime = GetCVar("cs_buytime");
+	ACS_NamedExecute("DefusalLoop",0);
+	ACS_NamedExecute("Defusal_CheckDeath",0);
+	ACS_NamedExecute("DefusalGiveBomb",0);
+  for (int d = 0; d < MAXPLAYERS; d++)
+  {
+	if (PlayerInGame(d) == 1 && PlayerIsSpectator(d) == 0 )
+	{
+	csPlayers[d] == 1;
+	}
+	SetDeadSpectator(d,false);  
+  }
+}
+Script "DefusalENTERDuringGame" ENTER
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+if (PlayerCount() > 2 && buyTime <= 0)
+{	
+	SetDeadSpectator(PlayerNumber(),true);
+}
+else if (buyTime > 0)
+{
+	SetDeadSpectator(PlayerNumber(),false);
+	delay(1);
+	Thing_Stop(0);
+	GiveInventory("CantFire",1);
+}
+if (PlayerCount() < 2 && csPlayers[PlayerNumber()] != 1 )
+{
+ACS_NamedExecuteAlways("RoundDraw",0);
+}
+}
+Script "DefusalStart" (VOID)
+{
+  	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+  for (int s = 0; s < MAXPLAYERS; s++)
+  {
+	Thing_Stop(TID_PLAYER + s);
+	GiveActorInventory(TID_PLAYER + s,"CantFire",1);
+  }
+	while(buyTime > 0)
+   {
+	SetPlayerProperty(1,1,PROP_FROZEN);
+		buytime--;
+		Delay(35);
+	}
+AnnouncerSound("go",0);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+    deadMoney[t] = 0;
+	hasDied[t] = 0;
+	TakeActorInventory(TID_PLAYER + t,"CantFire",1);
+  }
+	SetPlayerProperty(1,0,PROP_FROZEN);
+	ACS_NamedExecute("DefusalRoundTimer",0);
+	gameStart = 1;
+}
+script "GiveWeaponsBackAfterRestart" ENTER
+{
+	if ( GetCVAR("cs_defusal") == 0 || csPlayers[PlayerNumber()] != 1 ) { terminate; }
+
+  if ( armorC[PlayerNumber()] > 0 )
+  {
+  GiveInventory( "CSArmorBonus",armorC[PlayerNumber()] );
+  }
+   Delay(1);
+  for (int item = 0; item < INV_WEAPONS; item++)
+  {
+  GiveInventory(weaponsGive[PlayerNumber()][item],1);
+  }
+  if ( (CheckInventory("NightHawk50c") == 1 ) ||  (CheckInventory("Dualies") == 1 ) || CheckInventory("R8Revolver") == 1 || CheckInventory("AMP") == 1 || CheckInventory("Tec9") == 1 || CheckInventory("P228") == 1) 
+  {
+  if (PlayerTeam() == 0 )
+  {
+	TakeInventory("KM45",1);
+  }
+  else if (PlayerTeam() == 1 )
+  {
+	TakeInventory("Sidearm",1); 
+	}
+  }
+  GiveInventory("Money", moneyD[playernumber()]);
+  Delay(66);
+  for (int i = 0; i < INV_WEAPONS; i++)
+  {
+   weaponsGive[PlayerNumber()][i] = "";
+  }
+
+}
+Script "DefusalBombPlanted" (VOID)
+{
+if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+AnnouncerSound("bombplanted",false);
+//PrintBold(s:"Bomb has been Planted!");
+HudMessageBold(s:"Bomb has been planted!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+bombPlanted = 1;
+bombTid = UniqueTID();
+Thing_ChangeTID(0,bombTid);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",200);
+	}
+}
+}
+Script "DefusalGiveBomb" (VOID)
+{
+if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+delay(1);
+int bombTarget = random(0,PlayerCount());
+  if (GetPlayerInfo(bombTarget,PLAYERINFO_TEAM) == 1 && PlayerInGame(bombTarget) )
+  {
+  GiveActorInventory(TID_PLAYER+bombTarget,"TerroristBomb",1);
+  terminate;
+  }
+    else
+    {
+    restart;
+    }
+}
+/*
+script "DefusalGiveBomb" (void) {
+  int bombValidPlayers = random(1, GetTeamProperty(1, TPROP_NumLivePlayers));
+  for(int i = 0; i < 64; i++) {
+    if(!PlayerInGame(i))
+      continue;
+
+    if(GetPlayerInfo(i, PLAYERINFO_TEAM) == 1) {
+      bombValidPlayers--;
+      if(bombValidPlayers <= 0) {
+        GiveActorInventory(TID_PLAYER+bombValidPlayers,"TerroristBomb",1);
+        break;
+      }
+    }
+  }
+}
+*/
+/*
+function int distance(int tid1, int tid2)
+{
+    int len;
+    int y = getactory(tid1) - getactory(tid2);
+    int x = getactorx(tid1) - getactorx(tid2);
+    int z = getactorz(tid1) - getactorz(tid2);
+
+    int ang = vectorangle(x,y);
+    if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(y, sin(ang));
+    else len = fixeddiv(x, cos(ang));
+
+    ang = vectorangle(len, z);
+    if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(z, sin(ang));
+    else len = fixeddiv(len, cos(ang));
+
+    return len>>16;
+}
+*/
+/*
+Script "DefusalGive" (VOID)
+{
+while(bombPlanted == 1);
+	for (int i=0; i<MAXPLAYERS; i++)
+	{
+		int ply = -4300 + i;
+			if ( distance(ply,bombTid) < 64 )
+			{
+			GiveActorInventory(i,"CanDefuse",1);
+			}
+	}
+}
+*/
+/*
+Script "DefusalAttempt" (VOID)
+int defAtt = 5;
+	while (1)
+	{
+	int pressedBtns = GetPlayerInput(-1, INPUT_BUTTONS) & ~GetPlayerInput(-1, INPUT_OLDBUTTONS);
+	int releasedBtns = GetPlayerInput(-1, INPUT_OLDBUTTONS) & ~GetPlayerInput(-1, INPUT_BUTTONS);
+	while ( bombPlanted == 1 )
+	{
+			if ( distance(TID_PLAYER+PlayerNumber(),bombTid) < 64 && PlayerTeam() == 0 ) //&& CheckActorInventory(ply,"CanDefuseB") ) 
+			{
+				GiveInventory("CantFire",1);
+				HudMessage(i:defAtt;HUDMSG_PLAIN, 4, CR_ORANGE, 0.5, 0.5, 0.88);
+				Delay(35);
+				defAtt--;
+				if (defAtt < 1)
+				{
+			    ACS_NamedExecute("DefusalBombDefused",0);
+				break;
+				}
+				}
+	TakeInventory("CantFire",1);
+	defAtt = 5;
+			}
+	}
+	delay(1);
+	}
+*/
+Script "DefusalBombDefused" (VOID)
+{
+if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+AnnouncerSound("bombdefused",false);
+PrintBold(s:"Bomb has been defused!");
+bombPlanted = 0;
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",200);
+	}
+}
+Thing_Remove(bombTid);
+Delay(35);
+ACS_NamedExecute("CounterTerroristsWin",0);
+}
+int time;
+script "DefusalRoundTimer" (VOID)
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t = GetCVAR("cs_timer")*60;
+
+	while(t > 0)//roundTimer*60)
+	{
+	if ( bombPlanted == 1 )
+	{
+	ACS_NamedExecute("DefusalBombTimer",0);
+	time = t;
+	terminate;
+	}
+        int minutes = t / 60;
+        int seconds = t % 60;
+        int leading_zero = seconds < 10 ? "0" : "";
+		SetHudSize(320, 200, 0);
+		SetFont("CASFONT");
+		HudMessageBold(i:minutes, s:":", s:leading_zero, i:seconds;
+		HUDMSG_ALPHA, 1, CR_DARKGRAY, 160.0, 177.0, 2.0, 0.5);
+		t--;
+		Delay(35);
+	}
+	ACS_NamedExecute("CounterTerroristsWin",0);
+	Delay(1);
+	terminate;
+}
+/*
+script "DefusalDisplayRoundTimerCT" (VOID) CLIENTSIDE
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t = GetCVAR("cs_timer")*60;
+	
+		while(t > 0)//roundTimer*60)
+		{
+			if ( bombPlanted == 1 )
+			{
+			terminate;
+			}
+        int minutes = t / 60;
+        int seconds = t % 60;
+        int leading_zero = seconds < 10 ? "0" : "";
+		SetHudSize(320, 200, 0);
+		SetFont("CASFONT");
+		HudMessageBold(i:minutes, s:":", s:leading_zero, i:seconds;
+		HUDMSG_ALPHA, 1, CR_LIGHTBLUE, 160.0, 177.0, 2.0, 0.5);
+		t--;
+		Delay(35);
+	}
+	//ACS_NamedExecute("CounterTerroristsWin",0);
+	//Delay(1);
+	terminate;
+}
+script "DefusalDisplayRoundTimer" (VOID) CLIENTSIDE
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t = GetCVAR("cs_timer")*60;
+	
+		while(t > 0)//roundTimer*60)
+		{
+			if ( bombPlanted == 1 )
+			{
+			terminate;
+			}
+        int minutes = t / 60;
+        int seconds = t % 60;
+        int leading_zero = seconds < 10 ? "0" : "";
+		SetHudSize(320, 200, 0);
+		SetFont("CASFONT");
+		HudMessageBold(i:minutes, s:":", s:leading_zero, i:seconds;
+		HUDMSG_ALPHA, 1, CR_ORANGE, 160.0, 177.0, 2.0, 0.5);
+		t--;
+		Delay(35);
+	}
+	//ACS_NamedExecute("CounterTerroristsWin",0);
+	//Delay(1);
+	terminate;
+}
+*/
+script "DefusalStartDisplayTimer" ENTER
+{
+		if ( gameStart == 1 && CheckInventory("IsCT") == 1)
+		{
+		ACS_NamedExecuteAlways("DefusalDisplayRoundTimerCT",0);
+		terminate;
+		}
+		else if ( gameStart == 1 && CheckInventory("IsCT") == 0 )
+		{
+		ACS_NamedExecuteAlways("DefusalDisplayRoundTimer",0);
+		terminate;
+		}
+	delay(1);
+	restart;
+}
+script "DefusalBombTimer" (Void)
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t2 = GetCVAR("cs_bombtimer");
+	while (t2 > 0)
+	{
+	if ( bombPlanted == 0 )
+	{
+	terminate;
+	}
+        int minutes = t2 / 60;
+        int seconds = t2 % 60;
+        int leading_zero = seconds < 10 ? "0" : "";
+		SetHudSize(320, 200, 0);
+		SetFont("CASFONT");
+		HudMessageBold(i:minutes, s:":", s:leading_zero, i:seconds;
+		HUDMSG_ALPHA, 1, CR_DARKGRAY, 160.0, 170.0, 2.0, 0.5);
+		t2--;
+		Delay(35);
+	}
+	ACS_NamedExecute("TerroristsWin",0);
+	Delay(1);
+	SpawnSpotForced("BombExplode",bombTid);
+	delay(1);
+	Thing_Remove(bombTid);
+	terminate;
+}
+
+script "DefusalBuyTimer" OPEN
+{
+if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+int t = GetCVAR("cs_buytotal");
+	while (1)
+	{
+	//printbold(d:t);
+	Delay(35);
+	t--;
+		if (t <= 0 )
+		{
+			for (int b = 0; b < MAXPLAYERS; b++)
+			{
+			GiveActorInventory(TID_PLAYER + b,"NoBuy",1);
+			}
+		break;
+		}
+		
+	}
+	
+}
+
+script "DefusalBombDefuseTimer" (Void)
+{
+	//if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t3 = 10;
+	while (t3 > 0)
+	{
+	if ( bombPlanted == 0 )
+	{
+	terminate;
+	}
+			int buttons = GetPlayerInput(-1, MODINPUT_BUTTONS);
+			int obuttons = GetPlayerInput(-1, MODINPUT_OLDBUTTONS);
+			if ( buttons & BT_ATTACK|BT_USE && CheckInventory("CanDefuse") == 1)
+			{
+			SetPlayerProperty(0,1,PROP_FROZEN);
+			int minutes = t3 / 60;
+			int seconds = t3 % 60;
+			int leading_zero = seconds < 10 ? "0" : "";
+			HudMessageBold(i:t3; HUDMSG_ALPHA, 99, CR_ORANGE, 0.5, 0.5, 2.0, 1.0);
+			t3--;
+			Delay(35);
+			}
+			else
+			{
+			SetPlayerProperty(0,0,PROP_FROZEN);
+			terminate;
+			}
+	}
+	SetPlayerProperty(0,0,PROP_FROZEN);
+	ACS_NamedExecute("DefusalBombDefused",0);
+	bombPlanted = 0;
+	Delay(1);
+	Thing_Remove(bombTid);
+	terminate;
+}
+/*
+Script "DefusalUseToDefuse" ENTER
+{
+	if ( GetCVAR("cs_defusal") == 0 || ( PlayerClass(PlayerNumber()) != 1 )  ) { terminate; }
+	int dTimer = 10;
+	int kTimer = 5;
+	While( GetActorProperty(0,APROP_HEALTH) > 0)
+	{
+		int buttons = GetPlayerInput(-1, MODINPUT_BUTTONS);
+		int oButtons = GetPlayerInput(-1, MODINPUT_OLDBUTTONS);
+		while(CheckInventory("CanDefuse") == 1 && ( buttons & BT_USE ))
+		{
+		if( !(oButtons & BT_USE) )
+		{
+		break;
+		}
+		Print(d:dTimer);
+		Delay(35);
+		dTimer--;
+			if(dTimer == 0)
+			{
+			ACS_NamedExecute("DefusalBombDefused",0);
+			}
+		}
+		if ( buyTime == 0)
+		{
+		SetPlayerProperty(0,0,PROP_FROZEN);
+		}
+		dTimer = 10;
+		Delay(1);
+	}
+}
+script "DefusalUseToDefuseRS" RESPAWN
+{
+ACS_NamedExecuteAlways("DefusalUseToDefuse",0);
+}
+*/
+script "DefusalKitBombDefuseTimer" (Void)
+{
+	//if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t3 = 5;
+	while (t3 > 0)
+	{
+	if ( bombPlanted == 0 )
+	{
+	terminate;
+	}
+			int buttons = GetPlayerInput(-1, MODINPUT_BUTTONS);
+			int obuttons = GetPlayerInput(-1, MODINPUT_OLDBUTTONS);
+			if (buttons & BT_ATTACK && CheckInventory("CanDefuse") == 1)
+			{
+			SetPlayerProperty(0,1,PROP_FROZEN);
+			int minutes = t3 / 60;
+			int seconds = t3 % 60;
+			int leading_zero = seconds < 10 ? "0" : "";
+			Print(i:t3);
+			t3--;
+			Delay(35);
+			}
+			else
+			{
+			SetPlayerProperty(0,0,PROP_FROZEN);
+			terminate;
+			}
+	}
+	SetPlayerProperty(0,0,PROP_FROZEN);
+	ACS_NamedExecute("DefusalBombDefused",0);
+	bombPlanted = 0;
+	Delay(1);
+	Thing_Remove(bombTid);
+	terminate;
+}
+script "DefusalBombPlantTimer" (Void)
+{
+	//if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t3 = 3;
+	while (t3 > 0 )
+	{
+			int buttons = GetPlayerInput(-1, MODINPUT_BUTTONS);
+			int obuttons = GetPlayerInput(-1, MODINPUT_OLDBUTTONS);
+			if (buttons & BT_ATTACK && CheckInventory("BombAttempt") == 1)
+			{
+			SetPlayerProperty(0,1,PROP_FROZEN);
+			int minutes = t3 / 60;
+			int seconds = t3 % 60;
+			int leading_zero = seconds < 10 ? "0" : "";
+			Print(i:t3);
+			t3--;
+			Delay(35);
+			}
+			else
+			{
+			SetPlayerProperty(0,0,PROP_FROZEN);
+			terminate;
+			}
+	}
+	SetPlayerProperty(0,0,PROP_FROZEN);
+	TakeInventory("TerroristBomb",1);
+	SpawnSpotForced("BombPlanted",0,bombTid);
+	bombPlanted = 1;
+	ACS_NamedExecuteAlways("DefusalBombTimer",0);
+	terminate;
+}
+script "DefusalFreeBombPlantTimer" (Void)
+{
+	//if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+	int t3 = 3;
+	while (t3 > 0 )
+	{
+			int buttons = GetPlayerInput(-1, MODINPUT_BUTTONS);
+			int obuttons = GetPlayerInput(-1, MODINPUT_OLDBUTTONS);
+			if (buttons & BT_ATTACK)
+			{
+			SetPlayerProperty(0,1,PROP_FROZEN);
+			int minutes = t3 / 60;
+			int seconds = t3 % 60;
+			int leading_zero = seconds < 10 ? "0" : "";
+			Print(i:t3);
+			t3--;
+			Delay(35);
+			}
+			else
+			{
+			SetPlayerProperty(0,0,PROP_FROZEN);
+			terminate;
+			}
+	}
+	SetPlayerProperty(0,0,PROP_FROZEN);
+	TakeInventory("FreePlantBomb",1);
+	SpawnSpotForced("BombPlanted",0,bombTid);
+	ACS_NamedExecuteAlways("DefusalBombTimer",0);
+	terminate;
+}
+Script "DefusalLoop" (VOID)
+{
+if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+ACS_NamedExecute("DefusalStart",0);
+}
+Script "DefusalRespawn" RESPAWN
+{
+if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+Delay(2);
+//if(PlayerTeam() == 0) 
+//{
+//GiveInventory("KM45",1);
+//}
+//else if ( PlayerTeam() == 1 )
+//{
+//GiveInventory("Sidearm",1);
+//}
+GiveInventory("Money",deadMoney[PlayerNumber()]);
+}
+Script "Defusal_Death" DEATH
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+deadMoney[PlayerNumber()] = CheckInventory("Money");
+delay(1);
+hasDied[PlayerNumber()] = 1;
+delay(1);
+SetDeadSpectator(PlayerNumber(),true);
+}
+
+#libdefine TEAM_CT    TEAM_BLUE
+#libdefine TEAM_TR    TEAM_RED
+
+Script "Defusal_CheckDeath" (VOID)
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+    while( PlayerCount() > 0) 
+    {
+     if ( (GetTeamProperty(TEAM_TR, TPROP_NumLivePlayers) < 1) && (GetTeamProperty(TEAM_TR,TPROP_NumPlayers) > 0) && bombPlanted != 1 ) { delay(10);      ACS_NamedExecute("CounterTerroristsWin",0); Delay(1); terminate; }
+     else if ( (GetTeamProperty(TEAM_CT, TPROP_NumLivePlayers) < 1) && (GetTeamProperty(TEAM_CT,TPROP_NumPlayers) > 0) ) { delay(10); ACS_NamedExecute("TerroristsWin",0); Delay(1); terminate; } 
+     else if ( (GetTeamProperty(TEAM_CT, TPROP_NumLivePlayers) < 1) && (GetTeamProperty(TEAM_TR, TPROP_NumLivePlayers) < 1)) { delay(10); ACS_NamedExecute("RoundDrawDeadAss",0); Delay(1); terminate; }
+     delay(1);
+    }
+}
+global int 12: teamSwap;
+
+Script "Defusal_Halftime" (VOID)
+{
+//if( GetTeamProperty(1,TPROP_SCORE) == GetTeamProperty(0,TPROP_SCORE) )
+//{
+//SetFont("BIGFONT");
+//HudMessageBold(s:"Tie Game..."; HUDMSG_PLAIN, 9, CR_GRAY, 0.5, 0.45, 3.0);
+//Delay(154);
+//Exit_Normal(0);
+//Terminate;
+//}
+if (teamSwap == 1)
+{
+terminate;
+}
+HudMessageBold(s:"Half Time... Switching Sides"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+Delay(1);
+int tScore = GetTeamProperty(1,TPROP_SCORE);
+int ctScore = GetTeamProperty(0,TPROP_SCORE);
+Delay(1);
+ChangeTeamScore(0,1,tScore,0);
+ChangeTeamScore(1,1,ctScore,0);
+Delay(2);
+ for (int p = 0; p < MAXPLAYERS; p++)
+  {
+	if(SetActivatorToPlayer(p))
+	{
+	if(PlayerTeam() == TEAM_TR)
+	{
+	SetDeadSpectator(PlayerNumber(),0);
+	Player_SetTeam(TEAM_CT);
+	Delay(1);
+	SetPlayerClass(PlayerNumber(),"CSCT",1);
+	GiveInventory("Money",GetCVAR("cs_money"));
+	}
+	else if(PlayerTeam() == TEAM_CT)
+	{
+	SetDeadSpectator(PlayerNumber(),0);
+	Player_SetTeam(TEAM_TR);
+	Delay(1);
+	SetPlayerClass(PlayerNumber(),"CST",1);
+	GiveInventory("Money",GetCVAR("cs_money"));
+	}
+ }
+  }
+Delay(1);
+teamSwap = 1;
+}
+
+int roundVoid;
+
+Script "RoundDraw" (VOID)
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+AnnouncerSound("draw",false);
+roundVoid = 1;
+HudMessageBold(s:"Round Draw!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+roundOver = 1;
+Delay(158);
+ResetMap();
+}
+//this script variant is used on a real Round Draw rather than just to reset the map
+Script "RoundDrawDeadAss" (VOID)
+{
+	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
+AnnouncerSound("draw",false);
+roundVoid = 1;
+HudMessageBold(s:"Round Draw!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+roundOver = 1;
+Delay(158);
+ResetMap();
+}
+Script "TerroristsWin" (VOID)
+{
+if ( GetCVAR("cs_defusal") == 0 ) { terminate; }
+AnnouncerSound("twin",false);
+HudMessageBold(s:"Terrorists Win!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+if (roundVoid != 1) { Team_GivePoints(1,1,0); }
+Delay(1);
+if (GetTeamProperty(TEAM_TR,TPROP_POINTCOUNT) == GetCVAR("pointlimit")-2 && GetCvar("cs_half"))
+{
+ACS_NamedExecute("Defusal_HalfTime",0);
+}
+Delay(10);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( (GetPlayerInfo(t,PLAYERINFO_TEAM) == 1) && !(teamSwap == 1) ) 
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",3250);
+	deadMoney[t] = deadMoney[t] + 3250;
+	}
+	if ( ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 ) && !(teamSwap == 1) )
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",1900);
+	deadMoney[t] = deadMoney[t] + 1900;
+	}
+}
+Delay(140);
+roundOver = 1;
+Delay(18);
+	if( GetTeamProperty(1,TPROP_SCORE) != GetCVar("pointlimit") )
+	{
+	ResetMap();
+	}
+}
+Script "CounterTerroristsWin" (VOID)
+{
+if ( GetCVAR("cs_defusal") == 0 ) { terminate; }
+AnnouncerSound("ctwin",false);
+HudMessageBold(s:"Counter-Terrorists Win!"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5, 0.45, 3.0);
+if (roundVoid != 1) { Team_GivePoints(0,1,0); }
+Delay(1);
+if (GetTeamProperty(TEAM_CT,TPROP_POINTCOUNT) == GetCVAR("pointlimit")-2 && GetCvar("cs_half"))
+{
+ACS_NamedExecute("Defusal_HalfTime",0);
+}
+Delay(10);
+  for (int t = 0; t < MAXPLAYERS; t++)
+  {
+	if ( ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 ) && !(teamSwap == 1) ) 
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",3250);
+	deadMoney[t] = deadMoney[t] + 3250;
+	}
+	if ( ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1) && !(teamSwap == 1) ) 
+	{
+	GiveActorInventory(TID_PLAYER + t,"Money",1900);
+	deadMoney[t] = deadMoney[t] + 1900;
+	}
+}
+Delay(140);
+roundOver = 1;
+Delay(18);
+	if( GetTeamProperty(0,TPROP_SCORE) != GetCVar("pointlimit") )
+	{
+	ResetMap();
+	}
+}
+
+int teamSwapped[MAXPLAYERS];
+
+script "CheckWeapons" ENTER
+{
+	if ( ( GetCVAR("cs_defusal") == 0 )  || (teamSwap == 1)  ) { terminate; }
+while(1)
+{
+Delay(1);
+if (roundOver == 1)
+{
+//players[PlayerNumber()] = 1;
+moneyD[playerNumber()] = CheckInventory("Money");
+armorC[playernumber()] = CheckInventory("Armor");
+  for (int a = 0; a< INV_WEAPONS; a++)
+  {
+  if (CheckInventory(weapons[a]) == 1)
+  {
+  weaponsGive[playernumber()][a] = weapons[a];
+  }
+ }
+ break;
+}
+}
+}
+
+script "CheckWeaponsRS" RESPAWN
+{
+ACS_NamedExecuteAlways("CheckWeapons",0);
+}
+/*
+script "PrintWeapons" ENTER
+{
+printbold(s:weaponsGive1[PlayerNumber()][1]);
+}
+/*
+  script "DefusalAtt" ENTER
+  {
+  int defAtt = 8;
+   if ( CheckInventory("CanDefuseB") == 1 &&  PlayerTeam() == 0 )//&& GetPlayerInput(-1 INPUT_BUTTONS) & BT_USE ) )
+   {
+   while ( CheckInventory("CanDefuseB") == 1 )
+   {
+   GiveInventory("CantFire",1);
+   HudMessage(i:defAtt;HUDMSG_PLAIN, 4, CR_ORANGE, 0.5, 0.5, 0.88);
+   Delay(35);
+   defAtt--;
+   if (defAtt < 1)
+   {
+   ACS_NamedExecute("DefusalBombDefused",0);
+   terminate;
+	}
+  }
+}
+   else
+   {
+   TakeInventory("CanDefuseB",1);
+   TakeInventory("CantFire",1);
+   defAtt = 8;
+   }
+   delay(2);
+   restart;
+  }
+    script "DefusalAttRS" RESPAWN
+  {
+  
+  ACS_NamedExecuteAlways("DefusalAtt",0);
+  }
+ */

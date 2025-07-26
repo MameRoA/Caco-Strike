@@ -1,0 +1,99 @@
+ACTOR SideArm : CaSWeapon
+{
+ Tag "Glock-18"
+ Weapon.SlotNumber 2
+ Weapon.SelectionOrder 2
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "GlockAmmo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "GlockReserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[Glock-18]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOAUTOFIRE
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+  TNT1 A 0 A_GiveInventory("PowerPistol",1)
+  TNT1 A 0 A_GiveInventory("HoldingSecondary",1)
+      TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    GL18 A 6 A_WeaponReady(WRF_ALLOWRELOAD)
+    TNT1 A 0 A_TakeInventory("GlockRecoil",2)
+    Loop
+  NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	GL18 A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect: 
+  TNT1 A 0 A_TakeInventory("PowerPistol",1)
+    TNT1 A 0 A_TakeInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Lower
+    GL18 A 1 A_Lower
+    Loop
+  Select:
+  TNT1 A 0 A_GiveInventory("PowerPistol",1)
+    TNT1 A 0 A_GiveInventory("HoldingSecondary",1)
+    TNT1 AA 0 A_Raise
+    GL18 A 1 A_Raise
+    Loop
+  Fire:
+  GL18 A 0 A_JumpIfInventory("GlockAmmo",1,1)
+  Goto Reload
+  GL18 A 0 A_PlayWeaponSound("weapons/g18fire")
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  GL18 B 2 bright ACS_NamedExecuteWithResult("GlockFire")
+  GL18 A 0 A_TakeInventory("GlockAmmo",1)
+  GL18 C 2 //A_WeaponReady(WRF_ALLOWRELOAD)
+  GL18 DE 2 A_WeaponReady(WRF_ALLOWRELOAD)
+  Goto Ready
+  NoAmmo:
+  GL18 A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("GlockReserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_JumpIfInventory("GlockAmmo", 0, "Ready")
+  G18R A 0 A_PlayWeaponSound("weapons/g18re1") 
+  GL1R A 10
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("GlockReserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("GlockAmmo", 20, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("GlockReserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("GlockAmmo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  GL1R A 0 A_PlayWeaponSound("weapons/g18re2") 
+  GL1R ACAD 8
+  GL18 A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor GlockReserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 120
+	Inventory.MaxAmount 120
+	Ammo.BackpackAmount 120
+	Ammo.BackpackMaxAmount 120
+	+IGNORESKILL
+}
+Actor GlockAmmo : Ammo
+{
+	Game Doom
+	Inventory.Amount 20
+	Inventory.MaxAmount 20
+	Ammo.BackpackAmount 20
+	Ammo.BackpackMaxAmount 20
+	+IGNORESKILL
+}
+Actor GlockRecoil : Inventory { Inventory.MaxAmount 2 }

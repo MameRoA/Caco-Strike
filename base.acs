@@ -1,0 +1,526 @@
+//All scripts compiled with BCC
+#library "base"
+#import "zcommon.bcs"
+//#import "snsFunc.acs"
+//#import "drawbox.acs"
+//All code here is under license, Headshot code made by TDRR
+#define TID_PLAYER 4300
+
+script "CaSTIDs" ENTER
+{
+   Thing_ChangeTID(0, TID_PLAYER+PlayerNumber());
+  }
+script "CaSTIDsRS" RESPAWN
+{
+    Thing_ChangeTID(0, TID_PLAYER+PlayerNumber());
+}
+
+script "CaSTIDsDEATH" DEATH
+{
+    Thing_ChangeTID(0, 0);
+}
+//All variables here would be of fixed/double type.
+//However ACC doesn't have such a type, so I can't use it here.
+function int min(int a, int b)
+{
+	if (a < b)
+		return a;
+	return b;
+}
+
+function int max(int a, int b)
+{
+	if (a > b)
+		return a;
+	return b;
+}
+
+function bool RayIntersectsAABB (int orgX, int orgY, int orgZ, int dirX, int dirY, int dirZ, int maxRadius, int minHeight, int maxHeight)
+{
+	int minRadius = -maxRadius;
+	int tmin = -0x7FFFFFFF;
+	int tmax = 0x7FFFFFFF;
+	
+	if(dirX != 0.0)
+	{
+		int tx1 = FixedDiv(minRadius - orgX, dirX);
+		int tx2 = FixedDiv(maxRadius - orgX, dirX);
+
+		tmin = min(tx1, tx2);
+		tmax = max(tx1, tx2);
+	}
+	
+	if(dirY != 0.0)
+	{
+		int ty1 = FixedDiv(minRadius - orgY, dirY);
+		int ty2 = FixedDiv(maxRadius - orgY, dirY);
+		
+		tmin = max(tmin, min(ty1, ty2));
+		tmax = min(tmax, max(ty1, ty2));
+	}
+	
+	if(dirZ != 0.0)
+	{
+		int tz1 = FixedDiv(minRadius - orgZ, dirZ);
+		int tz2 = FixedDiv(maxRadius - orgZ, dirZ);
+		
+		tmin = max(tmin, min(tz1, tz2));
+		tmax = min(tmax, max(tz1, tz2));
+	}
+
+    return tmax >= tmin;
+}
+
+//Thanks to TDRR for his Zandronum based headshot algorithim!
+
+Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT 
+{
+	if(type != GAMEEVENT_ACTOR_DAMAGED) {terminate;}
+	//log(s:GetActorClass(0));
+	
+	//if(!(ClassifyActor(0) & ACTOR_MONSTER))
+		//terminate;
+	
+	//<< 16 is the conversion to fixed. BCC and GDCC have cleaner syntax for
+	//this, but this is meant to be usable in all compilers.
+	int headMaxRadius = GetUserVariable(0, "user_headRadius") << 16;
+	if(headMaxRadius == 0.0) {terminate;}
+	
+	int headMinRadius = -headMaxRadius;
+	int headMaxHeight  = GetUserVariable(0, "user_headMaxHeight") << 16;
+	int headMinHeight = GetUserVariable(0, "user_headMinHeight") << 16;
+	
+	int legMaxRadius = GetUserVariable(0, "user_legRadius") << 16;
+	if(legMaxRadius == 0.0) {terminate;}
+	
+	int legMinRadius = -legMaxRadius;
+	int legMaxHeight  = GetUserVariable(0, "user_legMaxHeight") << 16;
+	int legMinHeight = GetUserVariable(0, "user_legMinHeight") << 16;
+	SetActivator(0, AAPTR_DAMAGE_SOURCE);
+	int shooterX = GetActorX(0);
+	int shooterY = GetActorY(0);
+	int shooterZ = GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT)/2);
+	
+	SetActivator(0, AAPTR_DAMAGE_INFLICTOR);
+	//log(s:GetActorClass(0));
+	
+	int hitX = GetActorX(0);
+	int hitY = GetActorY(0);
+	int hitZ = GetActorZ(0);
+	int hitAngle = GetActorAngle(0) - 0.5; //Face the affected actor.
+	if(hitAngle < 0.0) hitAngle += 1.0; //Wrap around to 0-1 range.
+	
+	//Doesn't work, because puff doesn't have the pitch set by default
+	//so you gotta calculate that yourself.
+	int hitPitch = GetActorPitch(0);
+	
+	int hitCosPitch = cos(hitPitch);
+	
+	SetActivator(0, AAPTR_DAMAGE_TARGET);
+	//log(s:GetActorClass(0));
+	
+	//ACC doesn't do short-circuit evaluation but ZScript does so I'll leave it
+	//like this. Do note that BCC and GDCC do have short-circuit evaluation.
+	if( ((hitZ - GetActorZ(0)) <= legMaxHeight) &&
+	RayIntersectsAABB(hitX - GetActorX(0), hitY - GetActorY(0), hitZ - GetActorZ(0), FixedMul(hitCosPitch, cos(hitAngle)), FixedMul(hitCosPitch, sin(hitAngle)), sin(hitCosPitch), legMaxRadius, legMinHeight, legMaxHeight))
+	{
+		//printbold(s:"oops, legshot");
+		
+		dmg = FixedMul(dmg,0.55);
+		//PrintBold(i:dmg);
+		SetResultValue(dmg);
+	}
+	else if( ((hitZ - GetActorZ(0)) >= headMinHeight) &&
+	RayIntersectsAABB(hitX - GetActorX(0), hitY - GetActorY(0), hitZ - GetActorZ(0), FixedMul(hitCosPitch, cos(hitAngle)), FixedMul(hitCosPitch, sin(hitAngle)), sin(hitCosPitch), headMaxRadius, headMinHeight, headMaxHeight))
+	{
+		//printbold(s:"boom headshot");
+		
+		//Set the amount of damage dealt (and also give an item to signal headshot
+		//death, as currently this event doesn't allow changing damagetypes)
+		//dmg *= 5;
+		dmg = FixedMul(dmg,4.5);
+		GiveInventory("HeadHit",1);
+		//PrintBold(i:dmg);
+		SetResultValue(dmg);
+		//Aim Punch
+		if (dmg >= 43)
+		{
+			SetActorPitch(0,FixedDiv(GetActorPitch(0), 360.0) + FixedDiv(-4.0, 256.0));
+			//SetActorAngle(0,angle >> 8 + random(-0.1 >> 8, 0.1 >> 8));
+		}
+		//Obituary
+		if( (GetActorProperty(0, APROP_HEALTH) - dmg) <= 0)
+		{
+			Delay(2);
+			ACS_NamedExecuteAlways("HSPre",0);
+		}
+	}
+}
+//script "AimPunch" (int type, int dmg, int prop2) EVENT 
+//{
+	//if(type != GAMEEVENT_ACTOR_DAMAGED) {terminate;}
+	//int pitch = GetActorPitch(0);
+	//int angle = GetActorAngle(0);
+	//if (dmg >= 43)
+	//{
+	//SetActorPitch(0,FixedDiv(pitch, 360.0) + FixedDiv(-6.0, 256.0));
+	//SetActorAngle(0,angle >> 8 + random(-0.1 >> 8, 0.1 >> 8));
+//	}
+//}
+Script "HSPre" (VOID)
+{
+NamedSendNetworkString("HSObit","Headshot");
+}
+Script "HSObit" (int string) CLIENTSIDE
+{
+Log(s:string);
+} 
+/*
+Script "HoldBreath" ENTER
+{
+int buttons = GetPlayerInput(-1, MODINPUT_BUTTONS);
+int obuttons = GetPlayerInput(-1, MODINPUT_OLDBUTTONS);
+int view = 43;
+int scale = 1.0;
+//int fScale = scale >> 16;
+if (buttons & BT_CROUCH)
+{
+GiveInventory("Crouch",1);
+SetActorProperty(0,APROP_Speed,0.18);
+}
+if (obuttons & BT_CROUCH)
+{
+GiveInventory("Crouch",1);
+SetActorProperty(0,APROP_Speed,0.48);
+}
+delay(1);
+restart;
+}
+*/
+/*
+Script "SendObit" (VOID)
+{
+str wpn = GetWeapon();
+NamedSendNetworkString("Obit",wpn);
+}
+Script "Obit" (int string) CLIENTSIDE
+{
+Log(s:string);
+}
+*/
+/*
+int moneyC[64];
+script "CheckMoney" DEATH
+{
+moneyC[playernumber()] = CheckInventory("Money") - 800;
+}
+
+script "MoneyGive" RESPAWN
+{
+GiveInventory("Money", moneyC[playernumber()]);
+}
+
+Script "CS_Legshots" (int type, int dmg, int dmgType) EVENT 
+{
+	if(type != GAMEEVENT_ACTOR_DAMAGED) {terminate;}
+	//log(s:GetActorClass(0));
+	
+	//if(!(ClassifyActor(0) & ACTOR_MONSTER))
+		//terminate;
+	
+	//<< 16 is the conversion to fixed. BCC and GDCC have cleaner syntax for
+	//this, but this is meant to be usable in all compilers.
+	int legMaxRadius = GetUserVariable(0, "user_legRadius") << 16;
+	if(legMaxRadius == 0.0) {terminate;}
+	
+	int legMinRadius = -legMaxRadius;
+	int legMaxHeight  = GetUserVariable(0, "user_legMaxHeight") << 16;
+	int legMinHeight = GetUserVariable(0, "user_legMinHeight") << 16;
+	
+	SetActivator(0, AAPTR_DAMAGE_SOURCE);
+	int shooterX = GetActorX(0);
+	int shooterY = GetActorY(0);
+	int shooterZ = GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT)/2);
+	
+	SetActivator(0, AAPTR_DAMAGE_INFLICTOR);
+	//log(s:GetActorClass(0));
+	
+	int hitX = GetActorX(0);
+	int hitY = GetActorY(0);
+	int hitZ = GetActorZ(0);
+	int hitAngle = GetActorAngle(0) - 0.5; //Face the affected actor.
+	if(hitAngle < 0.0) hitAngle += 1.0; //Wrap around to 0-1 range.
+	
+	//Doesn't work, because puff doesn't have the pitch set by default
+	//so you gotta calculate that yourself.
+	int hitPitch = GetActorPitch(0);
+	
+	int hitCosPitch = cos(hitPitch);
+	
+	SetActivator(0, AAPTR_DAMAGE_TARGET);
+	//log(s:GetActorClass(0));
+	
+	//ACC doesn't do short-circuit evaluation but ZScript does so I'll leave it
+	//like this. Do note that BCC and GDCC do have short-circuit evaluation.
+	if( ((hitZ - GetActorZ(0)) >= legMinHeight) &&
+	RayIntersectsAABB(hitX - GetActorX(0), hitY - GetActorY(0), hitZ - GetActorZ(0), FixedMul(hitCosPitch, cos(hitAngle)), FixedMul(hitCosPitch, sin(hitAngle)), sin(hitCosPitch), legMaxRadius, legMinHeight, legMaxHeight))
+	{
+		//printbold(s:"yikes, legshot");
+		
+		dmg = FixedMul(dmg,0.55);
+		PrintBold(i:dmg);
+		SetResultValue(dmg);
+	}
+}
+*/
+script "GiveMoney" (int type, int bla, int blah) EVENT
+{
+if( type != GAMEEVENT_PLAYERFRAGS ) { terminate; }
+str weapon = GetWeapon();
+if (StrIcmp(weapon, "SSG") == 0 || StrIcmp(weapon, "CSShotgun") == 0)
+{
+GiveInventory("Money", 900);
+}
+else if (StrIcmp(weapon, "R8Revolver") == 0)
+{
+GiveInventory("Money", 400);
+}
+else if (StrIcmp(weapon, "SMG") == 0 || StrIcmp(weapon, "Uzi") == 0 || StrIcmp(weapon, "MP9") == 0)
+{
+GiveInventory("Money", 600);
+}
+else if (StrIcmp(weapon, "MagnumSniper") == 0)
+{
+GiveInventory("Money", 100);
+}
+else if (StrIcmp(weapon, "CSKnife") == 0)
+{
+GiveInventory("Money", 1500);
+}
+else
+{
+GiveInventory("Money", 300);
+}
+		Delay(1);
+}
+/*
+script "SeeMoney" ENTER CLIENTSIDE
+{
+int moneyCount;
+while(1)
+{
+moneyCount = CheckInventory("Money");
+SetFont("BIGFONT");
+HudMessage(i:moneyCount;666,CR_ORANGE,0.7,0.2,0,0);
+Delay(5);
+}
+}
+script "SeeMoney2" RESPAWN CLIENTSIDE
+{
+ACS_NamedExecuteAlways("SeeMoney",0);
+}
+*/
+#define DROP_SPEED 16
+//Thanks TDRR for this script a couple years back from Torlation's inception. the GOAT of Zandro ACS.
+script "CS_DropWeapon" (void) NET
+{
+	str weaponName = GetWeapon();
+	
+    if(CheckInventory("NoDrop") || (GetActorProperty(0, APROP_HEALTH) <= 0) || (weaponName == "CSKnife")) { terminate; }
+	
+    int TID = UniqueTID();
+    int angle = GetActorAngle(0);
+    int pitch = GetActorPitch(0);
+    
+    str droppedName = StrParam(s:weaponName, s:"Drop");
+    if ( CheckInventory("HoldingPrimary") == 1)
+	{
+	TakeInventory("HasPrimary",1);
+	TakeInventory("PowerRifle",1);
+	TakeInventory("PowerLMG",1);
+	TakeInventory("PowerSMG",1);
+	TakeInventory(weaponName, 0x7FFFFFFF);  
+    SpawnForced(droppedName, GetActorX(0), GetActorY(0), GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT) / 2), TID);
+    SetActorVelocity(TID, cos(angle) * DROP_SPEED, sin(angle) * DROP_SPEED, -sin(pitch) * DROP_SPEED, FALSE, FALSE);
+	}
+	else if ( CheckInventory("HoldingSecondary") == 1)
+	{
+    TakeInventory("HasSecondary",1);
+	TakeInventory("PowerPistol",1);
+	TakeInventory("PowerSMG",1);
+	TakeInventory(weaponName, 0x7FFFFFFF);  
+    SpawnForced(droppedName, GetActorX(0), GetActorY(0), GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT) / 2), TID);
+    SetActorVelocity(TID, cos(angle) * DROP_SPEED, sin(angle) * DROP_SPEED, -sin(pitch) * DROP_SPEED, FALSE, FALSE);
+	}
+	else
+	{
+	TakeInventory(weaponName, 0x7FFFFFFF);  
+    SpawnForced(droppedName, GetActorX(0), GetActorY(0), GetActorZ(0) + (GetActorProperty(0, APROP_HEIGHT) / 2), TID);
+    SetActorVelocity(TID, cos(angle) * DROP_SPEED, sin(angle) * DROP_SPEED, -sin(pitch) * DROP_SPEED, FALSE, FALSE);
+	}
+
+}
+script "CS_PlayerDeath" DEATH
+{
+str weaponName = GetWeapon();
+str droppedName = StrParam(s:weaponName, s:"Drop");
+SpawnForced(droppedName,GetActorX(0),GetActorY(0),GetActorZ(0));
+if (CheckInventory("TerroristBomb") == 1)
+{
+SpawnForced("TerroristBombDrop",GetActorX(0),GetActorY(0),GetActorZ(0));
+}
+
+} 
+global int 13: gift[64];
+
+script "CS_PlayerGiveMoney" (VOID)
+{
+	if(gift[PlayerNumber()] != 1)
+	{
+	GiveInventory("Money",GetCVAR("cs_money"));
+	Delay(1);
+	gift[PlayerNumber()]++;
+	}
+}
+script "GiftReset" UNLOADING
+{
+	for (int i = 0; i < 64; i++)
+	{
+	gift[i] = 0;
+	}
+}
+script "CS_PlayerSlowdown" (int type, int bla, int blah) EVENT
+{
+	if(type != GAMEEVENT_ACTOR_DAMAGED) { terminate; }
+	SetActivator(0,AAPTR_DAMAGE_TARGET);
+	GiveInventory("PowerBullet",1);
+}
+int playerSens;
+int tested;
+script "CS_GetMouse" ENTER CLIENTSIDE 
+{
+playerSens = GetCVAR("mouse_sensitivity");
+}
+script "CS_SetPlayerSens" (VOID) CLIENTSIDE
+{
+ConsoleCommand(strparam(s:"mouse_sensitivity ",f:playerSens));
+}
+
+//ConsoleCommand(strParam(s:"m_yaw ",i:playerSens));
+//ConsoleCommand(strParam(s:"m_pitch ",i:playerSensY));
+script "CS_SensSlow" (VOID) CLIENTSIDE
+{
+
+str mouse2 = strparam(s:"mouse_sensitivity ",f:playerSens);
+str mouse = strparam(s:"mouse_sensitivity ",f:fixedMul(playerSens,0.4));
+ConsoleCommand(mouse);
+}
+
+/*
+script "DebugVeloZ" enter
+{
+  int x, y, z, speed;
+  while (TRUE)
+  {
+    x = GetActorVelX(0);
+    y = GetActorVelY(0);
+    z = GetActorVelZ(0);
+    speed = FixedMul(z, z);
+    print(f:FixedSqrt(speed));
+    delay(1);
+  }
+}
+*/
+/*
+script "DebugVelo" enter
+{
+  int x, y, z, speed;
+  while (TRUE)
+  {
+    x = GetActorVelX(0);
+    y = GetActorVelY(0);
+    z = GetActorVelZ(0);
+   speed = FixedMul(x, x) + FixedMul(y, y);
+    print(f:FixedSqrt(speed));
+    delay(1);
+  }
+}
+*/
+//taken from snsmp-v27.pk3
+/*
+function void HudMessageOnPlayer(str text, int id, int color, int alpha, int x, int y, int z)
+{
+    int wd = 640;
+    int ht = 480;
+    
+    if (GetCVar("screenblocks") < 11) ht -= 64;
+    if (z > 0) return;
+    
+    // modify scale based on z.
+    int scale = -z / ht;
+    wd = FixedMul(wd<<16, scale)>>16;
+    ht = FixedMul(ht<<16, scale)>>16;
+    
+    int hwd = wd/2;
+    int hht = ht/2;
+    int KP = hwd;
+    
+    SetHudSize(wd, ht, 0);
+    int tX = ((FixedDiv(x, z)*KP)>>16)+hwd;
+    int tY = ((FixedDiv(y, z)*KP)>>16)+hht;
+    HudMessage(s:text; HUDMSG_PLAIN|HUDMSG_NOWRAP|HUDMSG_ALPHA, id, color, tX<<16, tY<<16, 0.1, alpha);
+}
+
+script "Radar" ENTER CLIENTSIDE
+{
+	int team = GetPlayerInfo(ConsolePlayerNumber(), PLAYERINFO_TEAM);
+	//int i;
+	sethudsize(640, 480, 1);
+	setfont("radar");
+	hudmessage(c:'A'; HUDMSG_PLAIN, 128, -1, 144.0, 144.0, 0);
+	while(1)
+	{
+	for(int i = 0; i < 16; i++) if(i != consoleplayernumber()) drawdot(TID_PLAYER+i);
+		/*for (int p = 0; p > 64; p++) 
+		{
+			if(p != consoleplayernumber() )// && GetPlayerInfo(p, PLAYERINFO_TEAM) != team) 
+			{
+				drawdot(-4301);
+			}
+		}
+
+	Delay(1);
+	}
+}
+
+script "RadarRS" RESPAWN CLIENTSIDE
+{
+ACS_NamedExecuteAlways("Radar",0);
+}
+
+function void drawdot(int tid)
+{
+	int x, y, ang, len;
+	if(GetActorProperty(tid, APROP_Health) > 0)
+	{
+		x = getactorx(0) - getactorx(tid);
+		y = getactory(0) - getactory(tid);
+		ang = vectorangle(x, y);
+
+		if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(y, sin(ang));
+		else len = fixeddiv(x, cos(ang));
+
+		len /= 10;
+
+		if(len <= 64.0)
+		{
+			ang = getactorangle(0) - ang + 0.25;
+			x = (fixedmul(len, cos(ang)) + 80.0)>>16;
+			y = (fixedmul(len, sin(ang)) + 80.0)>>16;
+			setfont("blip");
+			hudmessage(c:'A'; HUDMSG_PLAIN, 0, -1, x<<16, y<<16, 1873);
+			log(i:tid);
+		}
+	}
+}
+*/

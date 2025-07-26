@@ -1,0 +1,45 @@
+// Skins recolored from IDMSkins by Kaapeli47 and 150Skins by Doomkid and others
+
+//Counter-Terrorists
+{
+	name = "GIGN"
+	sprite = GGNR
+	class = "Counter-Terrorist"
+}
+{
+	name = "GSG-9"
+	sprite = GSGR
+	class = "Counter-Terrorist"
+}
+{
+	name = "SAS"
+	sprite = SASR
+	class = "Counter-Terrorist"
+}
+{
+	name = "SEAL Team-6"
+	sprite = ST6R
+	class = "Counter-Terrorist"
+}
+
+//Terrorists
+{
+	name = "Arctic Avengers"
+	sprite = ATAR
+	class = "Terrorist"
+}
+{
+	name = "Guerilla Warfare"
+	sprite = GRWR
+	class = "Terrorist"
+}
+{
+	name = "Elite Krew"
+	sprite = LETR
+	class = "Terrorist"
+}
+{
+	name = "Phoenix Connexion"
+	sprite = PXCR
+	class = "Terrorist"
+}

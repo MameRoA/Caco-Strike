@@ -1,0 +1,113 @@
+#library "radarb"
+#import "zcommon.bcs"
+
+int bs;
+
+//Code here is under an unknown license Use at your own risk...
+
+script "Radarr" ENTER CLIENTSIDE
+{
+	int i;
+	thing_changetid(0, 4300+playernumber());
+	sethudsize(640, 480, 1);
+	setfont("radar");
+	hudmessage(c:'A'; HUDMSG_PLAIN, 128, -1, 144.0, 144.0, 0);
+	while(1)
+	{
+		for(i = 0; i < 64; i++)
+		{
+			if(( i != consoleplayernumber() ) && (GetPlayerInfo(i, PLAYERINFO_TEAM) == GetPlayerInfo(ConsolePlayerNumber(), PLAYERINFO_TEAM) )) 
+			{
+			drawdot(4300+i, 1);
+			}
+			else if(( i != consoleplayernumber() ) && (GetPlayerInfo(i, PLAYERINFO_TEAM) != GetPlayerInfo(ConsolePlayerNumber(), PLAYERINFO_TEAM) && CheckActorInventory(4300+i,"IsFiring") == 1 ))
+			{
+			drawdotE(4300+i);
+			}
+			drawdotbs(-1041+i);
+		}
+		delay(1);
+	}
+}
+script "RadarRS" RESPAWN CLIENTSIDE
+{	
+	ACS_NamedExecuteAlways("Radarr",0);
+	thing_changetid(0, 4300+playernumber());
+}
+script "RadarD" DEATH 
+{	
+	thing_changetid(4300+playernumber(), 0);
+}
+script "BombSiteRadar" (void)
+{
+	thing_changetid(0, -1041+bs++);
+}
+function void drawdot(int tid, int player)
+{
+	int x, y, ang, len;
+	if(GetActorProperty(tid, APROP_Health) > 0)
+	{
+		x = getactorx(0) - getactorx(tid);
+		y = getactory(0) - getactory(tid);
+		ang = vectorangle(x, y);
+
+		if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(y, sin(ang));
+		else len = fixeddiv(x, cos(ang));
+
+		len /= 25; //original value was 10
+
+		if(len <= 64.0)
+		{
+			ang = getactorangle(0) - ang + 0.25;
+			x = (fixedmul(len, cos(ang)) + 80.0)>>16;
+			y = (fixedmul(len, sin(ang)) + 80.0)>>16;
+			if(player) setfont("bblip");
+			hudmessage(c:'A'; HUDMSG_PLAIN, 0, -1, x<<16, y<<16, 1873);
+		}
+	}
+}
+function void drawdotE(int tid)
+{
+	int x, y, ang, len;
+	if(GetActorProperty(tid, APROP_Health) > 0)
+	{
+		x = getactorx(0) - getactorx(tid);
+		y = getactory(0) - getactory(tid);
+		ang = vectorangle(x, y);
+
+		if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(y, sin(ang));
+		else len = fixeddiv(x, cos(ang));
+
+		len /= 25; //original value was 10
+
+		if(len <= 32.0)
+		{
+			ang = getactorangle(0) - ang + 0.25;
+			x = (fixedmul(len, cos(ang)) + 80.0)>>16;
+			y = (fixedmul(len, sin(ang)) + 80.0)>>16;
+			setfont("rblip");
+			hudmessage(c:'A'; HUDMSG_PLAIN, 0, -1, x<<16, y<<16, 1873);
+		}
+	}
+}
+function void drawdotbs(int tid)
+{
+	int x, y, ang, len;
+		x = getactorx(0) - getactorx(tid);
+		y = getactory(0) - getactory(tid);
+		ang = vectorangle(x, y);
+
+		if(((ang+0.125)%0.5) > 0.25) len = fixeddiv(y, sin(ang));
+		else len = fixeddiv(x, cos(ang));
+
+		len /= 25;
+
+		if( (len <= 64.0) && ( stricmp(GetActorClass(tid),"BombSiteMedium",8) == 0))
+		{
+			ang = getactorangle(0) - ang + 0.25;
+			x = (fixedmul(len, cos(ang)) + 80.0)>>16;
+			y = (fixedmul(len, sin(ang)) + 80.0)>>16;
+			setfont("bicon");
+			hudmessage(c:'A'; HUDMSG_PLAIN, 0, -1, x<<16, y<<16, 1873);
+	}
+}

@@ -1,0 +1,29 @@
+TeamGame
+{
+addflag MAPRESETS
+addflag MAPRESET_RESETS_MAPTIME
+addflag PLAYERSEARNPOINTS
+//addflag DONTSPAWNMAPTHINGS
+addflag DEADSPECTATORS
+Name "Defusal"
+ShortName "DE"
+	GameSettings
+    {
+	sv_oldfalldamage = 1
+    }
+}
+Skulltag
+{
+addflag MAPRESETS
+addflag MAPRESET_RESETS_MAPTIME
+//addflag PLAYERSEARNPOINTS
+//addflag DONTSPAWNMAPTHINGS
+addflag DEADSPECTATORS
+Name "Hostage Rescue"
+ShortName "CS"
+	GameSettings
+    {
+	sv_oldfalldamage = 1
+	sv_flagreturntime = 2147483647
+    }
+}

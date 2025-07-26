@@ -1,0 +1,12 @@
+ACTOR CaSWeapon : Weapon
+{
+  Weapon.BobRangeX 0.15
+  Weapon.BobRangeY 1
+  Weapon.BobSpeed 1.6
+  Weapon.BobStyle "Alpha"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOAUTOFIRE
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+ }

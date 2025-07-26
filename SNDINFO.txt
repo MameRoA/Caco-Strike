@@ -1,0 +1,271 @@
+weapons/deaglefire	DEAGLE
+weapons/deaglere2	DEAGR1
+weapons/deaglere1	DEAGR2
+weapons/akfire	AK47F
+weapons/akre2	AKR2
+weapons/akre1	AKR1
+weapons/m4fire	M4F
+weapons/m4fs	M4FS
+weapons/m4re3	M4R3
+weapons/m4re2	M4R2
+weapons/m4re1	M4R1
+weapons/g18fire	G18F
+weapons/g18re2	G18R2
+weapons/g18re1	G18R1
+weapons/sigfire	P228
+weapons/sigr3	P228s
+weapons/uspfire	USPF
+weapons/uspre3	USPR3
+weapons/uspre2	USPR2
+weapons/uspre1	USPR1
+weapons/mp5f	MP5SF
+weapons/mp5re3	MP5R3
+weapons/mp5re2	MP5R2
+weapons/mp5re1	MP5R1
+weapons/p90fire	P90F
+weapons/p90re4	P90R4
+weapons/p90re3	P90R3
+weapons/p90re2	P90R2
+weapons/p90re1	P90R1
+weapons/awpfire AWPF
+weapons/awpb	AWPB
+weapons/awpre2	AWPRE2
+weapons/awpre1	AWPRE1
+weapons/flashbangring	FLRNG
+weapons/grenades	FITH
+weapons/c4beep	C4BEEP
+weapons/dualfire DUALF
+weapons/dualr1	dualr1
+weapons/dualr2	dualr2
+weapons/dualr3	dualr3
+weapons/mp40f mp40f
+weapons/mp9re1	mp9r1
+weapons/mp9re2	mp9r2
+weapons/uzifire uziF
+weapons/uzire1	uzir1
+weapons/uzire2	uzir2
+weapons/anfire anF
+weapons/anre1	anr1
+weapons/anre2	anr2
+weapons/mg40fire mg40f
+weapons/mg40re1	mg40r1
+weapons/mg40re2	scotr2
+weapons/scoutfire scotf
+weapons/scoutre1	scotr1
+weapons/scoutre2	scotr2
+weapons/r8hammer r8c
+weapons/r8fire r8f
+weapons/r8re1	r8r1
+weapons/r8re2	r8r2
+weapons/tec9f	t9f
+weapons/t9r1	uspr1
+weapons/t9r2	uspr2
+weapons/ampfire	ampf
+weapons/bcase1 bcas1
+weapons/bcase2 bcas2
+weapons/shell1 shel1
+weapons/shell2 shel2
+$random weapons/bcase { weapons/bcase1 weapons/bcase2 }
+$random weapons/shells { weapons/shell1 weapons/shell2 }
+$attenuation weapons/bcase 3.0
+$attenuation weapons/shells 3.0
+$volume weapons/shells 0.33
+$volume weapons/bcase 0.33
+
+
+//announcer
+announcer/ctwin	ctwin
+announcer/twin 	terwin
+announcer/draw	rnddrw
+announcer/bomplant	bombpl
+announcer/bomdef	bombdef
+announcer/go1	go0
+announcer/go2	go1
+announcer/go3	go2
+announcer/go4	go3
+announcer/hostagec	hostagec
+announcer/hostagerescued	rescued
+announcer/hostagedown	hosdown
+
+p/cdeath1	cdeath1
+p/cdeath2	cdeath2
+p/cdeath3	cdeath3
+p/cdeath4	cdeath4
+p/cdeath5	cdeath5
+p/cdeath6	cdeath6
+
+$random misc/cdeath { p/cdeath1 p/cdeath2 p/cdeath3 p/cdeath4 p/cdeath5 p/cdeath6 }  
+$playeralias	cas		male	*death		misc/cdeath
+
+p/cgrunt1	cgrunt1
+p/cgrunt2	cgrunt2
+p/cgrunt3	cgrunt3
+
+$random misc/grunt	{ p/cgrunt1 p/cgrunt2 p/cgrunt3 }
+
+p/cpain1	cpain1
+p/cpain2	cpain2
+p/cpain3 	cpain3
+p/cpain4	cpain4
+p/cpain5	cpain5
+
+$random misc/cpain { p/cpain1 p/cpain2 p/cpain3 p/cpain4 p/cpain5 }
+
+$playeralias	cas		male	*pain25		misc/cpain
+$playeralias	cas		male	*pain50		misc/cpain
+$playeralias	cas		male	*pain75		misc/cpain
+$playeralias	cas		male	*pain100	misc/cpain
+
+$playersound	cas		male	*land		DSTILE1
+
+helmet	chelm
+
+misc/headshot1	chead1
+misc/headshot2	chead2
+
+$random	headshot	{ misc/headshot1	misc/headshot2 }
+
+$playersound	cas		male	*grunt		dsempty
+
+$playersound	cas		male	*usefail	dsempty
+
+$random announcer/go { announcer/go1 announcer/go2 announcer/go3 announcer/go4 }
+
+//Low Caliber Guns Are 65% Attenuation
+//High Calibers (Deag, Rifles, Snipers, Machine Guns) Are 40% Attenuation
+//AWP Is 20%
+//Suppressed Guns Are 100%
+
+
+$attenuation weapons/deaglefire 0.40
+
+$attenuation weapons/akfire 0.40
+
+$attenuation weapons/m4fire 0.40
+
+$attenuation weapons/m4fs 1.0
+
+$attenuation weapons/g18fire 0.65
+
+$attenuation weapons/sigfire 0.65
+
+$attenuation weapons/uspfire 0.65
+
+$attenuation weapons/mp5f 1.0
+
+$attenuation weapons/p90fire 0.65
+
+$attenuation weapons/awpfire 0.20
+
+$attenuation weapons/dualfire 0.65
+
+$attenuation weapons/mp40f 0.65
+
+$attenuation weapons/uzifire 0.65
+
+$attenuation weapons/anfire 0.40
+
+$attenuation weapons/mg40fire 0.40
+
+$attenuation weapons/scoutfire 0.40
+
+$attenuation weapons/r8fire 0.40
+
+$attenuation weapons/tec9f 0.65
+
+$attenuation weapons/ampfire 0.65
+
+$attenuation step/default1 0.50
+$attenuation step/default2 0.50
+$attenuation step/default3 0.50
+$attenuation step/default4 0.50
+
+$attenuation step/grass1 0.50
+$attenuation step/grass2 0.50
+$attenuation step/grass3 0.50
+$attenuation step/grass4 0.50
+
+$attenuation step/water1 0.50
+$attenuation step/water2 0.50
+$attenuation step/water3 0.50
+$attenuation step/water4 0.50
+
+$attenuation step/carpet1 0.50
+$attenuation step/carpet2 0.50
+$attenuation step/carpet3 0.50
+
+$attenuation step/gravel1 0.50
+$attenuation step/gravel2 0.50
+$attenuation step/gravel3 0.50
+$attenuation step/gravel4 0.50
+
+$attenuation step/hard1 0.50
+$attenuation step/hard2 0.50
+$attenuation step/hard3 0.50
+$attenuation step/hard4 0.50
+$attenuation step/hard5 0.50
+$attenuation step/hard6 0.50
+
+$attenuation step/metal/a1 0.50
+$attenuation step/metal/a2 0.50
+$attenuation step/metal/a3 0.50
+$attenuation step/metal/a4 0.50
+$attenuation step/metal/a5 0.50
+$attenuation step/metal/a6 0.50
+
+$attenuation step/metal/b1 0.50
+$attenuation step/metal/b2 0.50
+$attenuation step/metal/b3 0.50
+$attenuation step/metal/b4 0.50
+
+$attenuation step/rock1 0.50
+$attenuation step/rock2 0.50
+$attenuation step/rock3 0.50
+$attenuation step/rock4 0.50
+$attenuation step/rock5 0.50
+$attenuation step/rock6 0.50
+$attenuation step/rock7 0.50
+$attenuation step/rock8 0.50
+
+$attenuation step/tile/a1 0.50
+$attenuation step/tile/a2 0.50
+$attenuation step/tile/a3 0.50
+$attenuation step/tile/a4 0.50
+$attenuation step/tile/a5 0.50
+$attenuation step/tile/a6 0.50
+
+$attenuation step/tile/b1 0.50
+$attenuation step/tile/b2 0.50
+$attenuation step/tile/b3 0.50
+$attenuation step/tile/b4 0.50
+$attenuation step/tile/b5 0.50
+$attenuation step/tile/b6 0.50
+$attenuation step/tile/b7 0.50
+$attenuation step/tile/b8 0.50
+
+$attenuation step/wood1 0.50
+$attenuation step/wood2 0.50
+$attenuation step/wood3 0.50
+$attenuation step/wood4 0.50
+
+$attenuation step/slime1 0.50
+$attenuation step/slime2 0.50
+$attenuation step/slime3 0.50
+$attenuation step/slime4 0.50
+
+$attenuation step/slimy1 0.50
+$attenuation step/slimy2 0.50
+$attenuation step/slimy3 0.50
+$attenuation step/slimy4 0.50
+
+$attenuation step/lava1 0.50
+$attenuation step/lava2 0.50
+$attenuation step/lava3 0.50
+$attenuation step/lava4 0.50
+
+$attenuation step/ice1 0.50
+$attenuation step/ice2 0.50
+$attenuation step/ice3 0.50
+$attenuation step/ice4 0.50
+$attenuation step/ice5 0.50
+$attenuation step/ice6 0.50

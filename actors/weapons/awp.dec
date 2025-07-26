@@ -1,0 +1,132 @@
+ACTOR MagnumSniper : CaSWeapon
+{
+ Tag "AWP"
+ Weapon.SlotNumber 1
+ Weapon.SelectionOrder 1
+ Weapon.KickBack 0
+ Weapon.AmmoType1 "AWPAmmo"
+ Weapon.AmmoUse1 1
+ Weapon.AmmoType2 "AWPReserve"
+ Weapon.AmmoUse2 1
+ Weapon.AmmoGive2 0
+ Decal "BulletChip"
+ Obituary "%k >[AWP]> %o"
+ +WEAPON.NOAUTOAIM
+ +WEAPON.AMMO_CHECKBOTH
+ +WEAPON.NOLMS
+ +INVENTORY.UNDROPPABLE
+  States
+  {
+  Ready:
+	TNT1 A 0 A_GiveInventory("PowerRifle",1)
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
+    TNT1 A 0 A_JumpIfInventory("Scoped",1,"ReadyScoped")
+    CMGG A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+    Loop
+	NoFire:
+    TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
+	Goto Ready
+	CMGG A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  ReadyScoped:
+    TNT1 A 0 A_ZoomFactor(3,ZOOM_INSTANT)
+    SNPS A 1 A_WeaponReady(WRF_NOBOB)
+    Loop
+  Deselect:
+	TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+    TNT1 A 0 A_TakeInventory("Scoped",1)
+   TNT1 A 0 A_TakeInventory("PowerScope",1)
+    TNT1 A 0 A_TakeInventory("HoldingPrimary",1)
+	TNT1 A 0 A_TakeInventory("PowerRifle",1)
+    TNT1 AA 0 A_Lower
+    CMGG A 1 A_Lower
+    Loop
+  Select:
+    TNT1 A 0 A_GiveInventory("HoldingPrimary",1)
+	TNT1 A 0 A_GiveInventory("PowerRifle",1)
+    TNT1 AA 0 A_Raise
+    CMGG A 1 A_Raise
+    Loop
+  Fire:
+  CMGG A 0 A_JumpIfInventory("AWPAmmo",1,1)
+  Goto Reload
+  CMGG A 0 A_PlayWeaponSound("weapons/awpfire")
+  CMGF A 1 bright ACS_NamedExecuteWithResult("AWPFire")
+    TNT1 A 0 A_TakeInventory("AWPAmmo",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  CMGR ABCDEFG 3
+  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,9)
+  TNT1 A 0 A_PlaySound("weapons/awpb")
+  CMGR HIJKL 3 A_WeaponReady(WRF_NOFIRE|WRF_NOBOB)
+  TNT1 A 0 A_PlaySound("weapons/awpb")
+  Goto Ready
+  AltFire:
+  TNT1 A 0 A_JumpIfInventory("Scoped",1,"Alt2")
+  TNT1 A 0 A_GiveInventory("Scoped",1)
+  TNT1 A 0 A_GiveInventory("PowerScope",1)
+  TNT1 A 0 A_ZoomFactor(3,ZOOM_INSTANT)
+  SNPS A 5
+  Goto Ready
+  Alt2:
+  TNT1 A 0 A_TakeInventory("Scoped",1)
+  TNT1 A 0 A_TakeInventory("PowerScope",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  CMGG A 5
+  Goto Ready
+  NoAmmo:
+  TNT1 A 0 A_TakeInventory("Scoped",1)
+  TNT1 A 0 A_TakeInventory("PowerScope",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  CMGG A 2 A_CheckReload
+  Goto Ready
+  Reload:
+  TNT1 A 0 A_JumpIfInventory("AWPReserve", 1, 1)
+  Goto NoAmmo
+  TNT1 A 0 A_TakeInventory("Scoped",1)
+  TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
+  TNT1 A 0 A_TakeInventory("PowerScope",1)
+  TNT1 A 0 A_JumpIfInventory("AWPAmmo", 0, "Ready")
+  AK4R A 0 A_PlayWeaponSound("weapons/awpre1") 
+  CMRE A 4
+  CMRE BC 4
+  UnitReload:
+  TNT1 A 0 A_JumpIfInventory("AWPReserve", 1, 1)
+  Goto ReloadFinish
+  TNT1 A 0 A_JumpIfInventory("AWPAmmo", 5, "ReloadFinish")
+  TNT1 A 0 A_TakeInventory("AWPReserve", 1, TIF_NOTAKEINFINITE)
+  TNT1 A 0 A_GiveInventory("AWPAmmo", 1)
+  Goto UnitReload
+  ReloadFinish:
+  CMRE DEEE 4
+  AK4R A 0 A_PlayWeaponSound("weapons/awpre2")
+  CMRE EDA 4
+  CMGR ABCDEFG 4
+  TNT1 A 0 A_PlaySound("weapons/awpb")
+  CMGR HIJKL 4
+  TNT1 A 0 A_PlaySound("weapons/awpb")
+  CMGG A 2 A_WeaponReady
+  Goto Ready
+  Flash:
+    TNT1 A 2 bright
+    Stop
+  }
+}
+Actor AWPReserve : Ammo
+{
+	Game Doom
+	Inventory.Amount 35
+	Inventory.MaxAmount 35
+	Ammo.BackpackAmount 35
+	Ammo.BackpackMaxAmount 35
+	+IGNORESKILL
+}
+Actor AWPAmmo : Ammo
+{
+	Game Doom
+	Inventory.Amount 5
+	Inventory.MaxAmount 5
+	Ammo.BackpackAmount 5
+	Ammo.BackpackMaxAmount 5
+	+IGNORESKILL
+}
+Actor Scoped : Inventory { Inventory.MaxAmount 1 }
