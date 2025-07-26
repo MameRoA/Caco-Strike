@@ -40,10 +40,10 @@ PUG/Scrim:
 
 
 All CVars and default values are as follows:
-cs_timer = 2 // this cvar is in minutes
-cs_buytime = 10
-cs_buytotal = 30 //unused as of now... This means that players can buy weapons whenever they want, but it's not the end of the world I guess
-cs_money = 800
+cs_timer = 2 // this cvar is in minutes, controls the round timer
+cs_buytime = 10 //controls how long players have to buy weapons
+cs_buytotal = 30 //controls how long players have to buy weapons, includes freezetime
+cs_money = 800 //controlls the amount of money players have at the start of a round
 cs_bombtimer = 40 // controls bomb explosion timer, in seconds
 cs_defusal = false // uses the vanilla teamgame mode, currently the most playtested gamemode.
-cs_hostage = false // must use Skulltag gamemode, as the logic from that is used as a basis for the Hostage Rescue Gamemode
+cs_hostage = false // must use Skulltag gamemode, as the logic from that is used as a basis for the Hostage Rescue Gamemode (Unfinished)
