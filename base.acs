@@ -70,12 +70,24 @@ function bool RayIntersectsAABB (int orgX, int orgY, int orgZ, int dirX, int dir
 
     return tmax >= tmin;
 }
-
-//Thanks to TDRR for his Zandronum based headshot algorithim!
-
-Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT 
+function int VectorLength3D(int x, int y, int z)
 {
-	if(type != GAMEEVENT_ACTOR_DAMAGED) {terminate;}
+	 return VectorLength(VectorLength(x, y), z);
+}
+function int ActorDistance(int tid1, int tid2)
+{
+	return VectorLength3D(GetActorX(tid2) - GetActorX(tid1),
+	                      GetActorY(tid2) - GetActorY(tid1),
+	                      GetActorZ(tid2) - GetActorZ(tid1));
+}
+function int pow (int x, int n)
+{
+	int y = 1;
+	while (n-- > 0) y *= x;
+	return y;
+}
+function int HitboxEval (void)
+{
 	//log(s:GetActorClass(0));
 	
 	//if(!(ClassifyActor(0) & ACTOR_MONSTER))
@@ -84,14 +96,12 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 	//<< 16 is the conversion to fixed. BCC and GDCC have cleaner syntax for
 	//this, but this is meant to be usable in all compilers.
 	int headMaxRadius = GetUserVariable(0, "user_headRadius") << 16;
-	if(headMaxRadius == 0.0) {terminate;}
 	
 	int headMinRadius = -headMaxRadius;
 	int headMaxHeight  = GetUserVariable(0, "user_headMaxHeight") << 16;
 	int headMinHeight = GetUserVariable(0, "user_headMinHeight") << 16;
 	
 	int legMaxRadius = GetUserVariable(0, "user_legRadius") << 16;
-	if(legMaxRadius == 0.0) {terminate;}
 	
 	int legMinRadius = -legMaxRadius;
 	int legMaxHeight  = GetUserVariable(0, "user_legMaxHeight") << 16;
@@ -124,30 +134,168 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 	if( ((hitZ - GetActorZ(0)) <= legMaxHeight) &&
 	RayIntersectsAABB(hitX - GetActorX(0), hitY - GetActorY(0), hitZ - GetActorZ(0), FixedMul(hitCosPitch, cos(hitAngle)), FixedMul(hitCosPitch, sin(hitAngle)), sin(hitCosPitch), legMaxRadius, legMinHeight, legMaxHeight))
 	{
-		//printbold(s:"oops, legshot");
-		
-		dmg = FixedMul(dmg,0.55);
-		//PrintBold(i:dmg);
-		SetResultValue(dmg);
+		return 1;
 	}
 	else if( ((hitZ - GetActorZ(0)) >= headMinHeight) &&
 	RayIntersectsAABB(hitX - GetActorX(0), hitY - GetActorY(0), hitZ - GetActorZ(0), FixedMul(hitCosPitch, cos(hitAngle)), FixedMul(hitCosPitch, sin(hitAngle)), sin(hitCosPitch), headMaxRadius, headMinHeight, headMaxHeight))
 	{
-		//printbold(s:"boom headshot");
-		
-		//Set the amount of damage dealt (and also give an item to signal headshot
-		//death, as currently this event doesn't allow changing damagetypes)
-		//dmg *= 5;
-		dmg = FixedMul(dmg,4.5);
-		GiveInventory("HeadHit",1);
-		//PrintBold(i:dmg);
+		return 2;
+	}
+	else
+	{
+		return -1;
+	}
+}
+function int Falloff (int dam, fixed multi)
+{
+SetActivator(0,AAPTR_DAMAGE_TARGET);
+int tid1 = ActivatorTID();
+SetActivator(0,AAPTR_DAMAGE_SOURCE);
+int tid2 = ActivatorTID();
+if (tid1 == 0 || tid2 == 0) { return dam; }
+//printbold(i:tid1);
+//printbold(i:tid2);
+//printbold(f:dist);
+fixed dist = FixedDiv(ActorDistance(tid1,tid2),512.0);
+int i = dist % 1.0;
+	while(i < dist)
+	{
+	if (dist < 1.0)
+	{
+	//printbold(f:dist);
+	break;
+	}
+	//printbold(f:i);
+	dam = FixedMul(dam,multi);
+	i = i+1.0;
+	}
+return dam;
+}
+//Thanks to TDRR for his Zandronum based headshot algorithim!
+int ecCount;
+Script "GiveECaTID" (VOID)
+{
+Thing_ChangeTID(0,4400+ecCount++);
+}
+Script "RemoveAnEC" (VOID)
+{
+ecCount--;
+}
+Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT 
+{
+	if(type != GAMEEVENT_ACTOR_DAMAGED) { terminate; }
+	if(SetActivator(0,AAPTR_DAMAGE_SOURCE))
+	{
+	str weapon = GetWeapon();
+	int tid1 = ActivatorTID();
+	//printbold(s:"yes");
+	}
+	SetActivator(0,AAPTR_DAMAGE_TARGET);
+	int tid2 = ActivatorTID();
+	SetActivator(0,AAPTR_DAMAGE_SOURCE);
+	if ( HitboxEval() == -1 )
+	{
+		if (!StrICMP(weapon, "CV47"))
+		{
+		dmg = Falloff(dmg,0.98);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "M4A1"))
+		{
+		dmg = Falloff(dmg,0.98);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Sidearm"))
+		{
+		dmg = Falloff(dmg,0.75);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "KM45"))
+		{
+		dmg = Falloff(dmg,0.79);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		//[MX] fallback behavior if weapon is undefined here
+		else
+		{
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		dmg = Falloff(dmg,0.8);
+		SetResultValue(dmg);
+		}
+	}
+	//Headshot Hitbox is true
+	if (HitboxEval() == 2 )
+	{
+		if (!StrICMP(weapon, "CV47"))
+		{
+		dmg = Falloff(152,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "M4A1"))
+		{
+		dmg = Falloff(136,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Sidearm"))
+		{
+		dmg = Falloff(118,0.75);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "KM45"))
+		{
+		dmg = Falloff(132,0.79);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		//[MX] Lower than the original multiplier to make sure contributors properly define this value
+		else
+		{
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		dmg = Falloff(dmg,0.8);
+		SetResultValue(dmg*3);
+		}
+	//legshot hitbox is true
+	if (HitboxEval() == 1)
+	{
+		if (!StrICMP(weapon, "CV47"))
+		{
+		dmg = Falloff(26,0.98);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Sidearm"))
+		{
+		dmg = FixedMul(22,0.75);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "KM45"))
+		{
+		dmg = FixedMul(24,0.79);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else
+		{
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		dmg = Falloff(dmg,0.8);
+		SetResultValue(dmg/2);
+		}
+	}
 		//Aim Punch
 		if (dmg >= 43)
 		{
-			SetActorPitch(0,FixedDiv(GetActorPitch(0), 360.0) + FixedDiv(-4.0, 256.0));
+			SetActorPitch(0,FixedDiv(GetActorPitch(0), 360.0) + FixedDiv(-4.0, 360.0));
 			//SetActorAngle(0,angle >> 8 + random(-0.1 >> 8, 0.1 >> 8));
 		}
+		GiveInventory("HeadHit",1);
 		//Obituary
 		if( (GetActorProperty(0, APROP_HEALTH) - dmg) <= 0)
 		{
@@ -155,7 +303,10 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 			ACS_NamedExecuteAlways("HSPre",0);
 		}
 	}
+	printbold(i:dmg);
+	printbold(f:ActorDistance(tid1,tid2));
 }
+
 //script "AimPunch" (int type, int dmg, int prop2) EVENT 
 //{
 	//if(type != GAMEEVENT_ACTOR_DAMAGED) {terminate;}

@@ -175,97 +175,97 @@ $attenuation weapons/tec9f 0.65
 
 $attenuation weapons/ampfire 0.65
 
-$attenuation step/default1 0.50
-$attenuation step/default2 0.50
-$attenuation step/default3 0.50
-$attenuation step/default4 0.50
+$attenuation step/default1 0.83
+$attenuation step/default2 0.83
+$attenuation step/default3 0.83
+$attenuation step/default4 0.83
 
-$attenuation step/grass1 0.50
-$attenuation step/grass2 0.50
-$attenuation step/grass3 0.50
-$attenuation step/grass4 0.50
+$attenuation step/grass1 0.83
+$attenuation step/grass2 0.83
+$attenuation step/grass3 0.83
+$attenuation step/grass4 0.83
 
-$attenuation step/water1 0.50
-$attenuation step/water2 0.50
-$attenuation step/water3 0.50
-$attenuation step/water4 0.50
+$attenuation step/water1 0.83
+$attenuation step/water2 0.83
+$attenuation step/water3 0.83
+$attenuation step/water4 0.83
 
-$attenuation step/carpet1 0.50
-$attenuation step/carpet2 0.50
-$attenuation step/carpet3 0.50
+$attenuation step/carpet1 0.83
+$attenuation step/carpet2 0.83
+$attenuation step/carpet3 0.83
 
-$attenuation step/gravel1 0.50
-$attenuation step/gravel2 0.50
-$attenuation step/gravel3 0.50
-$attenuation step/gravel4 0.50
+$attenuation step/gravel1 0.83
+$attenuation step/gravel2 0.83
+$attenuation step/gravel3 0.83
+$attenuation step/gravel4 0.83
 
-$attenuation step/hard1 0.50
-$attenuation step/hard2 0.50
-$attenuation step/hard3 0.50
-$attenuation step/hard4 0.50
-$attenuation step/hard5 0.50
-$attenuation step/hard6 0.50
+$attenuation step/hard1 0.83
+$attenuation step/hard2 0.83
+$attenuation step/hard3 0.83
+$attenuation step/hard4 0.83
+$attenuation step/hard5 0.83
+$attenuation step/hard6 0.83
 
-$attenuation step/metal/a1 0.50
-$attenuation step/metal/a2 0.50
-$attenuation step/metal/a3 0.50
-$attenuation step/metal/a4 0.50
-$attenuation step/metal/a5 0.50
-$attenuation step/metal/a6 0.50
+$attenuation step/metal/a1 0.83
+$attenuation step/metal/a2 0.83
+$attenuation step/metal/a3 0.83
+$attenuation step/metal/a4 0.83
+$attenuation step/metal/a5 0.83
+$attenuation step/metal/a6 0.83
 
-$attenuation step/metal/b1 0.50
-$attenuation step/metal/b2 0.50
-$attenuation step/metal/b3 0.50
-$attenuation step/metal/b4 0.50
+$attenuation step/metal/b1 0.83
+$attenuation step/metal/b2 0.83
+$attenuation step/metal/b3 0.83
+$attenuation step/metal/b4 0.83
 
-$attenuation step/rock1 0.50
-$attenuation step/rock2 0.50
-$attenuation step/rock3 0.50
-$attenuation step/rock4 0.50
-$attenuation step/rock5 0.50
-$attenuation step/rock6 0.50
-$attenuation step/rock7 0.50
-$attenuation step/rock8 0.50
+$attenuation step/rock1 0.83
+$attenuation step/rock2 0.83
+$attenuation step/rock3 0.83
+$attenuation step/rock4 0.83
+$attenuation step/rock5 0.83
+$attenuation step/rock6 0.83
+$attenuation step/rock7 0.83
+$attenuation step/rock8 0.83
 
-$attenuation step/tile/a1 0.50
-$attenuation step/tile/a2 0.50
-$attenuation step/tile/a3 0.50
-$attenuation step/tile/a4 0.50
-$attenuation step/tile/a5 0.50
-$attenuation step/tile/a6 0.50
+$attenuation step/tile/a1 0.83
+$attenuation step/tile/a2 0.83
+$attenuation step/tile/a3 0.83
+$attenuation step/tile/a4 0.83
+$attenuation step/tile/a5 0.83
+$attenuation step/tile/a6 0.83
 
-$attenuation step/tile/b1 0.50
-$attenuation step/tile/b2 0.50
-$attenuation step/tile/b3 0.50
-$attenuation step/tile/b4 0.50
-$attenuation step/tile/b5 0.50
-$attenuation step/tile/b6 0.50
-$attenuation step/tile/b7 0.50
-$attenuation step/tile/b8 0.50
+$attenuation step/tile/b1 0.83
+$attenuation step/tile/b2 0.83
+$attenuation step/tile/b3 0.83
+$attenuation step/tile/b4 0.83
+$attenuation step/tile/b5 0.83
+$attenuation step/tile/b6 0.83
+$attenuation step/tile/b7 0.83
+$attenuation step/tile/b8 0.83
 
-$attenuation step/wood1 0.50
-$attenuation step/wood2 0.50
-$attenuation step/wood3 0.50
-$attenuation step/wood4 0.50
+$attenuation step/wood1 0.83
+$attenuation step/wood2 0.83
+$attenuation step/wood3 0.83
+$attenuation step/wood4 0.83
 
-$attenuation step/slime1 0.50
-$attenuation step/slime2 0.50
-$attenuation step/slime3 0.50
-$attenuation step/slime4 0.50
+$attenuation step/slime1 0.83
+$attenuation step/slime2 0.83
+$attenuation step/slime3 0.83
+$attenuation step/slime4 0.83
 
-$attenuation step/slimy1 0.50
-$attenuation step/slimy2 0.50
-$attenuation step/slimy3 0.50
-$attenuation step/slimy4 0.50
+$attenuation step/slimy1 0.83
+$attenuation step/slimy2 0.83
+$attenuation step/slimy3 0.83
+$attenuation step/slimy4 0.83
 
-$attenuation step/lava1 0.50
-$attenuation step/lava2 0.50
-$attenuation step/lava3 0.50
-$attenuation step/lava4 0.50
+$attenuation step/lava1 0.83
+$attenuation step/lava2 0.83
+$attenuation step/lava3 0.83
+$attenuation step/lava4 0.83
 
-$attenuation step/ice1 0.50
-$attenuation step/ice2 0.50
-$attenuation step/ice3 0.50
-$attenuation step/ice4 0.50
-$attenuation step/ice5 0.50
-$attenuation step/ice6 0.50
+$attenuation step/ice1 0.83
+$attenuation step/ice2 0.83
+$attenuation step/ice3 0.83
+$attenuation step/ice4 0.83
+$attenuation step/ice5 0.83
+$attenuation step/ice6 0.83

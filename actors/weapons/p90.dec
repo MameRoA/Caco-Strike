@@ -51,7 +51,7 @@ ACTOR C90 : CaSWeapon
     TNT1 A 0 A_TakeInventory("P90Ammo",1)
   //TNT1 A 0 A_GiveInventory("P90Recoil",1)
   P90G C 2
-  P90G A 1 A_Refire
+  P90G A 0 A_Refire
   P90G AAAA 1 A_WeaponReady(WRF_ALLOWRELOAD)
   Goto Ready
   NoAmmo:

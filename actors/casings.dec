@@ -7,7 +7,7 @@ Actor PistolCasing
   BounceType Doom
   BounceFactor 0.35
   WallBounceFactor 0.35
-    BounceSound "weapons/bcase"
+  BounceSound "weapons/bcase"
   Height 1
   Radius 1
   Scale 0.12

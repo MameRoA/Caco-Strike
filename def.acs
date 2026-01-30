@@ -88,7 +88,7 @@ terminate;
 Script "DefusalENTERDuringGame" ENTER
 {
 	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
-if (PlayerCount() > 2 && buyTime <= 0)
+if (PlayerCount() > 1 && buyTime <= 0)
 {	
 	SetDeadSpectator(PlayerNumber(),true);
 }
@@ -99,7 +99,7 @@ else if (buyTime > 0)
 	Thing_Stop(0);
 	GiveInventory("CantFire",1);
 }
-if (PlayerCount() < 2 && csPlayers[PlayerNumber()] != 1 )
+if (PlayerCount() < 3 && csPlayers[PlayerNumber()] != 1 )
 {
 ACS_NamedExecuteAlways("RoundDraw",0);
 }
@@ -153,13 +153,21 @@ script "GiveWeaponsBackAfterRestart" ENTER
 	TakeInventory("Sidearm",1); 
 	}
   }
+  if (moneyD[playernumber()] > 16000 )
+  {
+  moneyD[playernumber()] = 16000;
+  }
+  delay(1);
   GiveInventory("Money", moneyD[playernumber()]);
   Delay(66);
   for (int i = 0; i < INV_WEAPONS; i++)
   {
    weaponsGive[PlayerNumber()][i] = "";
   }
-
+}
+script "DefusalMoneyDebug" (VOID)
+{
+GiveInventory("Money",20000);
 }
 Script "DefusalBombPlanted" (VOID)
 {
@@ -172,7 +180,7 @@ bombTid = UniqueTID();
 Thing_ChangeTID(0,bombTid);
   for (int t = 0; t < MAXPLAYERS; t++)
   {
-	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1 )
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 1 && CheckActorInventory(TID_PLAYER + t, "Money") < 16000 )
 	{
 	GiveActorInventory(TID_PLAYER + t,"Money",200);
 	}
@@ -279,9 +287,9 @@ PrintBold(s:"Bomb has been defused!");
 bombPlanted = 0;
   for (int t = 0; t < MAXPLAYERS; t++)
   {
-	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 )
+	if ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 && CheckActorInventory(TID_PLAYER + t, "Money") < 16000 )
 	{
-	GiveActorInventory(TID_PLAYER + t,"Money",200);
+	GiveActorInventory(TID_PLAYER + t,"Money",400);
 	}
 }
 Thing_Remove(bombTid);
@@ -367,7 +375,7 @@ script "DefusalDisplayRoundTimer" (VOID) CLIENTSIDE
 	//Delay(1);
 	terminate;
 }
-*/
+
 script "DefusalStartDisplayTimer" ENTER
 {
 		if ( gameStart == 1 && CheckInventory("IsCT") == 1)
@@ -383,6 +391,7 @@ script "DefusalStartDisplayTimer" ENTER
 	delay(1);
 	restart;
 }
+*/
 script "DefusalBombTimer" (Void)
 {
 	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }

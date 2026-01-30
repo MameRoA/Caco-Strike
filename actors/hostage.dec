@@ -1,3 +1,5 @@
+//This code is unused, go to defusal.dec for the hostage code (i know confusing),
+//Feel free to find a way to fix these hostages though, since they are the more intended versions
 /*
 actor Hostage : CustomInventory 10430
 {

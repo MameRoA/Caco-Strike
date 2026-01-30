@@ -16,13 +16,13 @@ ACTOR CSArmorBonus : BasicArmorBonus
 Actor PowerBullet : PowerSpeed
 {
 Powerup.Duration 10
-Speed 0.28
+Speed 0.33
 +POWERSPEED.NOTRAIL
 }
 Actor PowerScope : PowerSpeed
 {
 Powerup.Duration -2147483647
-Speed 0.4
+Speed 0.5
 +POWERSPEED.NOTRAIL
 }
 Actor PowerRifle : PowerSpeed
@@ -46,7 +46,7 @@ Speed 0.88
 Actor PowerLMG : PowerSpeed
 {
 Powerup.Duration -2147483647
-Speed 0.82
+Speed 0.83
 +POWERSPEED.NOTRAIL
 }
 //Pickups

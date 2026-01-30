@@ -1,0 +1,45 @@
+#library "move"
+#import "zcommon.bcs"
+
+// All scraped because it doesn't work online
+Script "PlayerLoop" ENTER
+{
+	While(1)
+	{
+		While(!IsPlayerMoving())
+		{
+			if(IsPlayerOnGround())
+			{
+				Delay(4);
+				SetActorVelocity(0, 0, 0, GetActorVelZ(0), 0, 0);
+			}
+			Delay(1);
+		}
+	Delay(1);
+	}
+}
+Script "PlayerLoopRS" RESPAWN { ACS_NamedExecuteAlways("PlayerLoop",0); }
+
+// Functions
+function int IsPlayerOnGround(void)
+{
+	if(GetActorZ(0) == GetActorFloorZ(0) || GetActorVelZ(0) == 0 && !Spawn("FloorCheck", GetActorX(0), GetActorY(0), GetActorZ(0) - (4 << 16), 0, GetActorAngle(0)))
+		return 1;
+	else
+		return 0;
+	return 0;
+}
+
+function int IsPlayerMoving(void)
+{
+	int buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	if(buttons & BT_FORWARD)
+		return 1;
+	if(buttons & BT_BACK)
+		return 1;
+	if(buttons & BT_MOVELEFT)
+		return 1;
+	if(buttons & BT_MOVERIGHT)
+		return 1;
+	return 0;
+}

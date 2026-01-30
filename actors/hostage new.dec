@@ -1,3 +1,5 @@
+//I cannot remember what I was trying to do here, but this code is also unused, go to defusal.dec for the hostage code.
+//Keeping this here just in case though.
 /*
 ACTOR HostageNew
 {

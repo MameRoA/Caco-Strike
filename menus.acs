@@ -1,5 +1,6 @@
 #library "menus"
 #import "zcommon.bcs"
+poop
 //Almost all code here is made by MameXLIII, or a contributor for the project. All code here is under license
 #DEFINE DROP_SPEED 16
 function void BuyDropPrimary (str weaponTo)
@@ -189,12 +190,12 @@ Script "BuyDefuse" (void) NET
 }
      Script "BuyMP5" (void) NET
 {
-   if ( CheckInventory("Money") >= 1500 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+   if ( CheckInventory("Money") >= 1150 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
   {
     if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
   Delay(1);
   GiveInventory("HasPrimary",1);
-  TakeInventory("Money",1500);
+  TakeInventory("Money",1150);
   GiveInventory("SMG",1);
   GiveInventory("MP5Ammo",30); 
   GiveInventory("MP5Reserve",90);
@@ -281,12 +282,12 @@ Script "BuyDefuse" (void) NET
 }
      Script "BuyMP9" (void) NET
 {
-   if ( CheckInventory("Money") >= 1150 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
+   if ( CheckInventory("Money") >= 1550 && CheckInventory("Buy") == 1 && CheckInventory("NoBuy") != 1)
   {
     if ( CheckInventory("HasPrimary") == 1 ) { DropAllPrimaries(); }
   Delay(1);
   GiveInventory("HasPrimary",1);
-  TakeInventory("Money",1150);
+  TakeInventory("Money",1550);
   GiveInventory("MP9",1);
   }
 }

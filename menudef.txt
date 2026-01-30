@@ -26,7 +26,7 @@ OptionMenu "CSTSMGs"
 {
 Title "Terrorist SMGs"
 	Command "Uzi: $1050"      ,"pukename BuyUzi"
-	Command "MP5k-SD: $1500"      ,"pukename BuyMP5"
+	Command "MP40: $1550"      ,"pukename BuyMP9"
 	Command "P90: $2350"      ,"pukename BuyP90"
 }
 OptionMenu "HeavyWeapons"
@@ -84,8 +84,8 @@ Title "Counter-Terrorist Rifles"
 OptionMenu "CSCTSMGs"
 {
 Title "Counter-Terrorist SMGs"
-	Command "MP40: $1150"      ,"pukename BuyMP9"
-	Command "MP5k-SD: $1500"      ,"pukename BuyMP5"
+	Command "MP5k-SD: $1150"      ,"pukename BuyMP5"
+	Command "MP40: $1550"      ,"pukename BuyMP9"
 	Command "P90: $2350"      ,"pukename BuyP90"
 }
 OptionMenu "CSCTUtil"

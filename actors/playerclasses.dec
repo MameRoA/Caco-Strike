@@ -19,6 +19,9 @@ actor CST : DoomPlayer
 	GibHealth -2147483647
 	DamageFactor SmokeG, 0
 	DamageFactor Wallbang, 1
+	Player.SideMove 1.16, 1
+	//Player.ForwardMove 3.0
+	//Player.SideMove 3.2
 	Speed 0.5
 	Health 100
 	Player.StartItem "Sidearm"
@@ -113,7 +116,10 @@ actor CSCT : DoomPlayer
 	var int user_legMaxHeight;
 	var int user_legMinHeight;
 	Player.DisplayName "Counter-Terrorist"
-	Speed 0.5
+	//Player.SideMove 1.16, 1
+	Player.ForwardMove 2.6
+	Player.SideMove 2.8
+	//Speed 0.5
 	Health 100
 	DamageFactor SmokeG, 0
 	GibHealth -2147483647
@@ -211,14 +217,15 @@ Radius 16
 	var int user_legMaxHeight;
 	var int user_legMinHeight;
 States
-{
+	{
   Spawn:
-	PXCN A 0 NoDelay A_SetUserVar("user_headRadius", 10.0)
-	PXCN A 0 A_SetUserVar("user_headMinHeight", 45.0)
-	PXCN A 0 A_SetUserVar("user_headMaxHeight", height)
-	PXCN A 0 A_SetUserVar("user_legRadius", radius)
-	PXCN A 0 A_SetUserVar("user_legMinHeight", 0)
-	PXCN A 0 A_SetUserVar("user_legMaxHeight", 22.0)
+	GSG9 A 0 NoDelay A_SetUserVar("user_headRadius", 10.0)
+	GSG9 A 0 A_SetUserVar("user_headMinHeight", 45.0)
+	GSG9 A 0 A_SetUserVar("user_headMaxHeight", height)
+	GSG9 A 0 A_SetUserVar("user_legRadius", radius)
+	GSG9 A 0 A_SetUserVar("user_legMinHeight", 0)
+	GSG9 A 0 A_SetUserVar("user_legMaxHeight", 22.0)
+	GSG9 A 0 ACS_NamedExecuteWithResult("GiveECaTID")
 	GSG9 A 1
 	Loop
 	Pain:
@@ -226,11 +233,52 @@ States
 	GSG9 G 4 A_Pain
 	Goto Spawn
   Death:
-    GSG9 H 10
+	GSG9 A 0 ACS_NamedExecuteWithResult("RemoveAnEC")
+    GSG9 H 10 
     GSG9 I 10 A_PlayerScream
     GSG9 J 10 A_NoBlocking
     GSG9 KLM 10
     GSG9 N -1
+	Loop
+	}
+}
+actor Bathy
+{
++USEDAMAGEEVENTSCRIPT
++NEVERRESPAWN
+Monster
+Health 100
+Height 56
+Radius 16
+	var int user_headRadius;
+	var int user_headMaxHeight;
+	var int user_headMinHeight;
+	var int user_legRadius;
+	var int user_legMaxHeight;
+	var int user_legMinHeight;
+States
+{
+  Spawn:
+	SEAL A 0 NoDelay A_SetUserVar("user_headRadius", 10.0)
+	SEAL A 0 A_SetUserVar("user_headMinHeight", 45.0)
+	SEAL A 0 A_SetUserVar("user_headMaxHeight", height)
+	SEAL A 0 A_SetUserVar("user_legRadius", radius)
+	SEAL A 0 A_SetUserVar("user_legMinHeight", 0)
+	SEAL A 0 A_SetUserVar("user_legMaxHeight", 22.0)
+	SEAL A 0 ACS_NamedExecuteWithResult("GiveECaTID")
+	SEAL A 1
+	Loop
+	Pain:
+	SEAL G 4
+	SEAL G 4 A_Pain
+	Goto Spawn
+  Death:
+	SEAL A 0 ACS_NamedExecuteWithResult("RemoveAnEC")
+    SEAL H 10 
+    SEAL I 10 A_PlayerScream
+    SEAL J 10 A_NoBlocking
+    SEAL KLM 10
+    SEAL N -1
 	Loop
 }
 }
@@ -270,6 +318,8 @@ ACTOR PlayerHead
 */
 // checks for collision against ground and other solid actors
 // From an old version of nashmove.pk3
+//unused.
+
 Actor Nash_FloorCheck
 {
 	Radius 16
@@ -282,6 +332,7 @@ Actor Nash_FloorCheck
 			Stop
 	}
 }
+
 Actor HeadHit : CustomInventory
 {
 Inventory.PickupSound "Headshot"

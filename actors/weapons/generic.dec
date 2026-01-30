@@ -9,4 +9,5 @@ ACTOR CaSWeapon : Weapon
  +WEAPON.NOAUTOFIRE
  +WEAPON.NOLMS
  +INVENTORY.UNDROPPABLE
+ Weapon.Kickback 0
  }

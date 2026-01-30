@@ -1,6 +1,6 @@
 ACTOR AMP : CaSWeapon
 {
- Tag "Auto Mag Pistol"
+ Tag "Colt M1911"
  Weapon.SlotNumber 2
  Weapon.SelectionOrder 2
  Weapon.KickBack 0
@@ -10,7 +10,7 @@ ACTOR AMP : CaSWeapon
  Weapon.AmmoUse2 1
  Weapon.AmmoGive2 0
  Decal "BulletChip"
- Obituary "%k >[Auto Mag Pistol]> %o"
+ Obituary "%k >[Colt M1911]> %o"
  +WEAPON.NOAUTOAIM
  +WEAPON.AMMO_CHECKBOTH
  +WEAPON.NOAUTOFIRE
@@ -21,50 +21,50 @@ ACTOR AMP : CaSWeapon
   Ready:
 	TNT1 A 0 A_GiveInventory("PowerPistol",1)
     TNT1 A 0 A_JumpIfInventory("CantFire",1,"NoFire")
-    4AMP A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+    COLT A 1 A_WeaponReady(WRF_ALLOWRELOAD)
     TNT1 A 0 A_TakeInventory("AMPRecoil",2)
     Loop
   NoFire:
     TNT1 A 0 A_JumpIfInventory("CantFire",1,1)
 	Goto Ready
-	4AMP A 1 A_WeaponReady(WRF_NOFIRE)
+	COLT A 1 A_WeaponReady(WRF_NOFIRE)
 	Goto Ready
   Deselect: 
     TNT1 A 0 A_TakeInventory("HoldingSecondary",1)
     TNT1 A 0 A_TakeInventory("PowerPistol",1)
     TNT1 AA 0 A_Lower
-    4AMP A 1 A_Lower
+    COLT A 1 A_Lower
     Loop
   Select:
     TNT1 A 0 A_GiveInventory("HoldingSecondary",1)
 	TNT1 A 0 A_GiveInventory("PowerPistol",1)
     TNT1 AA 0 A_Raise
-    4AMP A 1 A_Raise
+    COLT A 1 A_Raise
     Loop
   Fire:
-  4AMP A 0 A_JumpIfInventory("AMPAmmo",1,1)
+  COLT A 0 A_JumpIfInventory("AMPAmmo",1,1)
   Goto Reload
   //DEAF A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
-  4AMP A 0 A_PlayWeaponSound("weapons/ampfire")
-  4AMP A 0 A_TakeInventory("AMPAmmo",1)
+  COLT A 0 A_PlayWeaponSound("weapons/ampfire")
+  COLT A 0 A_TakeInventory("AMPAmmo",1)
   TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
-  4AMP B 2 bright ACS_NamedExecuteWithResult("AMPFire")
-  4AMP C 3
-  4AMP DEF 3 A_WeaponReady(WRF_ALLOWRELOAD)
-  4AMP A 4 A_WeaponReady(WRF_ALLOWRELOAD)
+  COLF A 2 bright ACS_NamedExecuteWithResult("AMPFire")
+  COLT B 2
+  COLT CA 2 A_WeaponReady(WRF_ALLOWRELOAD)
+  COLT A 4 A_WeaponReady(WRF_ALLOWRELOAD)
   Goto Ready
   NoAmmo:
-  4AMP A 2 A_CheckReload
+  COLT A 2 A_CheckReload
   Goto Ready
   Reload:
   TNT1 A 0 A_JumpIfInventory("AMPReserve", 1, 1)
   Goto NoAmmo
   TNT1 A 0 A_JumpIfInventory("AMPAmmo", 0, "Ready")
-  AMPR A 0 A_PlayWeaponSound("weapons/deaglere1") 
-  AMPR A 3
-  AMPR B 3
-  AMPR CD 3
-  AMPR E 18 
+  COLR A 0 A_PlayWeaponSound("weapons/deaglere1") 
+  COLR A 4
+  COLR B 4
+  COLR C 4
+  COLR C 18 
   UnitReload:
   TNT1 A 0 A_JumpIfInventory("AMPReserve", 1, 1)
   Goto ReloadFinish
@@ -73,11 +73,12 @@ ACTOR AMP : CaSWeapon
   TNT1 A 0 A_GiveInventory("AMPAmmo", 1)
   Goto UnitReload
   ReloadFinish:
-  AMPR A 0 A_PlayWeaponSound("weapons/deaglere2") 
-  AMPR F 2
-  AMPR G 2
-  AMPR HIJ 2
-  4AMP A 2 A_WeaponReady
+  COLR A 0 A_PlayWeaponSound("weapons/deaglere2") 
+  COLR DE 4
+  COLR F 4
+  COLR G 4
+  COLR HI 4
+  COLT A 3 A_WeaponReady
   Goto Ready
   Flash:
     TNT1 A 2 bright

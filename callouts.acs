@@ -9,7 +9,7 @@ function int cmp(raw a, raw b)
 		return -1;
 	return 0;
 }
-/*
+
 Script "CS_CalloutsDust2" ENTER CLIENTSIDE
 {
 int levelName = StrParam(n:PRINTNAME_LEVEL);
@@ -31,4 +31,3 @@ int tSpawnMaxX = 384.0;
 	Delay(1);
 	}
 }
-*/

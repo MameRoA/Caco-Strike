@@ -208,7 +208,9 @@ Spawn:
 TNT1 A 0 A_SetScale(4,4)
 TNT1 A 0 A_PlaySound("weapons/rocklx",CHAN_AUTO,2,0,0.1)
 TNT1 A 0 //A_Explode(250,1024,XF_NOTMISSILE,0,256)
-TNT1 A 0 A_RadiusGive("BombKiller",2000,RGF_PLAYERS|RGF_NOSIGHT,1)
+TNT1 A 0 A_RadiusGive("BombDamage25",2512,RGF_PLAYERS|RGF_NOSIGHT,1)
+TNT1 A 0 A_RadiusGive("BombDamage50",2048,RGF_PLAYERS|RGF_NOSIGHT,1)
+TNT1 A 0 A_RadiusGive("BombKiller",1024,RGF_PLAYERS|RGF_NOSIGHT,1)
 MISL BCD 10 
 TNT1 A 1
 Stop
@@ -395,6 +397,26 @@ States
 {
 Pickup:
 TNT1 A 0 A_Print("Switch to Your Defuse kit (Default:5) and hold fire to defuse",1)
+Fail
+ }
+}
+ACTOR BombDamage25 : CustomInventory 
+{ 
+Inventory.MaxAmount 1
+States
+{
+Pickup:
+TNT1 A 0 Thing_Damage(0,25,0)
+Fail
+ }
+}
+ACTOR BombDamage50 : CustomInventory 
+{ 
+Inventory.MaxAmount 1
+States
+{
+Pickup:
+TNT1 A 0 Thing_Damage(0,50,0)
 Fail
  }
 }
