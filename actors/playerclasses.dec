@@ -116,10 +116,10 @@ actor CSCT : DoomPlayer
 	var int user_legMaxHeight;
 	var int user_legMinHeight;
 	Player.DisplayName "Counter-Terrorist"
-	//Player.SideMove 1.16, 1
-	Player.ForwardMove 2.6
-	Player.SideMove 2.8
-	//Speed 0.5
+	Player.SideMove 1.16, 1
+	//Player.ForwardMove 2.6
+	//Player.SideMove 2.8
+	Speed 0.5
 	Health 100
 	DamageFactor SmokeG, 0
 	GibHealth -2147483647
