@@ -6,3 +6,4 @@ server int cs_bombtimer = 40;
 server bool cs_half = false;
 server bool cs_defusal = false;
 server bool cs_hostage = false;
+server bool cs_allhostages = false;

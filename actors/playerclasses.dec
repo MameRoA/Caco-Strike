@@ -3,7 +3,7 @@ actor IsDead : Inventory { Inventory.MaxAmount 1 }
 actor Crouch : Inventory { Inventory.MaxAmount 1 }
 actor CST : DoomPlayer 
 {
-	Player.ViewHeight 43
+	Player.ViewHeight 48
 	MaxStepHeight 22
     LimitedToTeam 1
 	//-NOSKIN
@@ -36,7 +36,7 @@ actor CST : DoomPlayer
   States
   {
   Spawn:
-	PXCN A 0 NoDelay A_SetUserVar("user_headRadius", 10.0)
+	PXCN A 0 NoDelay A_SetUserVar("user_headRadius", 12.0)
 	PXCN A 0 A_SetUserVar("user_headMinHeight", 45.0)
 	PXCN A 0 A_SetUserVar("user_headMaxHeight", height)
 	PXCN A 0 A_SetUserVar("user_legRadius", radius)
@@ -103,7 +103,7 @@ actor CST : DoomPlayer
 }
 actor CSCT : DoomPlayer 
 {
-	Player.ViewHeight 43
+	Player.ViewHeight 48
 	MaxStepHeight 22
     LimitedToTeam 0
 	//-NOSKIN
@@ -137,12 +137,12 @@ actor CSCT : DoomPlayer
   States
   {
   Spawn:
-  	SEAL A 0 NoDelay A_SetUserVar("user_headRadius", 10)
-	SEAL A 0 A_SetUserVar("user_headMinHeight", 45)
+  	SEAL A 0 NoDelay A_SetUserVar("user_headRadius", 12.0)
+	SEAL A 0 A_SetUserVar("user_headMinHeight", 45.0)
 	SEAL A 0 A_SetUserVar("user_headMaxHeight", height)
 	SEAL A 0 A_SetUserVar("user_legRadius", radius)
 	SEAL A 0 A_SetUserVar("user_legMinHeight", 0)
-	SEAL A 0 A_SetUserVar("user_legMaxHeight", 22)
+	SEAL A 0 A_SetUserVar("user_legMaxHeight", 22.0)
 	SEAL A 0 A_TakeInventory("CanDefuse",1)
 	SEAL A 0 A_TakeInventory("Buy",1)
     SEAL A 1

@@ -171,7 +171,7 @@ int i = dist % 1.0;
 	}
 return dam;
 }
-//Thanks to TDRR for his Zandronum based headshot algorithim!
+//Thanks to TDRR for his Zandronum based headshot algorithim! ^^^
 int ecCount;
 Script "GiveECaTID" (VOID)
 {
@@ -181,17 +181,21 @@ Script "RemoveAnEC" (VOID)
 {
 ecCount--;
 }
+//[MX] Refactored Headshots to allign better with CS
+//Only issue now is working around the lack of armor penetration...
+//Values based on 1.6 or CS:GO/2 when applicable, execpt when the lack of armor
+//penetration stats gets in my way...
 Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT 
 {
 	if(type != GAMEEVENT_ACTOR_DAMAGED) { terminate; }
 	if(SetActivator(0,AAPTR_DAMAGE_SOURCE))
 	{
 	str weapon = GetWeapon();
-	int tid1 = ActivatorTID();
+	//int tid1 = ActivatorTID();
 	//printbold(s:"yes");
 	}
 	SetActivator(0,AAPTR_DAMAGE_TARGET);
-	int tid2 = ActivatorTID();
+	//int tid2 = ActivatorTID();
 	SetActivator(0,AAPTR_DAMAGE_SOURCE);
 	if ( HitboxEval() == -1 )
 	{
@@ -201,9 +205,33 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
+		if (!StrICMP(weapon, "MG40"))
+		{
+		dmg = Falloff(dmg,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "MagnumSniper"))
+		{
+		dmg = Falloff(dmg,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "Scout"))
+		{
+		dmg = Falloff(dmg,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
 		else if (!StrICMP(weapon, "M4A1"))
 		{
 		dmg = Falloff(dmg,0.98);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "AN94"))
+		{
+		dmg = Falloff(dmg,0.96);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
@@ -213,26 +241,110 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
+		else if (!StrICMP(weapon, "Dualies"))
+		{
+		dmg = Falloff(dmg,0.75);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Tec9"))
+		{
+		dmg = Falloff(dmg,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "AMP"))
+		{
+		dmg = Falloff(dmg,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
 		else if (!StrICMP(weapon, "KM45"))
 		{
 		dmg = Falloff(dmg,0.79);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
-		//[MX] fallback behavior if weapon is undefined here
+		else if (!StrICMP(weapon, "CSChaingun"))
+		{
+		dmg = Falloff(dmg,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "NightHawk50c"))
+		{
+		dmg = Falloff(dmg,0.85);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "CSShotgun"))
+		{
+		dmg = Falloff(dmg,0.68);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "SSG"))
+		{
+		dmg = Falloff(dmg,0.68);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "MP9"))
+		{
+		dmg = Falloff(dmg,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "C90"))
+		{
+		dmg = Falloff(dmg,0.83);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "SMG"))
+		{
+		dmg = Falloff(dmg,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Uzi"))
+		{
+		dmg = Falloff(dmg,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		//[MX] fallback behavior if weapon is undefined here (no falloff)
 		else
 		{
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
-		dmg = Falloff(dmg,0.8);
+		dmg = Falloff(dmg,1.0);
 		SetResultValue(dmg);
 		}
 	}
-	//Headshot Hitbox is true
+	//Headshot Hitbox is true Note that some weapons have 0 falloff in some cases, because the lack of a armor penetration stat hurts...
 	if (HitboxEval() == 2 )
 	{
 		if (!StrICMP(weapon, "CV47"))
 		{
 		dmg = Falloff(152,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "MG40"))
+		{
+		dmg = Falloff(156,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "MagnumSniper"))
+		{
+		dmg = Falloff(450,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "Scout"))
+		{
+		dmg = Falloff(240,1.0);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
@@ -242,31 +354,133 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
+		else if (!StrICMP(weapon, "AN94"))
+		{
+		dmg = Falloff(124,0.96);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
 		else if (!StrICMP(weapon, "Sidearm"))
 		{
 		dmg = Falloff(118,0.75);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
-		else if (!StrICMP(weapon, "KM45"))
+		else if (!StrICMP(weapon, "Dualies"))
 		{
-		dmg = Falloff(132,0.79);
+		dmg = Falloff(150,0.75);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
-		//[MX] Lower than the original multiplier to make sure contributors properly define this value
+		else if (!StrICMP(weapon, "KM45"))
+		{
+		dmg = Falloff(120,0.79);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Tec9"))
+		{
+		dmg = Falloff(151,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "AMP"))
+		{
+		dmg = Falloff(148,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "CSChaingun"))
+		{
+		dmg = Falloff(118,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "NightHawk50c"))
+		{
+		dmg = Falloff(dmg,0.85);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(209);
+		}
+		else if (!StrICMP(weapon, "CSShotgun"))
+		{
+		dmg = Falloff(48,0.68);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "SSG"))
+		{
+		dmg = Falloff(52,0.68);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "MP9"))
+		{
+		dmg = Falloff(109,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "C90"))
+		{
+		dmg = Falloff(112,0.83);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "SMG"))
+		{
+		dmg = Falloff(101,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Uzi"))
+		{
+		dmg = Falloff(103,0.75);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		//[MX] No multiplier to make sure contributors properly define this value for new weapons.
 		else
 		{
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
-		dmg = Falloff(dmg,0.8);
-		SetResultValue(dmg*3);
+		dmg = Falloff(dmg,1.0);
+		SetResultValue(dmg);
 		}
 	//legshot hitbox is true
 	if (HitboxEval() == 1)
 	{
 		if (!StrICMP(weapon, "CV47"))
 		{
-		dmg = Falloff(26,0.98);
+		dmg = Falloff(23,0.98);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "MG40"))
+		{
+		dmg = Falloff(28,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "MagnumSniper"))
+		{
+		dmg = Falloff(85,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		if (!StrICMP(weapon, "Scout"))
+		{
+		dmg = Falloff(39,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "M4A1"))
+		{
+		dmg = Falloff(24,1.0);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "AN94"))
+		{
+		dmg = Falloff(23,0.96);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
@@ -276,21 +490,87 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
+		else if (!StrICMP(weapon, "Dualies"))
+		{
+		dmg = Falloff(28,0.75);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
 		else if (!StrICMP(weapon, "KM45"))
 		{
 		dmg = FixedMul(24,0.79);
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
 		SetResultValue(dmg);
 		}
+		else if (!StrICMP(weapon, "Tec9"))
+		{
+		dmg = Falloff(24,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "AMP"))
+		{
+		dmg = Falloff(24,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "CSChaingun"))
+		{
+		dmg = FixedMul(22,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "NightHawk50c"))
+		{
+		dmg = Falloff(39,0.85);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "CSShotgun"))
+		{
+		dmg = Falloff(18,0.68);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "SSG"))
+		{
+		dmg = Falloff(20,0.68);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "MP9"))
+		{
+		dmg = Falloff(22,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "C90"))
+		{
+		dmg = Falloff(24,0.83);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "SMG"))
+		{
+		dmg = Falloff(22,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
+		else if (!StrICMP(weapon, "Uzi"))
+		{
+		dmg = Falloff(21,0.8);
+		SetActivator(0,AAPTR_DAMAGE_TARGET);
+		SetResultValue(dmg);
+		}
 		else
 		{
 		SetActivator(0,AAPTR_DAMAGE_TARGET);
-		dmg = Falloff(dmg,0.8);
-		SetResultValue(dmg/2);
+		dmg = Falloff(dmg,1.0);
+		SetResultValue(dmg);
 		}
 	}
 		//Aim Punch
-		if (dmg >= 43)
+		if (dmg >= 43 && PlayerArmorPoints() <= 1)
 		{
 			SetActorPitch(0,FixedDiv(GetActorPitch(0), 360.0) + FixedDiv(-4.0, 360.0));
 			//SetActorAngle(0,angle >> 8 + random(-0.1 >> 8, 0.1 >> 8));
@@ -303,8 +583,8 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 			ACS_NamedExecuteAlways("HSPre",0);
 		}
 	}
-	printbold(i:dmg);
-	printbold(f:ActorDistance(tid1,tid2));
+	//printbold(i:dmg);
+	//printbold(f:ActorDistance(tid1,tid2));
 }
 
 //script "AimPunch" (int type, int dmg, int prop2) EVENT 

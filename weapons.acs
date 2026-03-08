@@ -44,20 +44,20 @@ script "R8Fire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("R8Recoil") == 0)
 	{
 	GiveInventory("R8Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.33, 360.0),FixedDiv(0.33, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.33, 360.0),FixedDiv(0.33, 360.0)),51,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.33, 360.0),FixedDiv(0.33, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.33, 360.0),FixedDiv(0.33, 360.0)),52,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("R8Recoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.28, 360.0),FixedDiv(1.28, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.28, 360.0),FixedDiv(1.28, 360.0)),51,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.28, 360.0),FixedDiv(1.28, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.28, 360.0),FixedDiv(1.28, 360.0)),52,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else if (velo < 2 && CheckInventory("R8Recoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.1, 360.0),FixedDiv(1.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.1, 360.0),FixedDiv(1.1, 360.0)),51,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.1, 360.0),FixedDiv(1.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.1, 360.0),FixedDiv(1.1, 360.0)),52,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else
 	{
     GiveInventory("R8Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),51,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),52,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	}
 	
 }
@@ -289,26 +289,26 @@ script "MP5Fire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("MP5Recoil") < 7)
 	{
 	GiveInventory("MP5Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),10,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),25,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.8, 360.0),FixedDiv(-0.2, 360.0)));
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("MP5Recoil") > 7)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.35, 360.0),FixedDiv(2.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),10,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.35, 360.0),FixedDiv(2.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),25,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	}
 	else if (velo < 2 && CheckInventory("MP5Recoil") > 7)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),10,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),25,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	}
 	else
 	{
     GiveInventory("MP5Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),10,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),25,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.4, 360.0),FixedDiv(-0.52, 360.0)));
 	}
@@ -338,26 +338,26 @@ script "MP40Fire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("MP40Recoil") < 6)
 	{
 	GiveInventory("MP40Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),17,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.8, 360.0),FixedDiv(-0.2, 360.0)));
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("MP40Recoil") > 6)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),17,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.05, 360.0),FixedDiv(2.05, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	}
 	else if (velo < 2 && CheckInventory("MP40Recoil") > 6)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),17,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),2,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	}
 	else
 	{
     GiveInventory("MP40Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),17,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.6, 360.0),FixedDiv(-0.48, 360.0)));
 	}
@@ -387,26 +387,26 @@ script "UziFire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("UziRecoil") < 5)
 	{
 	GiveInventory("UziRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.8, 360.0),FixedDiv(-0.2, 360.0)));
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("UziRecoil") > 5)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	}
 	else if (velo < 2 && CheckInventory("UziRecoil") > 5)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	}
 	else
 	{
     GiveInventory("UziRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.35, 360.0),FixedDiv(0.35, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.35, 360.0),FixedDiv(0.35, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.35, 360.0),FixedDiv(0.35, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.35, 360.0),FixedDiv(0.35, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.035, 360.0),FixedDiv(0.035, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.6, 360.0),FixedDiv(-0.48, 360.0)));
 	}
@@ -435,21 +435,21 @@ script "P90Fire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("P90Recoil") < 6)
 	{
 	GiveInventory("P90Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),14,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),20,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.8, 360.0),FixedDiv(-0.2, 360.0)));
 	GiveInventory("P90WallItemM",1);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("P90Recoil") > 6)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),14,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.95, 360.0),FixedDiv(1.95, 360.0)),20,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	GiveInventory("P90WallItemM",1);
 	}
 	else if (velo < 2 && CheckInventory("P90Recoil") > 6)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),14,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),20,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	GiveInventory("P90WallItemRC",1);
@@ -457,7 +457,7 @@ script "P90Fire" (VOID)
 	else
 	{
     GiveInventory("P90Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),14,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),20,"P90Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-54, 360.0),FixedDiv(-0.66, 360.0)));
 	GiveInventory("P90WallItem",1);
@@ -495,21 +495,21 @@ script "MG40Fire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("MG40Recoil") < 8)
 	{
 	GiveInventory("MG40Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),18,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),38,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.8, 360.0),FixedDiv(-0.2, 360.0)));
 	GiveInventory("MG40WallItemM",1);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("MG40Recoil") > 8)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),18,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),38,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.01, 360.0),FixedDiv(-0.04, 360.0)));
 	GiveInventory("MG40WallItemM",1);
 	}
 	else if (velo < 2 && CheckInventory("MG40Recoil") > 8)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),18,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),38,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.7, 360.0),FixedDiv(0.7, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.04, 360.0),FixedDiv(-0.1, 360.0)));
 	GiveInventory("MG40WallItemrc",1);
@@ -517,7 +517,7 @@ script "MG40Fire" (VOID)
 	else
 	{
     GiveInventory("MG40Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),18,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),38,"MG40Puff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.025, 360.0),FixedDiv(0.025, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-1, 360.0),FixedDiv(-0.33, 360.0)));
 	GiveInventory("MG40WallItem",1);
@@ -555,26 +555,26 @@ script "CGFire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("CGRecoil") < 20)
 	{
 	GiveInventory("CGRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),30,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.25, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(-0.8, 360.0)));
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("CGRecoil") > 20)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),30,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.25, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.44, 360.0),FixedDiv(-0.28, 360.0)));
 	}
 	else if (velo < 2 && CheckInventory("CGRecoil") > 20)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.6, 360.0),FixedDiv(0.6, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.6, 360.0),FixedDiv(0.6, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.6, 360.0),FixedDiv(0.6, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.6, 360.0),FixedDiv(0.6, 360.0)),30,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.25, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.44, 360.0),FixedDiv(-0.28, 360.0)));
 	}
 	else
 	{
     GiveInventory("CGRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),8,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),30,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	//SetActorAngle(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.25, 360.0)));
 	//SetActorPitch(0,GetActorPitch(0) + random(FixedDiv(-0.66, 360.0),FixedDiv(-0.33, 360.0)));
 	}
@@ -660,20 +660,20 @@ script "SSGFire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("SSGRecoil") == 0)
 	{
 	GiveInventory("SSGRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-7.4, 360.0),FixedDiv(7.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-5.2, 360.0),FixedDiv(5.2, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-7.4, 360.0),FixedDiv(7.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-5.2, 360.0),FixedDiv(5.2, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("SSGRecoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-8.9, 360.0),FixedDiv(8.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-6.8, 360.0),FixedDiv(6.8, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-8.9, 360.0),FixedDiv(8.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-6.8, 360.0),FixedDiv(6.8, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else if (velo < 2 && CheckInventory("SSGRecoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-5.8, 360.0),FixedDiv(5.8, 360.0)),GetActorPitch(0) + random(FixedDiv(-3.1, 360.0),FixedDiv(3.1, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-5.8, 360.0),FixedDiv(5.8, 360.0)),GetActorPitch(0) + random(FixedDiv(-3.1, 360.0),FixedDiv(3.1, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else
 	{
     GiveInventory("SSGRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-4.3, 360.0),FixedDiv(4.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-4.3, 360.0),FixedDiv(4.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),28,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	}
 	
 }
@@ -688,20 +688,20 @@ script "SGFire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("SGRecoil") == 0)
 	{
 	GiveInventory("SGRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-4.8, 360.0),FixedDiv(4.8, 360.0)),GetActorPitch(0) + random(FixedDiv(-3.2, 360.0),FixedDiv(3.2, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-4.8, 360.0),FixedDiv(4.8, 360.0)),GetActorPitch(0) + random(FixedDiv(-3.2, 360.0),FixedDiv(3.2, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("SGRecoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-5.3, 360.0),FixedDiv(5.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.8, 360.0),FixedDiv(2.8, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-5.3, 360.0),FixedDiv(5.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.8, 360.0),FixedDiv(2.8, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else if (velo < 2 && CheckInventory("SGRecoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-4.2, 360.0),FixedDiv(4.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-4.2, 360.0),FixedDiv(4.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else
 	{
     GiveInventory("SGRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-3.1, 360.0),FixedDiv(3.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.6, 360.0),FixedDiv(1.6, 360.0)),12,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-3.1, 360.0),FixedDiv(3.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.6, 360.0),FixedDiv(1.6, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	}
 	
 }
@@ -716,20 +716,20 @@ script "DualFire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("DualRecoil") < 2)
 	{
 	GiveInventory("DualRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),9,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),35,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("DualRecoil") == 2)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),9,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.7, 360.0),FixedDiv(1.7, 360.0)),35,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else if (velo < 2 && CheckInventory("DualRecoil") == 2)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.3, 360.0),FixedDiv(1.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.3, 360.0),FixedDiv(1.3, 360.0)),9,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.3, 360.0),FixedDiv(1.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.3, 360.0),FixedDiv(1.3, 360.0)),35,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else
 	{
     GiveInventory("DualRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.3, 360.0),FixedDiv(0.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.3, 360.0),FixedDiv(0.3, 360.0)),9,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.3, 360.0),FixedDiv(0.3, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.3, 360.0),FixedDiv(0.3, 360.0)),35,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	}
 	
 }
@@ -772,20 +772,20 @@ script "Tec9Fire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("T9Recoil") == 0)
 	{
 	GiveInventory("T9Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),32,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("T9Recoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),32,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else if (velo < 2 && CheckInventory("T9Recoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),32,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else
 	{
     GiveInventory("T9Recoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),22,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),32,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	}
 	
 }
@@ -800,20 +800,20 @@ script "AMPFire" (VOID)
 	if (velo >= 2 || z > 2.0 && CheckInventory("AMPRecoil") == 0)
 	{
 	GiveInventory("AMPRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.7, 360.0),FixedDiv(0.7, 360.0)),23,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.0, 360.0),FixedDiv(1.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.7, 360.0),FixedDiv(0.7, 360.0)),31,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("AMPRecoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),23,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),31,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else if (velo < 2 && CheckInventory("AMPRecoil") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),23,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.5, 360.0),FixedDiv(1.5, 360.0)),31,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	}
 	else
 	{
     GiveInventory("AMPRecoil",1);
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),23,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-0.2, 360.0),FixedDiv(0.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-0.25, 360.0),FixedDiv(0.25, 360.0)),31,"CSPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	}
 	
 }
@@ -827,22 +827,22 @@ script "AWPFire" (VOID)
    
 	if (velo >= 2 || z > 2.0 && CheckInventory("Scoped") == 0)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),169,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.4, 360.0),FixedDiv(2.4, 360.0)),173,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	GiveInventory("AWPWallItemM",1);
     }
 	else if (velo >= 2 || z > 2.0 && CheckInventory("Scoped") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),169,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.1, 360.0),FixedDiv(2.1, 360.0)),173,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	GiveInventory("AWPWallItemSM",1);
 	}
 	else if (velo < 2 && CheckInventory("Scoped") == 1)
 	{
-	LineAttack(0,GetActorAngle(0),GetActorPitch(0),169,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0),GetActorPitch(0),173,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	GiveInventory("AWPWallItem",1);
 	}
 	else
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),169,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),173,"AWPPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	GiveInventory("AWPWallItemS",1);
 	}
 }
@@ -863,12 +863,12 @@ script "ScoutFire" (VOID)
    
 	if (velo >= 2 && CheckInventory("Scoped") == 0)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),59,"ScoutPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.2, 360.0),FixedDiv(2.2, 360.0)),76,"ScoutPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	GiveInventory("ScoutWallItemM",1);
     }
 	else if (velo >= 2 && CheckInventory("Scoped") == 1)
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),59,"ScoutPuff","Normal",range,FHF_NORANDOMPUFFZ);
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),GetActorPitch(0) + random(FixedDiv(-1.9, 360.0),FixedDiv(1.9, 360.0)),76,"ScoutPuff","Normal",range,FHF_NORANDOMPUFFZ);
 	GiveInventory("ScoutWallItemSM",1);
 	}
 	else if (velo < 2 && CheckInventory("Scoped") == 1)
@@ -878,7 +878,7 @@ script "ScoutFire" (VOID)
 	}
 	else
 	{
-	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),59,"ScoutPuff","Normal",range,FHF_NORANDOMPUFFZ);	
+	LineAttack(0,GetActorAngle(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),GetActorPitch(0) + random(FixedDiv(-2.0, 360.0),FixedDiv(2.0, 360.0)),76,"ScoutPuff","Normal",range,FHF_NORANDOMPUFFZ);	
 	GiveInventory("ScoutWallItemS",1);
 	}
 }

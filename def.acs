@@ -42,9 +42,9 @@ script "DefusalConnect" ENTER
 {
 //Delay(1);
 //GiveInventory("Money",GetCVAR("cs_money"));
-Delay(1);
+//Delay(1);
 if ( GetCvar("cs_defusal") == 0 || csPlayers[PlayerNumber()] == 1 ) { terminate; }
-delay(3);
+delay(1);
 csPlayers[PlayerNumber()] = 1;
 players++;
 }
@@ -413,9 +413,9 @@ script "DefusalBombTimer" (Void)
 		Delay(35);
 	}
 	ACS_NamedExecute("TerroristsWin",0);
-	Delay(1);
+	//Delay(1);
 	SpawnSpotForced("BombExplode",bombTid);
-	delay(1);
+	//delay(1);
 	Thing_Remove(bombTid);
 	terminate;
 }
@@ -473,7 +473,7 @@ script "DefusalBombDefuseTimer" (Void)
 	SetPlayerProperty(0,0,PROP_FROZEN);
 	ACS_NamedExecute("DefusalBombDefused",0);
 	bombPlanted = 0;
-	Delay(1);
+	//Delay(1);
 	Thing_Remove(bombTid);
 	terminate;
 }
@@ -545,7 +545,7 @@ script "DefusalKitBombDefuseTimer" (Void)
 	SetPlayerProperty(0,0,PROP_FROZEN);
 	ACS_NamedExecute("DefusalBombDefused",0);
 	bombPlanted = 0;
-	Delay(1);
+	//Delay(1);
 	Thing_Remove(bombTid);
 	terminate;
 }
@@ -618,7 +618,7 @@ ACS_NamedExecute("DefusalStart",0);
 Script "DefusalRespawn" RESPAWN
 {
 if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
-Delay(2);
+//Delay(2);
 //if(PlayerTeam() == 0) 
 //{
 //GiveInventory("KM45",1);
@@ -633,9 +633,9 @@ Script "Defusal_Death" DEATH
 {
 	if ( GetCVAR("cs_defusal") == 0  ) { terminate; }
 deadMoney[PlayerNumber()] = CheckInventory("Money");
-delay(1);
+//delay(1);
 hasDied[PlayerNumber()] = 1;
-delay(1);
+//delay(1);
 SetDeadSpectator(PlayerNumber(),true);
 }
 
@@ -673,10 +673,10 @@ HudMessageBold(s:"Half Time... Switching Sides"; HUDMSG_PLAIN, 9, CR_ORANGE, 0.5
 Delay(1);
 int tScore = GetTeamProperty(1,TPROP_SCORE);
 int ctScore = GetTeamProperty(0,TPROP_SCORE);
-Delay(1);
+//Delay(1);
 ChangeTeamScore(0,1,tScore,0);
 ChangeTeamScore(1,1,ctScore,0);
-Delay(2);
+Delay(1);
  for (int p = 0; p < MAXPLAYERS; p++)
   {
 	if(SetActivatorToPlayer(p))
@@ -685,7 +685,7 @@ Delay(2);
 	{
 	SetDeadSpectator(PlayerNumber(),0);
 	Player_SetTeam(TEAM_CT);
-	Delay(1);
+	//Delay(1);
 	SetPlayerClass(PlayerNumber(),"CSCT",1);
 	GiveInventory("Money",GetCVAR("cs_money"));
 	}
@@ -693,13 +693,13 @@ Delay(2);
 	{
 	SetDeadSpectator(PlayerNumber(),0);
 	Player_SetTeam(TEAM_TR);
-	Delay(1);
+	//Delay(1);
 	SetPlayerClass(PlayerNumber(),"CST",1);
 	GiveInventory("Money",GetCVAR("cs_money"));
 	}
  }
   }
-Delay(1);
+//Delay(1);
 teamSwap = 1;
 }
 
@@ -737,7 +737,7 @@ if (GetTeamProperty(TEAM_TR,TPROP_POINTCOUNT) == GetCVAR("pointlimit")-2 && GetC
 {
 ACS_NamedExecute("Defusal_HalfTime",0);
 }
-Delay(10);
+//Delay(10);
   for (int t = 0; t < MAXPLAYERS; t++)
   {
 	if ( (GetPlayerInfo(t,PLAYERINFO_TEAM) == 1) && !(teamSwap == 1) ) 
@@ -753,7 +753,7 @@ Delay(10);
 }
 Delay(140);
 roundOver = 1;
-Delay(18);
+//Delay(18);
 	if( GetTeamProperty(1,TPROP_SCORE) != GetCVar("pointlimit") )
 	{
 	ResetMap();
@@ -770,7 +770,7 @@ if (GetTeamProperty(TEAM_CT,TPROP_POINTCOUNT) == GetCVAR("pointlimit")-2 && GetC
 {
 ACS_NamedExecute("Defusal_HalfTime",0);
 }
-Delay(10);
+//Delay(10);
   for (int t = 0; t < MAXPLAYERS; t++)
   {
 	if ( ( GetPlayerInfo(t,PLAYERINFO_TEAM) == 0 ) && !(teamSwap == 1) ) 
@@ -786,7 +786,7 @@ Delay(10);
 }
 Delay(140);
 roundOver = 1;
-Delay(18);
+//Delay(18);
 	if( GetTeamProperty(0,TPROP_SCORE) != GetCVar("pointlimit") )
 	{
 	ResetMap();
