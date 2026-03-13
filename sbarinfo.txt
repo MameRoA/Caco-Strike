@@ -46,7 +46,7 @@ drawnumber 3, casfont, lightblue, armor, alignment(center), 97, 166;
 
 //CT Money
 Alpha 0.5
-drawimage "C2SMON", 240, 133;
+drawimage "MONEYCT", 240, 138;
 Alpha 0.5
 drawnumber 5, casfont, lightblue, Money, 316, 136;
 
@@ -80,7 +80,7 @@ drawnumber 3, casfont, orange, armor, alignment(center), 97, 166;
 
 //T Money
 Alpha 0.5
-drawimage "CASMON", 240, 133;
+drawimage "MONEYT", 240, 138;
 Alpha 0.5
 drawnumber 5, casfont, orange, Money, 316, 136;
 
@@ -122,7 +122,7 @@ drawnumber 3, casfont, lightblue, armor, alignment(center), 97, 166;
 
 //CT Money
 Alpha 0.5
-drawimage "C2SMON", 200, 136;
+drawimage "MONEYCT", 240, 138;
 Alpha 0.5
 drawnumber 5, casfont, lightblue, Money, 316, 136;
 
@@ -158,9 +158,9 @@ drawnumber 3, casfont, orange, armor, alignment(center), 97, 166;
 
 //T Money
 Alpha 0.5
-drawimage "CASMON", 200, 136;
+drawimage "MONEYT", 240, 136;
 Alpha 0.5
-drawnumber 5, casfont, orange, Money, 316, 136;
+drawnumber 5, casfont, orange, Money, 316, 138;
 
 //T Ammo
 IsSelected Not "CSKnife"

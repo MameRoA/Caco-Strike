@@ -45,7 +45,7 @@ ACTOR Tec9: CaSWeapon
   USP4 A 0 A_JumpIfInventory("T9Ammo",1,1)
   Goto Reload
   TEC9 A 0 A_PlayWeaponSound("weapons/tec9f")
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,14)
   TEC9 B 2 bright ACS_NamedExecuteWithResult("Tec9Fire")
   TNT1 A 0 A_TakeInventory("T9Ammo",1)
   TEC9 C 2

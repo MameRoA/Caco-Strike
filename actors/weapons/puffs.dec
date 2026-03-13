@@ -127,7 +127,7 @@ Stop
 }
 Actor PenetratorAK: MarineTracer
 {
-damage (9)
+damage (12)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE
@@ -216,7 +216,7 @@ Stop
 }
 Actor PenetratorM4: MarineTracer
 {
-damage (8)
+damage (11)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE
@@ -305,7 +305,7 @@ Stop
 }
 Actor PenetratorAN: MarineTracer
 {
-damage (7)
+damage (9)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE
@@ -394,7 +394,7 @@ Stop
 }
 Actor PenetratorP90 : MarineTracer
 {
-damage (4)
+damage (7)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE
@@ -483,7 +483,7 @@ Stop
 }
 Actor PenetratorMG40: MarineTracer
 {
-damage (6)
+damage (12)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE
@@ -586,7 +586,7 @@ Fail
 }
 Actor PenetratorAWP: MarineTracer
 {
-damage (33)
+damage (40)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE
@@ -679,7 +679,7 @@ Stop
 }
 Actor PenetratorScout: MarineTracer
 {
-damage (29)
+damage (30)
 DamageType Wallbang
 Decal "None"
 -SKYEXPLODE

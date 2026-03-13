@@ -307,8 +307,10 @@ Inventory.MaxAmount 1
 States
 {
 Pickup:
-TNT1 A 0 A_PlaySound("weapons/flashbangring",CHAN_ITEM,2,0,9)
-TNT1 A 0 A_SetBlend("FF FF FF",1,35*8,"FF FF FF")
+TNT1 A 0 A_RailWait
+//TNT1 A 0 A_PlaySound("weapons/flashbangring",CHAN_ITEM,2,0,9)
+//TNT1 A 0 A_SetBlend("FF FF FF",1,35*8,"FF FF FF")
+TNT1 A 0 ACS_NamedExecuteWithResult("FlashbangFlash")
 Stop
 }
 }
@@ -336,7 +338,7 @@ ACTOR CSSmokeGItem
 		WSMK A 1 Bright
 		Loop
 	Death:
-	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+	    TNT1 A 0 A_PlaySound("weapons/smokeex")
 		TNT1 AAAAAAAAA 0 A_SpawnItemEX("CSSmoke",frandom(-100,100),frandom(-50,50),0)
 		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEX("CSSmoke",frandom(-100,100),frandom(-50,50),frandom(0,50))
 		Stop
@@ -366,7 +368,7 @@ ACTOR CSGasGItem
 		WGAS A 1 Bright
 		Loop
 	Death:
-	    TNT1 A 0 A_PlaySound("weapons/rocklx")
+	    TNT1 A 0 A_PlaySound("weapons/smokeex")
 		TNT1 AAAAAAAAA 0 A_SpawnItemEX("CSGas",frandom(-100,100),frandom(-50,50),0)
 		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEX("CSGas",frandom(-100,100),frandom(-50,50),frandom(0,50),0,0,0,0,SXF_TRANSFERPOINTERS)
 		Stop

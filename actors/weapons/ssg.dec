@@ -61,7 +61,7 @@ ACTOR SSG : CaSWeapon
   AN9R A 0 A_PlayWeaponSound("weapons/sshoto") 
   CSSR A 3
   CSSR BCD 3
-  TNT1 AA 0 A_FireCustomMissile("ShellCasing",40+random(-5,5),0,3,9)
+  TNT1 AA 0 A_FireCustomMissile("ShellCasing",40+random(-5,5),0,3,13)
   UnitReload:
   TNT1 A 0 A_JumpIfInventory("SSGReserve", 1, 1)
   Goto ReloadFinish

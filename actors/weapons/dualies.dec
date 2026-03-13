@@ -45,14 +45,14 @@ ACTOR Dualies : CaSWeapon
   GL18 A 0 A_JumpIfInventory("DualAmmo",1,1)
   Goto Reload
   GL18 A 0 A_PlayWeaponSound("weapons/dualfire")
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,14)
   DLBF A 2 bright ACS_NamedExecuteWithResult("DualFire")
   GL18 A 0 A_TakeInventory("DualAmmo",1)
   GL18 A 0 Radius_Quake(1,1,0,1,0)
   DLBR B 2
   DLBR A 2
   GL18 A 0 A_PlayWeaponSound("weapons/dualfire")
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",-40+random(-5,5),0,-3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",-40+random(-5,5),0,-3,14)
   DLBF B 2 bright ACS_NamedExecuteWithResult("GlockFire")
   GL18 A 0 A_TakeInventory("DualAmmo",1)
   DLBR C 2

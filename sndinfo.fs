@@ -36,9 +36,7 @@ step/dirt1			DSDIRT1
 step/dirt2			DSDIRT2
 step/dirt3			DSDIRT3
 step/dirt4			DSDIRT4
-step/dirt5			DSDIRT5
-step/dirt6			DSDIRT6
-$random step/dirt { step/dirt1 step/dirt2 step/dirt3 step/dirt4 step/dirt5 step/dirt6 }
+$random step/dirt { step/dirt1 step/dirt2 step/dirt3 step/dirt4 }
 
 // Gravel
 step/gravel1			DSGRAV1
@@ -52,24 +50,20 @@ step/hard1			DSHARD1
 step/hard2			DSHARD2
 step/hard3			DSHARD3
 step/hard4			DSHARD4
-step/hard5			DSHARD5
-step/hard6			DSHARD6
-$random step/hard { step/hard1 step/hard2 step/hard3 step/hard4 step/hard5 step/hard6 }
+$random step/hard { step/hard1 step/hard2 step/hard3 step/hard4 }
 
 // Metal A
-step/metal/a1			DSMET01
-step/metal/a2			DSMET02
-step/metal/a3			DSMET03
-step/metal/a4			DSMET04
-step/metal/a5			DSMET05
-step/metal/a6			DSMET06
-$random step/metal/a { step/metal/a1 step/metal/a2 step/metal/a3 step/metal/a4 step/metal/a5 step/metal/a6 }
+step/metal/a1			DSMET1
+step/metal/a2			DSMET2
+step/metal/a3			DSMET3
+step/metal/a4			DSMET4
+$random step/metal/a { step/metal/a1 step/metal/a2 step/metal/a3 step/metal/a4 }
 
 // Metal B (Thin Metals, Girders)
-step/metal/b1			DSMET201
-step/metal/b2			DSMET202
-step/metal/b3			DSMET203
-step/metal/b4			DSMET204
+step/metal/b1			DSMET21
+step/metal/b2			DSMET22
+step/metal/b3			DSMET23
+step/metal/b4			DSMET24
 $random step/metal/b { step/metal/b1 step/metal/b2 step/metal/b3 step/metal/b4 }
 
 // Rock
@@ -77,11 +71,7 @@ step/rock1			DSROCK1
 step/rock2			DSROCK2
 step/rock3			DSROCK3
 step/rock4			DSROCK4
-step/rock5			DSROCK5
-step/rock6			DSROCK6
-step/rock7			DSROCK7
-step/rock8			DSROCK8
-$random step/rock { step/rock1 step/rock2 step/rock3 step/rock4 step/rock5 step/rock6 step/rock7 step/rock8 }
+$random step/rock { step/rock1 step/rock2 step/rock3 step/rock4 }
 
 // Snow
 step/snow1			DSSNOW1
@@ -91,24 +81,18 @@ step/snow4			DSSNOW4
 $random step/snow { step/snow1 step/snow2 step/snow3 step/snow4 }
 
 // Tile A
-step/tile/a1			DSTILE01
-step/tile/a2			DSTILE02
-step/tile/a3			DSTILE03
-step/tile/a4			DSTILE04
-step/tile/a5			DSTILE05
-step/tile/a6			DSTILE06
-$random step/tile/a { step/tile/a1 step/tile/a2 step/tile/a3 step/tile/a4 step/tile/a5 step/tile/a6 }
+step/tile/a1			DSTILE1
+step/tile/a2			DSTILE2
+step/tile/a3			DSTILE3
+step/tile/a4			DSTILE4
+$random step/tile/a { step/tile/a1 step/tile/a2 step/tile/a3 step/tile/a4 }
 
 // Tile B (Hallways, Marble/Finer Tiles)
 step/tile/b1			DSTILE21
 step/tile/b2			DSTILE22
 step/tile/b3			DSTILE23
 step/tile/b4			DSTILE24
-step/tile/b5			DSTILE25
-step/tile/b6			DSTILE26
-step/tile/b7			DSTILE27
-step/tile/b8			DSTILE28
-$random step/tile/b { step/tile/b1 step/tile/b2 step/tile/b3 step/tile/b4 step/tile/b5 step/tile/b6 step/tile/b7 step/tile/b8 }
+$random step/tile/b { step/tile/b1 step/tile/b2 step/tile/b3 step/tile/b4 }
 
 // Wood
 step/wood1			DSWOOD1
@@ -124,7 +108,7 @@ step/slime3			DSSLIME3
 step/slime4			DSSLIME4
 $random step/slime { step/slime1 step/slime2 step/slime3 step/slime4 }
 
-// Slimy
+// SlimyDSTILE1
 step/slimy1			DSSLIMY1
 step/slimy2			DSSLIMY2
 step/slimy3			DSSLIMY3

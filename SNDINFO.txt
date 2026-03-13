@@ -65,6 +65,7 @@ weapons/bcase1 bcas1
 weapons/bcase2 bcas2
 weapons/shell1 shel1
 weapons/shell2 shel2
+weapons/smokeex	SGEXP
 $random weapons/bcase { weapons/bcase1 weapons/bcase2 }
 $random weapons/shells { weapons/shell1 weapons/shell2 }
 $attenuation weapons/bcase 3.0
@@ -94,7 +95,8 @@ p/cdeath4	cdeath4
 p/cdeath5	cdeath5
 p/cdeath6	cdeath6
 
-$random misc/cdeath { p/cdeath1 p/cdeath2 p/cdeath3 p/cdeath4 p/cdeath5 p/cdeath6 }  
+$random misc/cdeath { p/cdeath1 p/cdeath2 p/cdeath3 p/cdeath4 p/cdeath5 p/cdeath6 }
+  
 $playeralias	cas		male	*death		misc/cdeath
 
 p/cgrunt1	cgrunt1
@@ -108,6 +110,13 @@ p/cpain2	cpain2
 p/cpain3 	cpain3
 p/cpain4	cpain4
 p/cpain5	cpain5
+stop	stop
+
+p/cland1	cland1
+p/cland2	cland2
+p/cland 	cland
+
+$random misc/land	{ p/cland p/cland1 p/cland2 }
 
 $random misc/cpain { p/cpain1 p/cpain2 p/cpain3 p/cpain4 p/cpain5 }
 
@@ -116,8 +125,6 @@ $playeralias	cas		male	*pain50		misc/cpain
 $playeralias	cas		male	*pain75		misc/cpain
 $playeralias	cas		male	*pain100	misc/cpain
 
-$playersound	cas		male	*land		DSTILE1
-
 helmet	chelm
 
 misc/headshot1	chead1
@@ -125,9 +132,13 @@ misc/headshot2	chead2
 
 $random	headshot	{ misc/headshot1	misc/headshot2 }
 
-$playersound	cas		male	*grunt		dsempty
+$playersound	cas		male	*jump		cland2
 
-$playersound	cas		male	*usefail	dsempty
+$playersound	cas		male	*usefail	stop
+
+$playersound	cas		male	*grunt		stop
+
+$playersound	cas		male	*land		stop
 
 $random announcer/go { announcer/go1 announcer/go2 announcer/go3 announcer/go4 }
 

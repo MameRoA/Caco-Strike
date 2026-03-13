@@ -47,7 +47,7 @@ ACTOR AMP : CaSWeapon
   //DEAF A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
   COLT A 0 A_PlayWeaponSound("weapons/ampfire")
   COLT A 0 A_TakeInventory("AMPAmmo",1)
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,14)
   COLF A 2 bright ACS_NamedExecuteWithResult("AMPFire")
   COLT B 2
   COLT CA 2 A_WeaponReady(WRF_ALLOWRELOAD)

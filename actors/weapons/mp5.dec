@@ -47,7 +47,7 @@ ACTOR SMG : CaSWeapon
   MP5A A 0 A_TakeInventory("MP5Ammo",1)
  // TNT1 A 0 A_SetPitch(pitch+frandom(-0.68,-0.92))
   //TNT1 A 0 A_SetAngle(angle+frandom(-0.66,0.66))
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,14)
   MP5A B 1 bright ACS_NamedExecuteWithResult("MP5Fire")
   TNT1 A 0 ACS_NamedExecuteWithResult("MP5Recoil")
   MP5A C 2

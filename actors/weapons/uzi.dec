@@ -47,7 +47,7 @@ ACTOR Uzi : CaSWeapon
   UZIG A 0 A_TakeInventory("UziAmmo",1)
   //TNT1 A 0 A_SetPitch(pitch+frandom(-0.8,-1.05))
  // TNT1 A 0 A_SetAngle(angle+frandom(-0.7,0.7))
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,14)
   UZIG B 1 bright ACS_NamedExecuteWithResult("UziFire")
   TNT1 A 0 ACS_NamedExecuteWithResult("UziRecoil")
   UZIG C 1
@@ -55,7 +55,7 @@ ACTOR Uzi : CaSWeapon
   UZIG AAAA 1 A_WeaponReady(WRF_ALLOWRELOAD)
   Goto Ready
   NoAmmo:
-  SMG1 A 2 A_CheckReload
+  UZIG A 2 A_CheckReload
   Goto Ready
   Reload:
   TNT1 A 0 A_JumpIfInventory("UziReserve", 1, 1)

@@ -183,7 +183,7 @@ ecCount--;
 }
 //[MX] Refactored Headshots to allign better with CS
 //Only issue now is working around the lack of armor penetration...
-//Values based on 1.6 or CS:GO/2 when applicable, execpt when the lack of armor
+//Values loosely based on 1.6 or CS:Source/2 when applicable, execpt when the lack of armor
 //penetration stats gets in my way...
 Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT 
 {
@@ -194,7 +194,11 @@ Script "CS_Headshots" (int type, int dmg, int dmgType) EVENT
 	//int tid1 = ActivatorTID();
 	//printbold(s:"yes");
 	}
-	SetActivator(0,AAPTR_DAMAGE_TARGET);
+	SetActivator(0,AAPTR_DAMAGE_INFLICTOR);
+	if(!CheckActorClass(0,"CSPuff"))
+	{
+	terminate;
+	}
 	//int tid2 = ActivatorTID();
 	SetActivator(0,AAPTR_DAMAGE_SOURCE);
 	if ( HitboxEval() == -1 )
@@ -846,7 +850,28 @@ str mouse2 = strparam(s:"mouse_sensitivity ",f:playerSens);
 str mouse = strparam(s:"mouse_sensitivity ",f:fixedMul(playerSens,0.4));
 ConsoleCommand(mouse);
 }
-
+script "FlashbangFlash" (VOID)
+{
+int tic = 105;
+PlaySound(0,"weapons/flashbangring",CHAN_BODY,255.0,1);
+FadeTo(255,255,255,1.0,0.0);
+	while(tic > 0)
+	{
+	StopSound(0,CHAN_WEAPON);
+	StopSound(0,CHAN_VOICE);
+	StopSound(0,CHAN_ITEM);
+	StopSound(0,CHAN_5);
+	StopSound(0,CHAN_6);
+	StopSound(0,CHAN_7);
+	Delay(1);
+	tic--;
+	}
+PlaySound(0,"stop",CHAN_BODY,1.0,0);
+CancelFade();
+FadeRange(255,255,255,0.9,0,0,0,0.0,5.0);
+Delay(35*5);
+CancelFade();
+}
 /*
 script "DebugVeloZ" enter
 {

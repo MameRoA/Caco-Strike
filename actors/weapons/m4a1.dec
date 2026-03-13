@@ -47,7 +47,7 @@ ACTOR M4A1 : CaSWeapon
   M4CB A 0 A_TakeInventory("M4Ammo",1)
   //TNT1 A 0 A_SetPitch(pitch+frandom(-0.27,-0.44))
   //TNT1 A 0 A_SetAngle(angle+frandom(-0.5,0.5))
-  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,9)
+  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,13)
   M4CB B  1 bright ACS_NamedExecuteWithResult("M4Fire")
   TNT1 A 0 ACS_NamedExecuteWithResult("M4Recoil")
   M4CB C 2

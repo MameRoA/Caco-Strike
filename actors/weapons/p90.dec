@@ -45,7 +45,7 @@ ACTOR C90 : CaSWeapon
   P90G A 0 A_PlayWeaponSound("weapons/p90fire")
  //   TNT1 A 0 A_SetPitch(pitch+frandom(-0.43,-0.66))
  // TNT1 A 0 A_SetAngle(angle+frandom(-0.55,0.55))
-  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,10)
+  TNT1 A 0 A_FireCustomMissile("PistolCasing",40+random(-5,5),0,3,14)
   P90G B 1 bright ACS_NamedExecuteWithResult("P90Fire")
   TNT1 A 0 ACS_NamedExecuteWithResult("P90Recoil")
     TNT1 A 0 A_TakeInventory("P90Ammo",1)

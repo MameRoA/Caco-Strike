@@ -45,7 +45,7 @@ ACTOR CV47 : CaSWeapon
   Goto Reload
   OAK4 A 0 A_PlayWeaponSound("weapons/akfire")
   OAK4 A 0 A_TakeInventory("CVAmmo",1)
-  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,9)
+  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,13)
   //TNT1 A 0 A_SetPitch(pitch+frandom(-0.5,-0.8))
   //TNT1 A 0 A_SetAngle(angle+frandom(-0.6,0.6))
   //CSKF A 0 A_FireCustomMissile("WallbangAKProj", 0, 0, -1, 0, 0, 0)

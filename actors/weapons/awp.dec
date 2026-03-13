@@ -55,7 +55,7 @@ ACTOR MagnumSniper : CaSWeapon
     TNT1 A 0 A_TakeInventory("AWPAmmo",1)
   TNT1 A 0 A_ZoomFactor(1,ZOOM_INSTANT)
   CMGR ABCDEFG 3
-  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,9)
+  TNT1 A 0 A_FireCustomMissile("RifleCasing",40+random(-5,5),0,3,13)
   TNT1 A 0 A_PlaySound("weapons/awpb")
   CMGR HIJKL 3 A_WeaponReady(WRF_NOFIRE|WRF_NOBOB)
   TNT1 A 0 A_PlaySound("weapons/awpb")

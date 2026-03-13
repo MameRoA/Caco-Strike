@@ -65,7 +65,7 @@ ACTOR R8Revolver : CaSWeapon
   TNT1 A 0 A_JumpIfInventory("R8Ammo", 0, "Ready")
   R8RR A 0 A_PlayWeaponSound("weapons/r8re1") 
   R8RR ABCDEFG 3
-  R8RR HHHHHHHH 0 A_FireCustomMissile("R8Casing",random(28,45),0,3,10)
+  R8RR HHHHHHHH 0 A_FireCustomMissile("R8Casing",random(28,45),0,3,14)
   UnitReload:
   TNT1 A 0 A_JumpIfInventory("R8Reserve", 1, 1)
   Goto ReloadFinish
